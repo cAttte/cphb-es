@@ -10,7 +10,7 @@ de manera creativa.
 Un algoritmo para resolver un problema
 debe ser tanto correcto como eficiente,
 y el núcleo del problema a menudo
-trata de inventar un algoritmo eficiente.
+trata de crear un algoritmo eficiente.
 
 El conocimiento teórico de los algoritmos
 es importante para las personas que participan en la programación competitiva.
@@ -30,7 +30,7 @@ Por lo tanto, no es suficiente que la idea del
 algoritmo sea correcta, sino que la implementación también
 debe ser correcta.
 
-Un buen estilo de codificación en concursos es
+Un buen estilo de programación en concursos es
 directo y conciso.
 Los programas deben escribirse rápidamente,
 porque no hay mucho tiempo disponible.
@@ -50,7 +50,7 @@ entre los mejores 3,000 participantes,
 el 79 \% utilizó C++,
 el 16 \% utilizó Python y
 el 8 \% utilizó Java \cite{goo17}.
-Algunas personas participantes también utilizaron varios lenguajes.
+Algunos participantes utilizaron varios lenguajes.
 
 Muchas personas piensan que C++ es la mejor opción
 para una persona que participa en programación competitiva,
@@ -80,7 +80,7 @@ y se utilizan a menudo las estructuras de datos y algoritmos
 de la biblioteca estándar.
 Los programas siguen el estándar C++11,
 que se puede utilizar en la mayoría de los concursos en la actualidad.
-Si aún no puedes programar en C++, 
+Si aún no puedes programar en C++,
 ahora es un buen momento para comenzar a aprender.
 
 \subsubsection{Plantilla de código C++}
@@ -90,7 +90,6 @@ se ve así:
 
 \begin{lstlisting}
 #include <bits/stdc++.h>
-
 using namespace std;
 
 int main() {
@@ -131,9 +130,9 @@ y muestra advertencias sobre posibles errores (\texttt{-Wall}).
 
 \index{entrada y salida}
 
-En la mayoría de los concursos, se utilizan flujos estándar
+En la mayoría de los concursos, se utilizan flujos estándares
 para leer la entrada y escribir la salida.
-En C++, los flujos estándar son
+En C++, los flujos estándares son
 \texttt{cin} para la entrada y \texttt{cout} para la salida.
 Además, se pueden usar las funciones C
 \texttt{scanf} y \texttt{printf}.
@@ -180,14 +179,14 @@ ios::sync_with_stdio(0);
 cin.tie(0);
 \end{lstlisting}
 
-Tenga en cuenta que la línea nueva \texttt{"\textbackslash n"}
+Ten en cuenta que el salto de línea \texttt{"\textbackslash n"}
 funciona más rápido que \texttt{endl},
 porque \texttt{endl} siempre provoca
-una operación de vaciado.
+una operación de vaciado o \texttt{flush}.
 
-Las funciones C \texttt{scanf}
+Las funciones de C \texttt{scanf}
 y \texttt{printf} son una alternativa
-a los flujos estándar de C++.
+a los flujos estándares de C++.
 Por lo general, son un poco más rápidas,
 pero también son más difíciles de usar.
 El siguiente código lee dos enteros de la entrada:
@@ -201,7 +200,7 @@ int a = 123, b = 456;
 printf("%d %d\n", a, b);
 \end{lstlisting}
 A veces, el programa debe leer una línea completa
-desde la entrada, posiblemente conteniendo espacios.
+de la entrada, que posiblemente contiene espacios.
 Esto se puede lograr utilizando la
 función \texttt{getline}:
 
@@ -222,23 +221,23 @@ uno tras otro, hasta que no haya
 más datos disponibles en la entrada.
 
 En algunos sistemas de competencia, se utilizan archivos para
-entrada y salida.
+la entrada y salida.
 Una solución fácil para esto es escribir
-el código como de costumbre utilizando flujos estándar,
-pero agregue las siguientes líneas al comienzo del código:
+el código como de costumbre utilizando flujos estándares,
+pero agregar las siguientes líneas al comienzo del código:
 \begin{lstlisting}
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 \end{lstlisting}
-Después de esto, el programa lee la entrada del archivo
-''input.txt'' y escribe la salida en el archivo
+Luego de esto, el programa lee toda entrada del archivo
+''input.txt'' y escribe toda salida en el archivo
 ''output.txt''.
 
 \section{Trabajando con números}
 
-\index{entero}
-
 \subsubsection{Enteros}
+
+\index{entero}
 
 El tipo de entero más utilizado en la programación competitiva
 es \texttt{int}, que es un tipo de 32 bits con
@@ -255,30 +254,29 @@ variable \texttt{long long}:
 long long x = 123456789123456789LL;
 \end{lstlisting}
 El sufijo \texttt{LL} significa que el
-tipo de número es \texttt{long long}.
+tipo del literal es \texttt{long long}.
 
 Un error común al usar el tipo \texttt{long long}
 es que el tipo \texttt{int} todavía se usa en alguna parte
 en el código.
 Por ejemplo, el siguiente código contiene
-un error sutil:
+un sutil error:
 
 \begin{lstlisting}
 int a = 123456789;
-long long b = a*a;
+long long b = a * a;
 cout << b << "\n"; // -1757895751
 \end{lstlisting}
 
 Aunque la variable \texttt{b} es de tipo \texttt{long long},
-ambos números en la expresión \texttt{a*a}
+ambos números en la expresión \texttt{a * a}
 son de tipo \texttt{int} y el resultado es
 también de tipo \texttt{int}.
 Debido a esto, la variable \texttt{b} contendrá
 un resultado incorrecto.
 El problema se puede solucionar cambiando el tipo
 de \texttt{a} a \texttt{long long} o
-cambiando la expresión a \texttt{(long long)a*a}.
-
+cambiando la expresión a \texttt{(long long)a * a}.
 
 Por lo general, los problemas de concurso se establecen de tal manera que
 el tipo \texttt{long long} es suficiente.
@@ -291,10 +289,10 @@ Sin embargo, este tipo no está disponible en todos los sistemas de concurso.
 
 \subsubsection{Aritmética modular}
 
-\index{residuo}
+\index{resto}
 \index{aritmética modular}
 
-Denotamos por $x \bmod m$ el residuo
+Denotamos por $x \bmod m$ el resto
 cuando $x$ se divide por $m$.
 Por ejemplo, $17 \bmod 5 = 2$,
 porque $17 = 3 \cdot 5 + 2$.
@@ -302,16 +300,16 @@ porque $17 = 3 \cdot 5 + 2$.
 A veces, la respuesta a un problema es un
 número muy grande, pero es suficiente
 darlo ''módulo $m$'', es decir,
-el residuo cuando la respuesta se divide por $m$
+el resto cuando la respuesta se divide por $m$
 (por ejemplo, ''módulo $10^9+7$'').
 La idea es que incluso si la respuesta real
-es muy grande,
-basta con utilizar los tipos
-\texttt{int} y \texttt{long long}.
+es muy grande, basta con utilizar los tipos
+\texttt{int} y \texttt{long long} para verificar
+que esta sea correcta.
 
-Una propiedad importante del residuo es que
-en suma, resta y multiplicación,
-el residuo se puede tomar antes de la operación:
+Una propiedad importante es que
+en la suma, resta y multiplicación,
+el resto se puede tomar antes de la operación:
 
 \[
 \begin{array}{rcr}
@@ -321,7 +319,7 @@ el residuo se puede tomar antes de la operación:
 \end{array}
 \]
 
-Así, podemos tomar el residuo después de cada operación
+Así, podemos tomar el resto después de cada operación
 y los números nunca serán demasiado grandes.
 
 Por ejemplo, el siguiente código calcula $n!$,
@@ -329,27 +327,27 @@ el factorial de $n$, módulo $m$:
 \begin{lstlisting}
 long long x = 1;
 for (int i = 2; i <= n; i++) {
-    x = (x*i)%m;
+    x = (x * i) % m;
 }
-cout << x%m << "\n";
+cout << x % m << "\n";
 \end{lstlisting}
 
-Por lo general, queremos que el residuo siempre
+Por lo general, queremos que el resto siempre
 esté entre $0\ldots m-1$.
 Sin embargo, en C++ y otros lenguajes,
-el residuo de un número negativo
+el resto de un número negativo
 es cero o negativo.
 Una forma fácil de asegurarse de que no haya
-residuos negativos es calcular primero
-el residuo como de costumbre y luego agregar $m$
+restos negativos es calcular primero
+el resto como de costumbre y luego agregar $m$
 si el resultado es negativo:
 \begin{lstlisting}
-x = x%m;
+x = x % m;
 if (x < 0) x += m;
 \end{lstlisting}
 Sin embargo, esto solo es necesario cuando hay
 restas en el código y el
-residuo puede volverse negativo.
+resto puede volverse negativo.
 
 \subsubsection{Números de punto flotante}
 
@@ -384,7 +382,7 @@ Por ejemplo, el resultado del siguiente código
 es sorprendente:
 
 \begin{lstlisting}
-double x = 0.3*3+0.1;
+double x = 0.3 * 3 + 0.1;
 printf("%.20f\n", x); // 0.99999999999999988898
 \end{lstlisting}
 
@@ -405,17 +403,17 @@ En la práctica, los números se pueden comparar
 de la siguiente manera ($\varepsilon=10^{-9}$):
 
 \begin{lstlisting}
-if (abs(a-b) < 1e-9) {
+if (abs(a - b) < 1e-9) {
     // a y b son iguales
 }
 \end{lstlisting}
 
-Tenga en cuenta que, aunque los números de punto flotante son inexactos,
+Ten en cuenta que, aunque los números de punto flotante son inexactos,
 los enteros hasta cierto límite aún pueden ser
 representados con precisión.
 Por ejemplo, utilizando \texttt{double},
-es posible representar con precisión todos
-los enteros cuyo valor absoluto sea como máximo $2^{53}$.
+es posible representar con precisión todo
+entero cuyo valor absoluto sea como máximo $2^{53}$.
 
 \section{Acortando código}
 
@@ -426,7 +424,7 @@ Por ello, los programadores competitivos suelen definir
 nombres más cortos para los tipos de datos y otras partes del código.
 
 \subsubsection{Nombres de tipos}
-\index{tuppdef@\texttt{typedef}}
+\index{\texttt{typedef}} % ???
 Usando el comando \texttt{typedef}
 es posible dar un nombre más corto
 a un tipo de dato.
@@ -445,7 +443,7 @@ puede acortarse de la siguiente manera:
 \begin{lstlisting}
 ll a = 123456789;
 ll b = 987654321;
-cout << a*b << "\n";
+cout << a * b << "\n";
 \end{lstlisting}
 
 El comando \texttt{typedef}
@@ -456,19 +454,19 @@ y el nombre \texttt{pi} para un par
 que contiene dos enteros.
 \begin{lstlisting}
 typedef vector<int> vi;
-typedef pair<int,int> pi;
+typedef pair<int, int> pi;
 \end{lstlisting}
 
 \subsubsection{Macros}
 \index{macro}
 Otra forma de acortar el código es definir
 \key{macros}.
-Un macro significa que ciertas cadenas en
+Una macro describe que ciertos textos en
 el código se cambiarán antes de la compilación.
-En C++, los macros se definen usando la
+En C++, las macros se definen usando la
 palabra clave \texttt{\#define}.
 
-Por ejemplo, podemos definir los siguientes macros:
+Por ejemplo, podemos definir las siguientes macros:
 \begin{lstlisting}
 #define F first
 #define S second
@@ -488,84 +486,80 @@ v.PB(MP(y2,x2));
 int d = v[i].F+v[i].S;
 \end{lstlisting}
 
-Un macro también puede tener parámetros
+Una macro también puede tener parámetros,
 lo que hace posible acortar bucles y otras
 estructuras.
-Por ejemplo, podemos definir el siguiente macro:
+Por ejemplo, podemos definir la siguiente macro:
 \begin{lstlisting}
-#define REP(i,a,b) for (int i = a; i <= b; i++)
+#define REP(i, a, b) for (int i = a; i <= b; i++)
 \end{lstlisting}
-Después de esto, el código
+Así, el código
 \begin{lstlisting}
-for (int i = 1; i <= n; i++) {
-    search(i);
-}
+for (int i = 1; i <= n; i++) buscar(i);
 \end{lstlisting}
 se puede acortar de la siguiente manera:
 \begin{lstlisting}
-REP(i,1,n) {
-    search(i);
-}
+REP(i, 1, n) buscar(i);
 \end{lstlisting}
 
-A veces los macros causan errores que pueden ser difíciles
-de detectar. Por ejemplo, considere el siguiente macro
+A veces las macros causan errores que pueden ser difíciles
+de detectar. Por ejemplo, considera la siguiente macro
 que calcula el cuadrado de un número:
 \begin{lstlisting}
-#define SQ(a) a*a
+#define CD(a) a * a
 \end{lstlisting}
-Este macro \emph{no} siempre funciona como se esperaba.
+Esta macro \emph{no} siempre funciona como se espera.
 Por ejemplo, el código
 \begin{lstlisting}
-cout << SQ(3+3) << "\n";
+cout << CD(3 + 3) << "\n";
 \end{lstlisting}
 corresponde al código
 \begin{lstlisting}
-cout << 3+3*3+3 << "\n"; // 15
+cout << 3 + 3 * 3 + 3 << "\n"; // 15
 \end{lstlisting}
 
-Una mejor versión del macro es la siguiente:
+Una mejor versión de la macro es la siguiente:
 \begin{lstlisting}
-#define SQ(a) (a)*(a)
+#define CD(a) (a) * (a)
 \end{lstlisting}
 Ahora el código
 \begin{lstlisting}
-cout << SQ(3+3) << "\n";
+cout << CD(3 + 3) << "\n";
 \end{lstlisting}
 corresponde al código
 \begin{lstlisting}
-cout << (3+3)*(3+3) << "\n"; // 36
+cout << (3 + 3) * (3 + 3) << "\n"; // 36
 \end{lstlisting}
 
 \section{Matemáticas}
 
 Las matemáticas juegan un papel importante en la
 programación competitiva, y no es posible convertirse
-en una persona exitosa en programación competitiva sin
+en una persona exitosa en ella sin
 tener buenas habilidades matemáticas.
 Esta sección trata algunos conceptos y fórmulas
 matemáticas importantes que
 serán necesarios más adelante en el libro.
 
-\subsubsection{Fórmulas de suma}
+\subsubsection{Fórmulas de sumatoria}
 
 Cada suma de la forma
 \[\sum_{x=1}^n x^k = 1^k+2^k+3^k+\ldots+n^k,\]
 donde $k$ es un número entero positivo,
 tiene una fórmula cerrada que es un
 polinomio de grado $k+1$.
-Por ejemplo\footnote{\index{Fórmula de Faulhaber}
+Por ejemplo,\footnote{\index{Fórmula de Faulhaber}
 Existe incluso una fórmula general para tales sumas, llamada \key{Fórmula de Faulhaber},
-pero es demasiado compleja para presentarla aquí.},
+pero es demasiado compleja para presentarla aquí.}
 \[\sum_{x=1}^n x = 1+2+3+\ldots+n = \frac{n(n+1)}{2}\]
 y
 \[\sum_{x=1}^n x^2 = 1^2+2^2+3^2+\ldots+n^2 = \frac{n(n+1)(2n+1)}{6}.\]
 
-Una \key{progresión aritmética} es una \index{progresión aritmética}
-secuencia de números
-donde la diferencia entre dos números consecutivos
-es constante.
-Por ejemplo,
+\index{progresión aritmética}
+Una \key{progresión aritmética} es una
+secuencia de números donde la diferencia
+entre dos números consecutivos
+es constante. Por ejemplo,
 \[3, 7, 11, 15\]
 es una progresión aritmética con constante 4.
 La suma de una progresión aritmética se puede calcular
@@ -578,25 +572,22 @@ Por ejemplo,
 \[3+7+11+15=\frac{4 \cdot (3+15)}{2} = 36.\]
 La fórmula se basa en el hecho
 de que la suma consiste en $n$ números y
-el valor de cada número es $(a+b)/2$ en promedio.
+el valor de cada número es $\frac{a+b}{2}$ en promedio.
 
 \index{progresión geométrica}
 Una \key{progresión geométrica} es una secuencia
-de números
-donde la proporción entre dos números consecutivos
-es constante.
-Por ejemplo,
+de números donde la \emph{proporción} entre dos números consecutivos
+es constante. Por ejemplo,
 \[3,6,12,24\]
 es una progresión geométrica con constante 2.
 La suma de una progresión geométrica se puede calcular
 usando la fórmula
 \[a + ak + ak^2 + \cdots + b = \frac{bk-a}{k-1}\]
 donde $a$ es el primer número,
-$b$ es el último número y la
-proporción entre números consecutivos es $k$.
+$b$ es el último número y $k$ es la
+proporción entre números consecutivos.
 Por ejemplo,
 \[3+6+12+24=\frac{24 \cdot 2 - 3}{2-1} = 45.\]
-
 
 Esta fórmula se puede derivar de la siguiente manera. Sea
 \[ S = a + ak + ak^2 + \cdots + b .\]
@@ -616,7 +607,7 @@ Una \key{suma armónica} es una suma de la forma
 
 Un límite superior para una suma armónica es $\log_2(n)+1$.
 Es decir, podemos
-modificar cada término $1/k$ de modo que $k$ se convierta
+modificar cada término $\sfrac{1}{k}$ de modo que $k$ se convierta
 en la potencia de dos más cercana que no exceda $k$.
 Por ejemplo, cuando $n=6$, podemos estimar
 la suma de la siguiente manera:
@@ -660,7 +651,7 @@ que están tanto en $A$ como en $B$.
 Por ejemplo, si $A=\{1,2,5\}$ y $B=\{2,4\}$,
 entonces $A \cap B = \{2\}$.
 \item La \key{unión} $A \cup B$ consiste en elementos
-que están en $A$ o en $B$ o en ambos.
+que están en $A$, en $B$, o en ambos.
 Por ejemplo, si $A=\{3,7\}$ y $B=\{2,3,8\}$,
 entonces $A \cup B = \{2,3,7,8\}$.
 \item El \key{complemento} $\bar A$ consiste en elementos
@@ -690,7 +681,7 @@ $\{2\}$, $\{4\}$, $\{7\}$, $\{2,4\}$, $\{2,7\}$, $\{4,7\}$ y $\{2,4,7\}$.
 
 Algunos conjuntos utilizados con frecuencia son
 $\mathbb{N}$ (números naturales),
-$\mathbb{Z}$ (enteros),
+$\mathbb{Z}$ (números enteros),
 $\mathbb{Q}$ (números racionales) y
 $\mathbb{R}$ (números reales).
 El conjunto $\mathbb{N}$
@@ -710,7 +701,7 @@ contiene todos los números enteros pares.
 
 \subsubsection{Lógica}
 
-\index{logica}
+\index{lógica}
 \index{negación}
 \index{conjunción}
 \index{disyunción}
@@ -718,7 +709,7 @@ contiene todos los números enteros pares.
 \index{equivalencia}
 
 El valor de una expresión lógica es
-\key{verdadero} (1) o \key{falso} (0).
+\key{verdadero} (\textit{true}, 1) o \key{falso} (\textit{false}, 0).
 Los operadores lógicos más importantes son
 $\lnot$ (\key{negación}),
 $\land$ (\key{conjunción}),
@@ -904,9 +895,9 @@ están cubiertos por este libro.
 Los participantes para la IOI se seleccionan a través de
 concursos nacionales.
 Antes de la IOI, se organizan muchos concursos regionales,
-como la Olimpiada Báltica de Informática (BOI),
-la Olimpiada Centro Europea de Informática (CEOI)
-y la Olimpiada de Informática Asia-Pacífico (APIO).
+como la Olimpiada Olimpiada Informática Española (OIE),
+la Olimpiada Informática Argentina (OIA),
+y la Olimpiada Mexicana de Informática (OMI).
 
 Algunos países organizan concursos de práctica en línea
 para futuros participantes de la IOI,
@@ -919,12 +910,12 @@ disponibles en línea \cite{main}.
 
 El Concurso Internacional de Programación Universitaria (ICPC)
 es un concurso anual de programación para estudiantes universitarios.
-Cada equipo en el concurso está compuesto por tres estudiantes,
-y a diferencia de la IOI, los estudiantes trabajan juntos;
+Cada equipo en el concurso está compuesto por tres estudiantes
+y, a diferencia de la IOI, los estudiantes trabajan juntos;
 solo hay una computadora disponible para cada equipo.
 
 El ICPC consta de varias etapas y, finalmente, los
-mejores equipos son invitados a la Final Mundial.
+mejores equipos son invitados a la final mundial.
 Aunque hay decenas de miles de participantes
 en el concurso, solo hay una pequeña cantidad\footnote{El número exacto de plazas finales varía
 de un año a otro; en 2017, había 133 plazas finales.} de plazas finales disponibles,
@@ -961,15 +952,17 @@ tener un buen desempeño en un concurso es una buena manera de demostrar habilid
 
 \subsubsection{Libros}
 
-Ya hay algunos libros (además de este libro) que
-se enfocan en la programación competitiva y la resolución de problemas algorítmicos:
+Ya hay algunos libros (además de este) que
+se enfocan en la programación competitiva y la
+resolución de problemas algorítmicos:
 
 \begin{itemize}
-\item S. S. Skiena and M. A. Revilla:
-\emph{Programming Challenges: The Programming Contest Training Manual} \cite{ski03}
-\item S. Halim and F. Halim:
-\emph{Competitive Programming 3: The New Lower Bound of Programming Contests} \cite{hal13}
-\item K. Diks et al.: \emph{Looking for a Challenge? The Ultimate Problem Set from
+\item S. S. Skiena y M. A. Revilla:
+\emph{Desafíos de programación: El manual de entrenamiento para concursos de programación} \cite{ski20}
+\item S. Halim, F. Halim y S. Effendy:
+\emph{Programación competitiva 4: Manual para concursantes del ICPC y la IOI} \cite{hal21}
+\item K. Diks et al.:
+\emph{Looking for a Challenge? The Ultimate Problem Set from
 the University of Warsaw Programming Competitions} \cite{dik12}
 \end{itemize}
 
@@ -981,10 +974,12 @@ programadores competitivos.
 Algunos libros populares son:
 
 \begin{itemize}
-\item T. H. Cormen, C. E. Leiserson, R. L. Rivest and C. Stein:
+\item T. H. Cormen, C. E. Leiserson, R. L. Rivest y C. Stein:
 \emph{Introduction to Algorithms} \cite{cor09}
-\item J. Kleinberg and É. Tardos:
+\item J. Kleinberg y É. Tardos:
 \emph{Algorithm Design} \cite{kle05}
 \item S. S. Skiena:
 \emph{The Algorithm Design Manual} \cite{ski08}
 \end{itemize}
+
+% TODO: All-Spanish books
