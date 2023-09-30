@@ -1,37 +1,11 @@
-\documentclass[twoside,12pt,a4paper,english]{book}
+\documentclass[twoside,12pt,a4paper,spanish]{book}
 
-%\includeonly{chapter04,list}
+%\includeonly{chapter08,list}
 
-\usepackage{titlesec}
-\titleformat{\chapter}[display]
-{\centering\Huge\bfseries}
-{Capítulo \thechapter}{1em}{}
-
-\titleformat{\part}[display]
-{\centering\Huge\bfseries}
-{Parte \thepart}{1em}{}
-
-
-\usepackage[english]{babel}
+\usepackage[spanish,shorthands=off,es-lcroman]{babel}
+\unaccentedoperators
 \usepackage[utf8]{inputenc}
-\usepackage{listingsutf8}
-\lstset{
-  inputencoding=utf8/latin1,
-  extendedchars=true,
-  literate=%
-    {á}{{\'a}}1
-    {é}{{\'e}}1
-    {í}{{\'i}}1
-    {ó}{{\'o}}1
-    {ú}{{\'u}}1
-    {Á}{{\'A}}1
-    {É}{{\'E}}1
-    {Í}{{\'I}}1
-    {Ó}{{\'O}}1
-    {Ú}{{\'U}}1
-    {ñ}{{\~n}}1
-    {Ñ}{{\~N}}1
-}
+\usepackage{listings}
 \usepackage[table]{xcolor}
 \usepackage{tikz}
 \usepackage{multicol}
@@ -46,6 +20,7 @@
 \usepackage{framed}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{xfrac}
 
 \usepackage{pifont}
 \usepackage{ifthen}
@@ -57,7 +32,6 @@
 \usepackage{skak}
 \usepackage[scaled=0.95]{inconsolata}
 
-
 \usetikzlibrary{patterns,snakes}
 \pagestyle{plain}
 
@@ -68,19 +42,18 @@
 \lstset{language=C++,frame=single,basicstyle=\ttfamily \small,showstringspaces=false,columns=flexible}
 \lstset{
   literate=%
-    {ö}{{\"o}}1
-    {ä}{{\"a}}1
-    {ü}{{\"u}}1
     {á}{{\'a}}1
     {é}{{\'e}}1
     {í}{{\'i}}1
     {ó}{{\'o}}1
     {ú}{{\'u}}1
+    {ü}{{\"u}}1
     {Á}{{\'A}}1
     {É}{{\'E}}1
     {Í}{{\'I}}1
     {Ó}{{\'O}}1
     {Ú}{{\'U}}1
+    {Ü}{{\"U}}1
     {ñ}{{\~n}}1
     {Ñ}{{\~N}}1
 }
@@ -93,22 +66,21 @@
     stringstyle=\color{strings}
 }
 
-\date{Borrador \today}
+\date{Borrador, 19 de agosto de 2019\\Traducción, \today}
 
 \usepackage[a4paper,vmargin=30mm,hmargin=33mm,footskip=15mm]{geometry}
 
-\title{\Huge Manual de Programación Competitiva}
+\title{\Huge Manual de programación competitiva}
 \author{\Large Antti Laaksonen}
 
 \makeindex
 \usepackage[totoc]{idxlayout}
+\addto\captionsspanish{\renewcommand{\contentsname}{Contenidos}}
 
 \titleformat{\subsubsection}
 {\normalfont\large\bfseries\sffamily}{\thesubsection}{1em}{}
 
 \begin{document}
-
-%\selectlanguage{finnish}
 
 %\setcounter{page}{1}
 %\pagenumbering{roman}
@@ -137,7 +109,7 @@
 \include{chapter08}
 \include{chapter09}
 \include{chapter10}
-\part{Graph algorithms}
+\part{Algoritmos de grafos}
 \include{chapter11}
 \include{chapter12}
 \include{chapter13}
@@ -148,7 +120,7 @@
 \include{chapter18}
 \include{chapter19}
 \include{chapter20}
-\part{Advanced topics}
+\part{Temas avanzados}
 \include{chapter21}
 \include{chapter22}
 \include{chapter23}
