@@ -1,0 +1,11 @@
+*.log
+*.out
+*.idx
+*.fls
+*.aux
+*.toc
+*.ilg
+*.ind
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
