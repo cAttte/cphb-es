@@ -2,7 +2,7 @@
 
 \index{programación dinámica}
 
-\key{Programación dinámica}
+La \key{programación dinámica}
 es una técnica que combina la correctitud
 de la búsqueda completa y la eficiencia
 de los algoritmos voraces.
@@ -13,14 +13,14 @@ que se pueden resolver de forma independiente.
 Hay dos usos para la programación dinámica:
 
 \begin{itemize}
-\item
-\key{Encontrar una solución óptima}:
-Queremos encontrar una solución que sea
-lo más grande posible o lo más pequeña posible.
-\item
-\key{Contar el número de soluciones}:
-Queremos calcular el número total de
-soluciones posibles.
+    \item
+          \key{Encontrar una solución óptima}:
+          Queremos encontrar una solución que sea
+          lo más grande posible o lo más pequeña posible.
+    \item
+          \key{Contar el número de soluciones}:
+          Queremos calcular el número total de
+          soluciones posibles.
 \end{itemize}
 
 Primero veremos cómo la programación dinámica puede
@@ -40,9 +40,9 @@ que son un buen punto de partida.
 
 Primero nos enfocamos en un problema que ya
 hemos visto en el Capítulo 6:
-Dado un conjunto de valores de monedas $\texttt{monedas} = \{c_1,c_2,\ldots,c_k\}$
+Dado un conjunto de valores de $\texttt{monedas} = \{c_1,c_2,\ldots,c_k\}$
 y una suma objetivo de dinero $n$, nuestra tarea es
-formar la suma $n$ usando la menor cantidad de monedas posible.
+formarla usando la menor cantidad de monedas posible.
 
 En el Capítulo 6, resolvimos el problema usando un
 algoritmo voraz que siempre elige la moneda
@@ -57,11 +57,10 @@ usando programación dinámica, de modo que el algoritmo
 funcione para cualquier conjunto de monedas.
 El algoritmo de programación dinámica
 se basa en una función recursiva
-que analiza todas las posibilidades de cómo
-formar la suma, como un algoritmo de fuerza bruta.
-Sin embargo, el algoritmo de programación dinámica
-es eficiente porque
-utiliza \emph{memoización} y
+que analiza todas las maneras de formar la suma,
+como un algoritmo de fuerza bruta.
+Sin embargo, este algoritmo es eficiente porque
+utiliza la \emph{memoización} y
 calcula la respuesta a cada subproblema solo una vez.
 
 \subsubsection{Formulación recursiva}
@@ -85,19 +84,19 @@ Por ejemplo, si $\texttt{monedas} = \{1,3,4\}$,
 los primeros valores de la función son los siguientes:
 
 \[
-\begin{array}{lcl}
-\texttt{resolver}(0) & = & 0 \\
-\texttt{resolver}(1) & = & 1 \\
-\texttt{resolver}(2) & = & 2 \\
-\texttt{resolver}(3) & = & 1 \\
-\texttt{resolver}(4) & = & 1 \\
-\texttt{resolver}(5) & = & 2 \\
-\texttt{resolver}(6) & = & 2 \\
-\texttt{resolver}(7) & = & 2 \\
-\texttt{resolver}(8) & = & 2 \\
-\texttt{resolver}(9) & = & 3 \\
-\texttt{resolver}(10) & = & 3 \\
-\end{array}
+    \begin{array}{lcl}
+        \texttt{resolver}(0)  & = & 0 \\
+        \texttt{resolver}(1)  & = & 1 \\
+        \texttt{resolver}(2)  & = & 2 \\
+        \texttt{resolver}(3)  & = & 1 \\
+        \texttt{resolver}(4)  & = & 1 \\
+        \texttt{resolver}(5)  & = & 2 \\
+        \texttt{resolver}(6)  & = & 2 \\
+        \texttt{resolver}(7)  & = & 2 \\
+        \texttt{resolver}(8)  & = & 2 \\
+        \texttt{resolver}(9)  & = & 3 \\
+        \texttt{resolver}(10) & = & 3 \\
+    \end{array}
 \]
 
 Por ejemplo, $\texttt{resolver}(10)=3$,
@@ -120,11 +119,11 @@ Por supuesto, lo mismo se aplica a las monedas 3 y 4.
 Así, podemos usar la siguiente fórmula recursiva
 para calcular el mínimo número de monedas:
 \begin{equation*}
-\begin{split}
-\texttt{resolver}(x) = \min( & \texttt{resolver}(x-1)+1, \\
-                           & \texttt{resolver}(x-3)+1, \\
-                           & \texttt{resolver}(x-4)+1).
-\end{split}
+    \begin{split}
+        \texttt{resolver}(x) = \min( & \texttt{resolver}(x-1)+1, \\
+        & \texttt{resolver}(x-3)+1, \\
+        & \texttt{resolver}(x-4)+1).
+    \end{split}
 \end{equation*}
 El caso base de la recursión es $\texttt{resolver}(0)=0$,
 porque no se necesitan monedas para formar una suma vacía.
@@ -136,10 +135,10 @@ que calcule el mínimo número de
 monedas necesarias para formar una suma $x$:
 \begin{equation*}
     \texttt{resolver}(x) = \begin{cases}
-               \infty               & x < 0\\
-               0               & x = 0\\
-               \min_{c \in \texttt{monedas}} \texttt{resolver}(x-c)+1 & x > 0 \\
-           \end{cases}
+        \infty                                                 & x < 0 \\
+        0                                                      & x = 0 \\
+        \min_{m \in \texttt{monedas}} \texttt{resolver}(x-c)+1 & x > 0 \\
+    \end{cases}
 \end{equation*}
 
 Primero, si $x<0$, el valor es $\infty$,
@@ -147,44 +146,41 @@ porque es imposible formar una suma
 negativa de dinero.
 Luego, si $x=0$, el valor es $0$,
 porque no se necesitan monedas para formar una suma vacía.
-Finalmente, si $x>0$, la variable $c$ recorre
+Finalmente, si $x>0$, la variable $m$ recorre
 todas las posibilidades de cómo elegir la primera moneda
-de la suma.
+de la suma y elige la óptima.
 
 Una vez que se encuentra una función recursiva que resuelve el problema,
 podemos implementar directamente una solución en C++
-(la constante \texttt{INF} denota infinito):
+(la constante \texttt{INF} denota infinito o un número muy grande):
 
 \begin{lstlisting}
 int resolver(int x) {
     if (x < 0) return INF;
     if (x == 0) return 0;
     int mejor = INF;
-    for (auto c : monedas) {
-        mejor = min(mejor, resolver(x-c)+1);
-    }
+    for (auto m : monedas) mejor = min(mejor, resolver(x - m) + 1);
     return mejor;
 }
 \end{lstlisting}
 
 Sin embargo, esta función no es eficiente,
 porque puede haber un número exponencial de formas
-de construir la suma.
-No obstante, a continuación veremos cómo hacer que la
+de construir la suma. A continuación veremos cómo hacer que la
 función sea eficiente utilizando una técnica llamada memoización.
 
-\subsubsection{Usando memoización}
+\subsubsection{Usar memoización}
 
 \index{memoización}
 
-La idea de la programación dinámica es utilizar
+La idea de la programación dinámica es utilizar la
 \key{memoización} para calcular eficientemente
 los valores de una función recursiva.
 Esto significa que los valores de la función
-se almacenan en un arreglo después de calcularlos.
-Para cada parámetro, el valor de la función
-se calcula recursivamente solo una vez y, después de esto,
-el valor se puede recuperar directamente del arreglo.
+se almacenan en memoria después de calcularlos.
+Para cada valor de entrada, el valor de la función
+se calcula solo una vez y, luego, este se puede recuperar
+directamente de un arreglo en memoria.
 
 En este problema, usamos los arreglos
 \begin{lstlisting}
@@ -199,7 +195,7 @@ contiene este valor.
 La constante $N$ se ha elegido de manera que
 todos los valores requeridos quepan en los arreglos.
 
-Ahora la función se puede implementar de manera eficiente de la siguiente forma:
+Ahora, la función se puede implementar eficientemente:
 
 \begin{lstlisting}
 int resolver(int x) {
@@ -207,9 +203,7 @@ int resolver(int x) {
     if (x == 0) return 0;
     if (listo[x]) return valor[x];
     int mejor = INF;
-    for (auto c : monedas) {
-        mejor = min(mejor, resolver(x-c)+1);
-    }
+    for (auto m : monedas) mejor = min(mejor, resolver(x - m) + 1);
     valor[x] = mejor;
     listo[x] = true;
     return mejor;
@@ -227,16 +221,17 @@ De lo contrario, la función calcula el valor
 de $\texttt{resolver}(x)$
 recursivamente y lo almacena en $\texttt{valor}[x]$.
 
-Esta función funciona de manera eficiente,
-porque la respuesta para cada parámetro $x$
+Esta función es eficiente, porque la respuesta para cada parámetro $x$
 se calcula recursivamente solo una vez.
-Después de que se haya almacenado un valor de $\texttt{resolver}(x)$ en $\texttt{valor}[x]$,
+Después de que se haya almacenado un valor de
+$\texttt{resolver}(x)$ en $\texttt{valor}[x]$,
 se puede recuperar de manera eficiente cada vez que
 la función sea llamada nuevamente con el parámetro $x$.
-La complejidad en tiempo del algoritmo es $O(nk)$,
+La complejidad temporal del algoritmo es $O(nk)$,
 donde $n$ es la suma objetivo y $k$ es el número de monedas.
 
-También podemos construir \emph{iterativamente}
+También podemos construir \emph{iterativamente},
+en vez de recursivamente,
 el arreglo \texttt{valor} usando
 un bucle que simplemente calcule todos los valores
 de $\texttt{resolver}$ para los parámetros $0 \ldots n$:
@@ -244,61 +239,55 @@ de $\texttt{resolver}$ para los parámetros $0 \ldots n$:
 valor[0] = 0;
 for (int x = 1; x <= n; x++) {
     valor[x] = INF;
-    for (auto c : monedas) {
-        if (x-c >= 0) {
-            valor[x] = min(valor[x], valor[x-c]+1);
+    for (auto m : monedas) {
+        if (x - m >= 0) {
+            valor[x] = min(valor[x], valor[x - m] + 1);
         }
     }
 }
 \end{lstlisting}
 
 De hecho, la mayoría de los programadores competitivos prefieren esta
-implementación, porque es más corta y tiene
-factores constantes más bajos.
-A partir de ahora, también utilizamos implementaciones iterativas
+implementación por su simplicidad y factor constante más bajo.
+A partir de ahora, usaremos implementaciones iterativas
 en nuestros ejemplos.
-Aun así, a menudo es más fácil pensar en soluciones
-de programación dinámica
+Aun así, a menudo es más fácil pensar en estas soluciones
 en términos de funciones recursivas.
 
+\subsubsection{Construir una solución}
 
-\subsubsection{Construyendo una solución}
-
-A veces se nos pide encontrar el valor
-de una solución óptima y dar
-un ejemplo de cómo se puede construir dicha solución.
+A veces se nos pide encontrar una solución óptima y dar
+un ejemplo de \emph{cómo} se puede construir.
 En el problema de las monedas, por ejemplo,
-podemos declarar otro arreglo
-que indique para
-cada suma de dinero la primera moneda
-en una solución óptima:
+podemos crear un arreglo que indique, para cada suma,
+la primera moneda de su solución óptima:
 \begin{lstlisting}
-int primero[N];
+int primera[N];
 \end{lstlisting}
 Luego, podemos modificar el algoritmo de la siguiente manera:
 \begin{lstlisting}
 valor[0] = 0;
 for (int x = 1; x <= n; x++) {
     valor[x] = INF;
-    for (auto c : monedas) {
-        if (x-c >= 0 && valor[x-c]+1 < valor[x]) {
-            valor[x] = valor[x-c]+1;
-            primero[x] = c;
+    for (auto m : monedas) {
+        if (x - m >= 0 && valor[x - m] + 1 < valor[x]) {
+            valor[x] = valor[x - m] + 1;
+            primera[x] = m;
         }
     }
 }
 \end{lstlisting}
-Después de esto, el siguiente código se puede utilizar para
+Ahora, el siguiente código se puede utilizar para
 imprimir las monedas que aparecen en una solución óptima para
 la suma $n$:
 \begin{lstlisting}
 while (n > 0) {
-    cout << primero[n] << "\n";
-    n -= primero[n];
+    cout << primera[n] << "\n";
+    n -= primera[n];
 }
 \end{lstlisting}
 
-\subsubsection{Contando el número de soluciones}
+\subsubsection{Contar el número de soluciones}
 
 Ahora consideremos otra versión
 del problema de las monedas donde nuestra tarea es
@@ -308,45 +297,45 @@ Por ejemplo, si $\texttt{monedas}=\{1,3,4\}$ y
 $x=5$, hay un total de 6 formas:
 
 \begin{multicols}{2}
-\begin{itemize}
-\item $1+1+1+1+1$
-\item $1+1+3$
-\item $1+3+1$
-\item $3+1+1$
-\item $1+4$
-\item $4+1$
-\end{itemize}
+    \begin{itemize}
+        \item $1+1+1+1+1$
+        \item $1+1+3$
+        \item $1+3+1$
+        \item $3+1+1$
+        \item $1+4$
+        \item $4+1$
+    \end{itemize}
 \end{multicols}
 
-De nuevo, podemos resolver el problema recursivamente.
-Sea $\texttt{resolver}(x)$ el número de formas
+De nuevo, podemos resolver el problema con recursión.
+Definamos $\texttt{resolver}(x)$ como el número de formas
 en las que podemos formar la suma $x$.
 Por ejemplo, si $\texttt{monedas}=\{1,3,4\}$,
 entonces $\texttt{resolver}(5)=6$ y la fórmula recursiva es
 \begin{equation*}
-\begin{split}
-\texttt{resolver}(x) = & \texttt{resolver}(x-1) + \\
-                    & \texttt{resolver}(x-3) + \\
-                    & \texttt{resolver}(x-4)  .
-\end{split}
+    \begin{split}
+        \texttt{resolver}(x) = & \texttt{resolver}(x-1) + \\
+        & \texttt{resolver}(x-3) + \\
+        & \texttt{resolver}(x-4)  .
+    \end{split}
 \end{equation*}
 
 Entonces, la función recursiva general es la siguiente:
 \begin{equation*}
     \texttt{resolver}(x) = \begin{cases}
-               0               & x < 0\\
-               1               & x = 0\\
-               \sum_{c \in \texttt{monedas}} \texttt{resolver}(x-c) & x > 0 \\
-           \end{cases}
+        0                                                    & x < 0 \\
+        1                                                    & x = 0 \\
+        \sum_{m \in \texttt{monedas}} \texttt{resolver}(x-m) & x > 0 \\
+    \end{cases}
 \end{equation*}
 
 Si $x<0$, el valor es 0, porque no hay soluciones.
 Si $x=0$, el valor es 1, porque solo hay una forma
 de formar una suma vacía.
 De lo contrario, calculamos la suma de todos los valores
-de la forma $\texttt{resolver}(x-c)$ donde $c$ está en \texttt{monedas}.
+de la forma $\texttt{resolver}(x-m)$ donde $m$ está en \texttt{monedas}.
 
-El siguiente código construye un array
+El siguiente código construye un arreglo
 $\texttt{conteo}$ tal que
 $\texttt{conteo}[x]$ es igual
 al valor de $\texttt{resolver}(x)$
@@ -355,9 +344,9 @@ para $0 \le x \le n$:
 \begin{lstlisting}
 conteo[0] = 1;
 for (int x = 1; x <= n; x++) {
-    for (auto c : monedas) {
-        if (x-c >= 0) {
-            conteo[x] += conteo[x-c];
+    for (auto m : monedas) {
+        if (x - m >= 0) {
+            conteo[x] += conteo[x - m];
         }
     }
 }
@@ -365,17 +354,17 @@ for (int x = 1; x <= n; x++) {
 
 A menudo, el número de soluciones es tan grande
 que no es necesario calcular el número exacto
-pero es suficiente dar la respuesta módulo $m$
-donde, por ejemplo, $m=10^9+7$.
+pero es suficiente dar la respuesta módulo $M$
+donde, por ejemplo, $M=10^9+7$.
 Esto se puede hacer modificando el código de manera que
-todos los cálculos se realicen módulo $m$.
+todos los cálculos se realicen módulo $M$.
 En el código anterior, basta con agregar la línea
 \begin{lstlisting}
-        conteo[x] %= m;
+        conteo[x] %= M;
 \end{lstlisting}
 después de la línea
 \begin{lstlisting}
-        conteo[x] += conteo[x-c];
+        conteo[x] += conteo[x - m];
 \end{lstlisting}
 
 Ahora hemos discutido todas las ideas básicas
@@ -401,60 +390,60 @@ que el elemento anterior.
 Por ejemplo, en el arreglo
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$6$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$5$};
-\node at (3.5,0.5) {$1$};
-\node at (4.5,0.5) {$7$};
-\node at (5.5,0.5) {$4$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$3$};
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$6$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$5$};
+        \node at (3.5,0.5) {$1$};
+        \node at (4.5,0.5) {$7$};
+        \node at (5.5,0.5) {$4$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$3$};
 
-\footnotesize
-\node at (0.5,1.4) {$0$};
-\node at (1.5,1.4) {$1$};
-\node at (2.5,1.4) {$2$};
-\node at (3.5,1.4) {$3$};
-\node at (4.5,1.4) {$4$};
-\node at (5.5,1.4) {$5$};
-\node at (6.5,1.4) {$6$};
-\node at (7.5,1.4) {$7$};
-\end{tikzpicture}
+        \footnotesize
+        \node at (0.5,1.4) {$0$};
+        \node at (1.5,1.4) {$1$};
+        \node at (2.5,1.4) {$2$};
+        \node at (3.5,1.4) {$3$};
+        \node at (4.5,1.4) {$4$};
+        \node at (5.5,1.4) {$5$};
+        \node at (6.5,1.4) {$6$};
+        \node at (7.5,1.4) {$7$};
+    \end{tikzpicture}
 \end{center}
 la subsecuencia creciente más larga
 contiene 4 elementos:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=lightgray] (1,0) rectangle (2,1);
-\fill[color=lightgray] (2,0) rectangle (3,1);
-\fill[color=lightgray] (4,0) rectangle (5,1);
-\fill[color=lightgray] (6,0) rectangle (7,1);
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$6$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$5$};
-\node at (3.5,0.5) {$1$};
-\node at (4.5,0.5) {$7$};
-\node at (5.5,0.5) {$4$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$3$};
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=lightgray] (1,0) rectangle (2,1);
+        \fill[color=lightgray] (2,0) rectangle (3,1);
+        \fill[color=lightgray] (4,0) rectangle (5,1);
+        \fill[color=lightgray] (6,0) rectangle (7,1);
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$6$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$5$};
+        \node at (3.5,0.5) {$1$};
+        \node at (4.5,0.5) {$7$};
+        \node at (5.5,0.5) {$4$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$3$};
 
-\draw[thick,->] (1.5,-0.25) .. controls (1.75,-1.00) and (2.25,-1.00) .. (2.4,-0.25);
-\draw[thick,->] (2.6,-0.25) .. controls (3.0,-1.00) and (4.0,-1.00) .. (4.4,-0.25);
-\draw[thick,->] (4.6,-0.25) .. controls (5.0,-1.00) and (6.0,-1.00) .. (6.5,-0.25);
+        \draw[thick,->] (1.5,-0.25) .. controls (1.75,-1.00) and (2.25,-1.00) .. (2.4,-0.25);
+        \draw[thick,->] (2.6,-0.25) .. controls (3.0,-1.00) and (4.0,-1.00) .. (4.4,-0.25);
+        \draw[thick,->] (4.6,-0.25) .. controls (5.0,-1.00) and (6.0,-1.00) .. (6.5,-0.25);
 
-\footnotesize
-\node at (0.5,1.4) {$0$};
-\node at (1.5,1.4) {$1$};
-\node at (2.5,1.4) {$2$};
-\node at (3.5,1.4) {$3$};
-\node at (4.5,1.4) {$4$};
-\node at (5.5,1.4) {$5$};
-\node at (6.5,1.4) {$6$};
-\node at (7.5,1.4) {$7$};
-\end{tikzpicture}
+        \footnotesize
+        \node at (0.5,1.4) {$0$};
+        \node at (1.5,1.4) {$1$};
+        \node at (2.5,1.4) {$2$};
+        \node at (3.5,1.4) {$3$};
+        \node at (4.5,1.4) {$4$};
+        \node at (5.5,1.4) {$5$};
+        \node at (6.5,1.4) {$6$};
+        \node at (7.5,1.4) {$7$};
+    \end{tikzpicture}
 \end{center}
 
 Denotemos $\texttt{largo}(k)$ como
@@ -468,16 +457,16 @@ subsecuencia creciente más larga.
 Por ejemplo, los valores de la función
 para el arreglo anterior son los siguientes:
 \[
-\begin{array}{lcl}
-\texttt{largo}(0) & = & 1 \\
-\texttt{largo}(1) & = & 1 \\
-\texttt{largo}(2) & = & 2 \\
-\texttt{largo}(3) & = & 1 \\
-\texttt{largo}(4) & = & 3 \\
-\texttt{largo}(5) & = & 2 \\
-\texttt{largo}(6) & = & 4 \\
-\texttt{largo}(7) & = & 2 \\
-\end{array}
+    \begin{array}{lcl}
+        \texttt{largo}(0) & = & 1 \\
+        \texttt{largo}(1) & = & 1 \\
+        \texttt{largo}(2) & = & 2 \\
+        \texttt{largo}(3) & = & 1 \\
+        \texttt{largo}(4) & = & 3 \\
+        \texttt{largo}(5) & = & 2 \\
+        \texttt{largo}(6) & = & 4 \\
+        \texttt{largo}(7) & = & 2 \\
+    \end{array}
 \]
 
 Por ejemplo, $\texttt{largo}(6)=4$,
@@ -509,7 +498,7 @@ for (int k = 0; k < n; k++) {
     largo[k] = 1;
     for (int i = 0; i < k; i++) {
         if (arreglo[i] < arreglo[k]) {
-            largo[k] = max(largo[k],largo[i]+1);
+            largo[k] = max(largo[k], largo[i] + 1);
         }
     }
 }
@@ -537,56 +526,56 @@ del camino sea lo más grande posible.
 La siguiente imagen muestra un camino óptimo
 en una cuadrícula:
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-  \begin{scope}
-    \fill [color=lightgray] (0, 9) rectangle (1, 8);
-    \fill [color=lightgray] (0, 8) rectangle (1, 7);
-    \fill [color=lightgray] (1, 8) rectangle (2, 7);
-    \fill [color=lightgray] (1, 7) rectangle (2, 6);
-    \fill [color=lightgray] (2, 7) rectangle (3, 6);
-    \fill [color=lightgray] (3, 7) rectangle (4, 6);
-    \fill [color=lightgray] (4, 7) rectangle (5, 6);
-    \fill [color=lightgray] (4, 6) rectangle (5, 5);
-    \fill [color=lightgray] (4, 5) rectangle (5, 4);
-    \draw (0, 4) grid (5, 9);
-    \node at (0.5,8.5) {3};
-    \node at (1.5,8.5) {7};
-    \node at (2.5,8.5) {9};
-    \node at (3.5,8.5) {2};
-    \node at (4.5,8.5) {7};
-    \node at (0.5,7.5) {9};
-    \node at (1.5,7.5) {8};
-    \node at (2.5,7.5) {3};
-    \node at (3.5,7.5) {5};
-    \node at (4.5,7.5) {5};
-    \node at (0.5,6.5) {1};
-    \node at (1.5,6.5) {7};
-    \node at (2.5,6.5) {9};
-    \node at (3.5,6.5) {8};
-    \node at (4.5,6.5) {5};
-    \node at (0.5,5.5) {3};
-    \node at (1.5,5.5) {8};
-    \node at (2.5,5.5) {6};
-    \node at (3.5,5.5) {4};
-    \node at (4.5,5.5) {10};
-    \node at (0.5,4.5) {6};
-    \node at (1.5,4.5) {3};
-    \node at (2.5,4.5) {9};
-    \node at (3.5,4.5) {7};
-    \node at (4.5,4.5) {8};
-  \end{scope}
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=.65]
+        \begin{scope}
+            \fill [color=lightgray] (0, 9) rectangle (1, 8);
+            \fill [color=lightgray] (0, 8) rectangle (1, 7);
+            \fill [color=lightgray] (1, 8) rectangle (2, 7);
+            \fill [color=lightgray] (1, 7) rectangle (2, 6);
+            \fill [color=lightgray] (2, 7) rectangle (3, 6);
+            \fill [color=lightgray] (3, 7) rectangle (4, 6);
+            \fill [color=lightgray] (4, 7) rectangle (5, 6);
+            \fill [color=lightgray] (4, 6) rectangle (5, 5);
+            \fill [color=lightgray] (4, 5) rectangle (5, 4);
+            \draw (0, 4) grid (5, 9);
+            \node at (0.5,8.5) {3};
+            \node at (1.5,8.5) {7};
+            \node at (2.5,8.5) {9};
+            \node at (3.5,8.5) {2};
+            \node at (4.5,8.5) {7};
+            \node at (0.5,7.5) {9};
+            \node at (1.5,7.5) {8};
+            \node at (2.5,7.5) {3};
+            \node at (3.5,7.5) {5};
+            \node at (4.5,7.5) {5};
+            \node at (0.5,6.5) {1};
+            \node at (1.5,6.5) {7};
+            \node at (2.5,6.5) {9};
+            \node at (3.5,6.5) {8};
+            \node at (4.5,6.5) {5};
+            \node at (0.5,5.5) {3};
+            \node at (1.5,5.5) {8};
+            \node at (2.5,5.5) {6};
+            \node at (3.5,5.5) {4};
+            \node at (4.5,5.5) {10};
+            \node at (0.5,4.5) {6};
+            \node at (1.5,4.5) {3};
+            \node at (2.5,4.5) {9};
+            \node at (3.5,4.5) {7};
+            \node at (4.5,4.5) {8};
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 La suma de los valores en el camino es 67,
 y esta es la suma más grande posible en un camino
 desde la esquina
 superior izquierda hasta la esquina inferior derecha.
 
-Suponga que las filas y columnas de la
+Supongamos que las filas y columnas de la
 cuadrícula están numeradas del 1 al $n$,
 y $\texttt{valor}[y][x]$ es igual al valor
 del cuadro $(y,x)$.
-Sea $\texttt{suma}(y,x)$ la suma máxima
+Definamos $\texttt{suma}(y,x)$ como la suma máxima
 en un camino desde la esquina superior izquierda
 hasta el cuadro $(y,x)$.
 Ahora, $\texttt{suma}(n,n)$ nos indica
@@ -605,16 +594,16 @@ de que un camino que termina en el cuadro $(y,x)$
 puede provenir del cuadro $(y,x-1)$
 o del cuadro $(y-1,x)$:
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-  \begin{scope}
-    \fill [color=lightgray] (3, 7) rectangle (4, 6);
-    \draw (0, 4) grid (5, 9);
-    
-    \node at (2.5,6.5) {$\rightarrow$};
-    \node at (3.5,7.5) {$\downarrow$};
-    
-  \end{scope}
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=.65]
+        \begin{scope}
+            \fill [color=lightgray] (3, 7) rectangle (4, 6);
+            \draw (0, 4) grid (5, 9);
+
+            \node at (2.5,6.5) {$\rightarrow$};
+            \node at (3.5,7.5) {$\downarrow$};
+
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 Por lo tanto, seleccionamos la dirección que maximiza
@@ -624,8 +613,8 @@ si $y=0$ o $x=0$ (porque no existen tales caminos),
 así que la fórmula recursiva también funciona cuando $y=1$ o $x=1$.
 
 Dado que la función \texttt{suma} tiene dos parámetros,
-el array de programación dinámica también tiene dos dimensiones.
-Por ejemplo, podemos usar un array
+el arreglo de programación dinámica también tiene dos dimensiones.
+Por ejemplo, podemos usar un arreglo
 \begin{lstlisting}
 int suma[N][N];
 \end{lstlisting}
@@ -633,13 +622,13 @@ y calcular la suma como sigue:
 \begin{lstlisting}
 for (int y = 1; y <= n; y++) {
     for (int x = 1; x <= n; x++) {
-        suma[y][x] = max(suma[y][x-1],suma[y-1][x])+valor[y][x];
+        suma[y][x] = max(suma[y][x - 1], suma[y - 1][x]) + valor[y][x];
     }
 }
 \end{lstlisting}
 La complejidad temporal del algoritmo es $O(n^2)$.
 
-\section{Problemas de la mochila}
+\section{Problema de la mochila}
 
 \index{mochila}
 
@@ -650,100 +639,98 @@ Los problemas de la mochila a menudo se pueden resolver
 usando programación dinámica.
 
 En esta sección, nos enfocamos en el siguiente
-problema: Dada una lista de pesos
-$[w_1,w_2,\ldots,w_n]$,
-determine todas
-las sumas que se pueden construir usando los pesos.
+problema:
+
+\begin{framed}
+    \noindent Dada una lista de pesos
+    $[p_1,p_2,\ldots,p_n]$, determine todas
+    las sumas que se pueden construir usando los pesos.
+\end{framed}
+
 Por ejemplo, si los pesos son
 $[1,3,3,5]$, las siguientes sumas son posibles:
 
 \begin{center}
-\begin{tabular}{rrrrrrrrrrrrr}
- 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
-\hline
- X & X & & X & X & X & X & X & X & X & & X & X \\
-\end{tabular}
+    \begin{tabular}{rrrrrrrrrrrrr}
+        0        & 1        & 2 & 3        & 4        & 5        & 6        & 7        & 8        & 9        & 10 & 11       & 12       \\
+        \hline
+        $\times$ & $\times$ &   & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ &    & $\times$ & $\times$ \\
+    \end{tabular}
 \end{center}
-
-En este caso, todas las sumas entre $0 \ldots 12$
-son posibles, excepto 2 y 10.
-Por ejemplo, la suma 7 es posible porque podemos
-seleccionar los pesos $[1,3,3]$.
 
 Para resolver el problema, nos enfocamos en subproblemas
 donde solo usamos los primeros $k$ pesos
 para construir sumas.
-Sea $\texttt{posible}(x,k)=\textrm{verdadero}$ si
+Definamos $\texttt{posible}(x,k)=\textrm{verdadero}$ si
 podemos construir una suma $x$
 usando los primeros $k$ pesos,
 y de lo contrario $\texttt{posible}(x,k)=\textrm{falso}$.
-Los valores de la función se pueden calcular recursivamente de la siguiente manera:
-\[ \texttt{posible}(x,k) = \texttt{posible}(x-w_k,k-1) \lor \texttt{posible}(x,k-1) \]
+Sus valores se pueden calcular de la siguiente manera:
+\[ \texttt{posible}(x,k) = \texttt{posible}(x-p_k,k-1) \lor \texttt{posible}(x,k-1) \]
 La fórmula se basa en el hecho de que podemos
-usar o no usar el peso $w_k$ en la suma.
-Si usamos $w_k$, la tarea restante es formar
-la suma $x-w_k$ usando los primeros $k-1$ pesos,
-y si no usamos $w_k$,
+usar o no usar el peso $p_k$ en la suma.
+Si usamos $p_k$, la tarea restante es formar
+la suma $x-p_k$ usando los primeros $k-1$ pesos,
+y si no usamos $p_k$,
 la tarea restante es formar la suma $x$
 usando los primeros $k-1$ pesos.
 Como casos base,
 \begin{equation*}
     \texttt{posible}(x,0) = \begin{cases}
-               \textrm{verdadero}    & x = 0\\
-               \textrm{falso}   & x \neq 0 \\
-           \end{cases}
+        \textrm{verdadero} & x = 0    \\
+        \textrm{falso}     & x \neq 0 \\
+    \end{cases}
 \end{equation*}
 porque si no se usan pesos,
 solo podemos formar la suma 0.
 
 La siguiente tabla muestra todos los valores de la función
-para los pesos $[1,3,3,5]$ (el símbolo "X"
-indica los valores verdaderos):
+para los pesos $[1,3,3,5]$ (el símbolo ``$\times$'' indica verdadero):
 
 \begin{center}
-\begin{tabular}{r|rrrrrrrrrrrrr}
-$k \backslash x$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
-\hline
- 0 & X & \\
- 1 & X & X \\
- 2 & X & X & & X & X \\
- 3 & X & X & & X & X & & X & X \\
- 4 & X & X & & X & X & X & X & X & X & X & & X & X \\
-\end{tabular}
+    \begin{tabular}{r|rrrrrrrrrrrrr}
+        $k \backslash\, x$ & 0        & 1        & 2 & 3        & 4        & 5        & 6        & 7        & 8        & 9        & 10 & 11       & 12       \\
+        \hline
+        0                  & $\times$ &                                                                                                                      \\
+        1                  & $\times$ & $\times$                                                                                                             \\
+        2                  & $\times$ & $\times$ &   & $\times$ & $\times$                                                                                   \\
+        3                  & $\times$ & $\times$ &   & $\times$ & $\times$ &          & $\times$ & $\times$                                                  \\
+        4                  & $\times$ & $\times$ &   & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ & $\times$ &    & $\times$ & $\times$ \\
+    \end{tabular}
 \end{center}
 
 Después de calcular esos valores, $\texttt{posible}(x,n)$
 nos indica si podemos construir una
 suma $x$ utilizando \emph{todos} los pesos.
 
-Denotemos $W$ como la suma total de los pesos.
-La siguiente solución de programación dinámica $O(nW)$
+Denotemos $P$ como la suma total de los pesos.
+La siguiente solución de programación dinámica $O(nP)$
 corresponde a la función recursiva:
 \begin{lstlisting}
 posible[0][0] = true;
 for (int k = 1; k <= n; k++) {
-    for (int x = 0; x <= W; x++) {
-        if (x-w[k] >= 0) posible[x][k] |= posible[x-w[k]][k-1];
-        posible[x][k] |= posible[x][k-1];
+    for (int x = 0; x <= P; x++) {
+        if (x - p[k] >= 0) posible[x][k] |= posible[x - p[k]][k - 1];
+        posible[x][k] |= posible[x][k - 1];
     }
 }
 \end{lstlisting}
 
-Sin embargo, aquí hay una mejor implementación que solo utiliza
+Sin embargo, hay una mejor implementación que solo utiliza
 un arreglo unidimensional $\texttt{posible}[x]$
-que indica si podemos construir un subconjunto con suma $x$.
+que indica si podemos construir una suma $x$.
 El truco es actualizar el arreglo de derecha a izquierda para
 cada nuevo peso:
 \begin{lstlisting}
 posible[0] = true;
 for (int k = 1; k <= n; k++) {
-    for (int x = W; x >= 0; x--) {
-        if (posible[x]) posible[x+w[k]] = true;
+    for (int x = P; x >= 0; x--) {
+        if (posible[x]) posible[x + p[k]] = true;
     }
 }
 \end{lstlisting}
 
-Tenga en cuenta que la idea general presentada aquí se puede utilizar
+Ten en cuenta que la idea general presentada aquí se puede utilizar
 en muchos problemas de mochila.
 Por ejemplo, si se nos dan objetos con pesos y valores,
 podemos determinar para cada suma de pesos el valor máximo
@@ -755,113 +742,114 @@ suma de un subconjunto.
 \index{distancia de Levenshtein}
 
 La \key{distancia de edición} o \key{distancia de Levenshtein}\footnote{La distancia
-lleva el nombre de V. I. Levenshtein, quien la estudió en relación con los códigos binarios \cite{lev66}.}
+    lleva el nombre de V. I. Levenshtein, quien la estudió en relación con los códigos binarios \cite{lev66}.}
 es el número mínimo de operaciones de edición
 necesarias para transformar una cadena
 en otra cadena.
 Las operaciones de edición permitidas son las siguientes:
 \begin{itemize}
-\item insertar un carácter (por ejemplo, \texttt{ABC} $\rightarrow$ \texttt{ABCA})
-\item eliminar un carácter (por ejemplo, \texttt{ABC} $\rightarrow$ \texttt{AC})
-\item modificar un carácter (por ejemplo, \texttt{ABC} $\rightarrow$ \texttt{ADC})
+    \item insertar un carácter (por ejemplo, \texttt{ABC} $\rightarrow$ \texttt{ABCA})
+    \item eliminar un carácter (por ejemplo, \texttt{ABC} $\rightarrow$ \texttt{AC})
+    \item sustituir un carácter (por ejemplo, \texttt{ABC} $\rightarrow$ \texttt{ADC})
 \end{itemize}
 
 Por ejemplo, la distancia de edición entre
 \texttt{LOVE} y \texttt{MOVIE} es 2,
 porque primero podemos realizar la operación
- \texttt{LOVE} $\rightarrow$ \texttt{MOVE}
-(modificar) y luego la operación
+\texttt{LOVE} $\rightarrow$ \texttt{MOVE}
+(sustitución) y luego la operación
 \texttt{MOVE} $\rightarrow$ \texttt{MOVIE}
-(insertar).
+(inserción).
 Este es el número mínimo posible de operaciones,
 porque está claro que una sola operación no es suficiente.
 
 Supongamos que se nos da una cadena \texttt{x}
 de longitud $n$ y una cadena \texttt{y} de longitud $m$,
 y queremos calcular la distancia de edición entre
-\texttt{x} y \texttt{y}.
+\texttt{x} e \texttt{y}.
 Para resolver el problema, definimos una función
 $\texttt{distancia}(a,b)$ que proporciona la
 distancia de edición entre los prefijos
-$\texttt{x}[0 \ldots a]$ y $\texttt{y}[0 \ldots b]$.
+$\texttt{x}[0 \ldots a]$ e $\texttt{y}[0 \ldots b]$.
 Por lo tanto, usando esta función, la distancia de edición
-entre \texttt{x} y \texttt{y} es igual a $\texttt{distancia}(n-1,m-1)$.
+entre \texttt{x} e \texttt{y} es igual a $\texttt{distancia}(n-1,m-1)$.
 
 Podemos calcular los valores de \texttt{distancia}
 de la siguiente manera:
 \begin{equation*}
-\begin{split}
-\texttt{distancia}(a,b) = \min(& \texttt{distancia}(a,b-1)+1, \\
-                           & \texttt{distancia}(a-1,b)+1, \\
-                           & \texttt{distancia}(a-1,b-1)+\texttt{costo}(a,b)).
-\end{split}
+    \begin{split}
+        \texttt{distancia}(a,b) = \min(& \texttt{distancia}(a,b-1)+1, \\
+        & \texttt{distancia}(a-1,b)+1, \\
+        & \texttt{distancia}(a-1,b-1)+\texttt{costo}(a,b)).
+    \end{split}
 \end{equation*}
 Aquí $\texttt{costo}(a,b)=0$ si $\texttt{x}[a]=\texttt{y}[b]$,
 y en caso contrario $\texttt{costo}(a,b)=1$.
 La fórmula considera las siguientes formas de
 editar la cadena \texttt{x}:
 \begin{itemize}
-\item $\texttt{distancia}(a,b-1)$: insertar un carácter al final de \texttt{x}
-\item $\texttt{distancia}(a-1,b)$: eliminar el último carácter de \texttt{x}
-\item $\texttt{distancia}(a-1,b-1)$: coincidir o modificar el último carácter de \texttt{x}
+    \item $\texttt{distancia}(a,b-1)$: insertar un carácter al final de \texttt{x}
+    \item $\texttt{distancia}(a-1,b)$: eliminar el último carácter de \texttt{x}
+    \item $\texttt{distancia}(a-1,b-1)$: sustituir (o mantener) el último carácter de \texttt{x}
 \end{itemize}
 En los dos primeros casos, se necesita una operación de edición
-(insertar o eliminar).
+(inserción o eliminación).
 En el último caso, si $\texttt{x}[a]=\texttt{y}[b]$,
 podemos coincidir los últimos caracteres sin editar,
-y en caso contrario se necesita una operación de edición (modificar).
+y en caso contrario se necesita una operación de edición (sustitución).
 
+\pagebreak
 La siguiente tabla muestra los valores de \texttt{distancia}
 en el caso de ejemplo:
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-  \begin{scope}
-    %\fill [color=lightgray] (5, -3) rectangle (6, -4);
-    \draw (1, -1) grid (7, -6);
-    
-    \node at (0.5,-2.5) {\texttt{L}};
-    \node at (0.5,-3.5) {\texttt{O}};
-    \node at (0.5,-4.5) {\texttt{V}};
-    \node at (0.5,-5.5) {\texttt{E}};
+    \begin{tikzpicture}[scale=.65]
+        \begin{scope}
+            %\fill [color=lightgray] (5, -3) rectangle (6, -4);
+            \draw (1, -1) grid (7, -6);
 
-    \node at (2.5,-0.5) {\texttt{M}};
-    \node at (3.5,-0.5) {\texttt{O}};
-    \node at (4.5,-0.5) {\texttt{V}};
-    \node at (5.5,-0.5) {\texttt{I}};
-    \node at (6.5,-0.5) {\texttt{E}};
+            \node at (0.5,-2.5) {\texttt{L}};
+            \node at (0.5,-3.5) {\texttt{O}};
+            \node at (0.5,-4.5) {\texttt{V}};
+            \node at (0.5,-5.5) {\texttt{E}};
 
-    \node at (1.5,-1.5) {$0$};
-    \node at (1.5,-2.5) {$1$};
-    \node at (1.5,-3.5) {$2$};
-    \node at (1.5,-4.5) {$3$};
-    \node at (1.5,-5.5) {$4$};
-    \node at (2.5,-1.5) {$1$};
-    \node at (2.5,-2.5) {$1$};
-    \node at (2.5,-3.5) {$2$};
-    \node at (2.5,-4.5) {$3$};
-    \node at (2.5,-5.5) {$4$};
-    \node at (3.5,-1.5) {$2$};
-    \node at (3.5,-2.5) {$2$};
-    \node at (3.5,-3.5) {$1$};
-    \node at (3.5,-4.5) {$2$};
-    \node at (3.5,-5.5) {$3$};
-    \node at (4.5,-1.5) {$3$};
-    \node at (4.5,-2.5) {$3$};
-    \node at (4.5,-3.5) {$2$};
-    \node at (4.5,-4.5) {$1$};
-    \node at (4.5,-5.5) {$2$};
-    \node at (5.5,-1.5) {$4$};
-    \node at (5.5,-2.5) {$4$};
-    \node at (5.5,-3.5) {$3$};
-    \node at (5.5,-4.5) {$2$};
-    \node at (5.5,-5.5) {$2$};
-    \node at (6.5,-1.5) {$5$};
-    \node at (6.5,-2.5) {$5$};
-    \node at (6.5,-3.5) {$4$};
-    \node at (6.5,-4.5) {$3$};
-    \node at (6.5,-5.5) {$2$};
-  \end{scope}
-\end{tikzpicture}
+            \node at (2.5,-0.5) {\texttt{M}};
+            \node at (3.5,-0.5) {\texttt{O}};
+            \node at (4.5,-0.5) {\texttt{V}};
+            \node at (5.5,-0.5) {\texttt{I}};
+            \node at (6.5,-0.5) {\texttt{E}};
+
+            \node at (1.5,-1.5) {$0$};
+            \node at (1.5,-2.5) {$1$};
+            \node at (1.5,-3.5) {$2$};
+            \node at (1.5,-4.5) {$3$};
+            \node at (1.5,-5.5) {$4$};
+            \node at (2.5,-1.5) {$1$};
+            \node at (2.5,-2.5) {$1$};
+            \node at (2.5,-3.5) {$2$};
+            \node at (2.5,-4.5) {$3$};
+            \node at (2.5,-5.5) {$4$};
+            \node at (3.5,-1.5) {$2$};
+            \node at (3.5,-2.5) {$2$};
+            \node at (3.5,-3.5) {$1$};
+            \node at (3.5,-4.5) {$2$};
+            \node at (3.5,-5.5) {$3$};
+            \node at (4.5,-1.5) {$3$};
+            \node at (4.5,-2.5) {$3$};
+            \node at (4.5,-3.5) {$2$};
+            \node at (4.5,-4.5) {$1$};
+            \node at (4.5,-5.5) {$2$};
+            \node at (5.5,-1.5) {$4$};
+            \node at (5.5,-2.5) {$4$};
+            \node at (5.5,-3.5) {$3$};
+            \node at (5.5,-4.5) {$2$};
+            \node at (5.5,-5.5) {$2$};
+            \node at (6.5,-1.5) {$5$};
+            \node at (6.5,-2.5) {$5$};
+            \node at (6.5,-3.5) {$4$};
+            \node at (6.5,-4.5) {$3$};
+            \node at (6.5,-5.5) {$2$};
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 La esquina inferior derecha de la tabla
@@ -872,57 +860,57 @@ la secuencia más corta de operaciones de edición.
 En este caso, el camino es el siguiente:
 
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-  \begin{scope}
-    \draw (1, -1) grid (7, -6);
-    
-    \node at (0.5,-2.5) {\texttt{L}};
-    \node at (0.5,-3.5) {\texttt{O}};
-    \node at (0.5,-4.5) {\texttt{V}};
-    \node at (0.5,-5.5) {\texttt{E}};
+    \begin{tikzpicture}[scale=.65]
+        \begin{scope}
+            \draw (1, -1) grid (7, -6);
 
-    \node at (2.5,-0.5) {\texttt{M}};
-    \node at (3.5,-0.5) {\texttt{O}};
-    \node at (4.5,-0.5) {\texttt{V}};
-    \node at (5.5,-0.5) {\texttt{I}};
-    \node at (6.5,-0.5) {\texttt{E}};
+            \node at (0.5,-2.5) {\texttt{L}};
+            \node at (0.5,-3.5) {\texttt{O}};
+            \node at (0.5,-4.5) {\texttt{V}};
+            \node at (0.5,-5.5) {\texttt{E}};
 
-    \node at (1.5,-1.5) {$0$};
-    \node at (1.5,-2.5) {$1$};
-    \node at (1.5,-3.5) {$2$};
-    \node at (1.5,-4.5) {$3$};
-    \node at (1.5,-5.5) {$4$};
-    \node at (2.5,-1.5) {$1$};
-    \node at (2.5,-2.5) {$1$};
-    \node at (2.5,-3.5) {$2$};
-    \node at (2.5,-4.5) {$3$};
-    \node at (2.5,-5.5) {$4$};
-    \node at (3.5,-1.5) {$2$};
-    \node at (3.5,-2.5) {$2$};
-    \node at (3.5,-3.5) {$1$};
-    \node at (3.5,-4.5) {$2$};
-    \node at (3.5,-5.5) {$3$};
-    \node at (4.5,-1.5) {$3$};
-    \node at (4.5,-2.5) {$3$};
-    \node at (4.5,-3.5) {$2$};
-    \node at (4.5,-4.5) {$1$};
-    \node at (4.5,-5.5) {$2$};
-    \node at (5.5,-1.5) {$4$};
-    \node at (5.5,-2.5) {$4$};
-    \node at (5.5,-3.5) {$3$};
-    \node at (5.5,-4.5) {$2$};
-    \node at (5.5,-5.5) {$2$};
-    \node at (6.5,-1.5) {$5$};
-    \node at (6.5,-2.5) {$5$};
-    \node at (6.5,-3.5) {$4$};
-    \node at (6.5,-4.5) {$3$};
-    \node at (6.5,-5.5) {$2$};
+            \node at (2.5,-0.5) {\texttt{M}};
+            \node at (3.5,-0.5) {\texttt{O}};
+            \node at (4.5,-0.5) {\texttt{V}};
+            \node at (5.5,-0.5) {\texttt{I}};
+            \node at (6.5,-0.5) {\texttt{E}};
 
-    \path[draw=red,thick,-,line width=2pt] (6.5,-5.5) -- (5.5,-4.5);
-    \path[draw=red,thick,-,line width=2pt] (5.5,-4.5) -- (4.5,-4.5);
-    \path[draw=red,thick,->,line width=2pt] (4.5,-4.5) -- (1.5,-1.5);
-  \end{scope}
-\end{tikzpicture}
+            \node at (1.5,-1.5) {$0$};
+            \node at (1.5,-2.5) {$1$};
+            \node at (1.5,-3.5) {$2$};
+            \node at (1.5,-4.5) {$3$};
+            \node at (1.5,-5.5) {$4$};
+            \node at (2.5,-1.5) {$1$};
+            \node at (2.5,-2.5) {$1$};
+            \node at (2.5,-3.5) {$2$};
+            \node at (2.5,-4.5) {$3$};
+            \node at (2.5,-5.5) {$4$};
+            \node at (3.5,-1.5) {$2$};
+            \node at (3.5,-2.5) {$2$};
+            \node at (3.5,-3.5) {$1$};
+            \node at (3.5,-4.5) {$2$};
+            \node at (3.5,-5.5) {$3$};
+            \node at (4.5,-1.5) {$3$};
+            \node at (4.5,-2.5) {$3$};
+            \node at (4.5,-3.5) {$2$};
+            \node at (4.5,-4.5) {$1$};
+            \node at (4.5,-5.5) {$2$};
+            \node at (5.5,-1.5) {$4$};
+            \node at (5.5,-2.5) {$4$};
+            \node at (5.5,-3.5) {$3$};
+            \node at (5.5,-4.5) {$2$};
+            \node at (5.5,-5.5) {$2$};
+            \node at (6.5,-1.5) {$5$};
+            \node at (6.5,-2.5) {$5$};
+            \node at (6.5,-3.5) {$4$};
+            \node at (6.5,-4.5) {$3$};
+            \node at (6.5,-5.5) {$2$};
+
+            \path[draw=red,thick,-,line width=2pt] (6.5,-5.5) -- (5.5,-4.5);
+            \path[draw=red,thick,-,line width=2pt] (5.5,-4.5) -- (4.5,-4.5);
+            \path[draw=red,thick,->,line width=2pt] (4.5,-4.5) -- (1.5,-1.5);
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 Los últimos caracteres de \texttt{LOVE} y \texttt{MOVIE}
@@ -930,10 +918,10 @@ son iguales, por lo que la distancia de edición entre ellos
 es igual a la distancia de edición entre \texttt{LOV} y \texttt{MOVI}.
 Podemos usar una operación de edición para eliminar el
 carácter \texttt{I} de \texttt{MOVI}.
-Por lo tanto, la distancia de edición es una unidad mayor que
+Por lo tanto, la distancia de edición es 1 mayor que
 la distancia de edición entre \texttt{LOV} y \texttt{MOV}, etc.
 
-\section{Contando formas de colocar baldosas}
+\section{Contar formas de colocar baldosas}
 
 A veces los estados de una solución de programación dinámica
 son más complejos que combinaciones fijas de números.
@@ -945,25 +933,25 @@ baldosas de tamaño $1 \times 2$ y $2 \times 1$.
 Por ejemplo, una solución válida
 para la cuadrícula de $4 \times 7$ es
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-    \draw (0,0) grid (7,4);
-    \draw[fill=gray] (0+0.2,0+0.2) rectangle (2-0.2,1-0.2);
-    \draw[fill=gray] (2+0.2,0+0.2) rectangle (4-0.2,1-0.2);
-    \draw[fill=gray] (4+0.2,0+0.2) rectangle (6-0.2,1-0.2);
-    \draw[fill=gray] (0+0.2,1+0.2) rectangle (2-0.2,2-0.2);
-    \draw[fill=gray] (2+0.2,1+0.2) rectangle (4-0.2,2-0.2);
-    \draw[fill=gray] (1+0.2,2+0.2) rectangle (3-0.2,3-0.2);
-    \draw[fill=gray] (1+0.2,3+0.2) rectangle (3-0.2,4-0.2);
-    \draw[fill=gray] (4+0.2,3+0.2) rectangle (6-0.2,4-0.2);
+    \begin{tikzpicture}[scale=.65]
+        \draw (0,0) grid (7,4);
+        \draw[fill=gray] (0+0.2,0+0.2) rectangle (2-0.2,1-0.2);
+        \draw[fill=gray] (2+0.2,0+0.2) rectangle (4-0.2,1-0.2);
+        \draw[fill=gray] (4+0.2,0+0.2) rectangle (6-0.2,1-0.2);
+        \draw[fill=gray] (0+0.2,1+0.2) rectangle (2-0.2,2-0.2);
+        \draw[fill=gray] (2+0.2,1+0.2) rectangle (4-0.2,2-0.2);
+        \draw[fill=gray] (1+0.2,2+0.2) rectangle (3-0.2,3-0.2);
+        \draw[fill=gray] (1+0.2,3+0.2) rectangle (3-0.2,4-0.2);
+        \draw[fill=gray] (4+0.2,3+0.2) rectangle (6-0.2,4-0.2);
 
-    \draw[fill=gray] (0+0.2,2+0.2) rectangle (1-0.2,4-0.2);
-    \draw[fill=gray] (3+0.2,2+0.2) rectangle (4-0.2,4-0.2);
-    \draw[fill=gray] (6+0.2,2+0.2) rectangle (7-0.2,4-0.2);
-    \draw[fill=gray] (4+0.2,1+0.2) rectangle (5-0.2,3-0.2);
-    \draw[fill=gray] (5+0.2,1+0.2) rectangle (6-0.2,3-0.2);
-    \draw[fill=gray] (6+0.2,0+0.2) rectangle (7-0.2,2-0.2);
+        \draw[fill=gray] (0+0.2,2+0.2) rectangle (1-0.2,4-0.2);
+        \draw[fill=gray] (3+0.2,2+0.2) rectangle (4-0.2,4-0.2);
+        \draw[fill=gray] (6+0.2,2+0.2) rectangle (7-0.2,4-0.2);
+        \draw[fill=gray] (4+0.2,1+0.2) rectangle (5-0.2,3-0.2);
+        \draw[fill=gray] (5+0.2,1+0.2) rectangle (6-0.2,3-0.2);
+        \draw[fill=gray] (6+0.2,0+0.2) rectangle (7-0.2,2-0.2);
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
 y el número total de soluciones es 781.
 
@@ -974,18 +962,15 @@ cadena que contiene $m$ caracteres del conjunto
 $\{\sqcap, \sqcup, \sqsubset, \sqsupset \}$.
 Por ejemplo, la solución anterior consta de cuatro filas
 que corresponden a las siguientes cadenas:
+
 \begin{itemize}
-\item
-$\sqcap \sqsubset \sqsupset \sqcap \sqsubset \sqsupset \sqcap$
-\item
-$\sqcup \sqsubset \sqsupset \sqcup \sqcap \sqcap \sqcup$
-\item
-$\sqsubset \sqsupset \sqsubset \sqsupset \sqcup \sqcup \sqcap$ 
-\item
-$\sqsubset \sqsupset \sqsubset \sqsupset \sqsubset \sqsupset \sqcup$
+    \item $\sqcap \sqsubset \sqsupset \sqcap \sqsubset \sqsupset \sqcap$
+    \item $\sqcup \sqsubset \sqsupset \sqcup \sqcap \sqcap \sqcup$
+    \item $\sqsubset \sqsupset \sqsubset \sqsupset \sqcup \sqcup \sqcap$
+    \item $\sqsubset \sqsupset \sqsubset \sqsupset \sqsubset \sqsupset \sqcup$
 \end{itemize}
 
-Sea $\texttt{count}(k,x)$ el número de formas de
+Sea $\texttt{contar}(k,x)$ el número de formas de
 construir una solución para las filas $1 \ldots k$
 de la cuadrícula de tal manera que la cadena $x$ corresponda a la fila $k$.
 Es posible utilizar programación dinámica aquí,
@@ -1023,21 +1008,20 @@ columnas de la fila anterior se encuentra el cuadrado superior
 de una baldosa vertical.
 Así, podemos representar una fila usando únicamente caracteres
 $\sqcap$ y $\Box$, donde $\Box$ es una combinación
-de caracteres
+de los caracteres
 $\sqcup$, $\sqsubset$ y $\sqsupset$.
 Usando esta representación, hay solamente
-$2^m$ filas distintas y la complejidad de tiempo es
-$O(n 2^{2m})$.
+$2^m$ filas distintas y la complejidad es $O(n 2^{2m})$.
 
 Como nota final, también hay una sorprendente fórmula directa
-para calcular el número de forma de colocar baldosas\footnote{Sorprendentemente,
-esta fórmula fue descubierta en 1961 por dos equipos de investigación \cite{kas61,tem61}
-que trabajaron independientemente.}:
+para calcular el número de forma de colocar baldosas:\footnote{Sorprendentemente,
+    esta fórmula fue descubierta en 1961 por dos equipos de investigación \cite{kas61,tem61}
+    que trabajaban independientemente.}
 \[ \prod_{a=1}^{\lceil n/2 \rceil} \prod_{b=1}^{\lceil m/2 \rceil} 4 \cdot (\cos^2 \frac{\pi a}{n + 1} + \cos^2 \frac{\pi b}{m+1})\]
 Esta fórmula es muy eficiente, ya que calcula
-el número de baldosas en $O(nm)$ tiempo,
+el número de baldosas en tiempo $O(nm)$,
 pero dado que la respuesta es un producto de números reales,
 un problema al usar la fórmula es
-cómo almacenar los resultados intermedios de manera precisa.
+cómo almacenar los resultados intermedios precisamente.
 
 

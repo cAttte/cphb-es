@@ -2,22 +2,22 @@
 
 \index{ordenamiento}
 
-\key{Ordenamiento}
+El \key{ordenamiento}
 es un problema fundamental en el diseño de algoritmos.
 Muchos algoritmos eficientes
 usan el ordenamiento como una subrutina,
 ya que a menudo es más fácil procesar
 datos si los elementos están en orden.
 
-Por ejemplo, el problema "¿un arreglo contiene
+Por ejemplo, el problema que pregunta "¿un arreglo contiene
 dos elementos iguales?" es fácil de resolver usando ordenamiento.
 Si el arreglo contiene dos elementos iguales,
 estarán uno al lado del otro después de ordenar,
 así que es fácil encontrarlos.
-Además, el problema "¿cuál es el elemento más frecuente
+Otro problema que pregunta "¿cuál es el elemento más frecuente
 en un arreglo?" se puede resolver de manera similar.
 
-Hay muchos algoritmos para ordenar, y también son
+Hay muchos algoritmos de ordenamiento, y también son
 buenos ejemplos de cómo aplicar
 diferentes técnicas de diseño de algoritmos.
 Los algoritmos generales de ordenamiento eficientes
@@ -30,39 +30,39 @@ tienen esta complejidad de tiempo.
 
 El problema básico en el ordenamiento es el siguiente:
 \begin{framed}
-\noindent
-Dado un arreglo que contiene $n$ elementos,
-tu tarea es ordenar los elementos
-en orden ascendente.
+    \noindent
+    Dado un arreglo que contiene $n$ elementos,
+    tu tarea es ordenar los elementos
+    en orden ascendente.
 \end{framed}
 \noindent
 Por ejemplo, el arreglo
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$8$};
-\node at (3.5,0.5) {$2$};
-\node at (4.5,0.5) {$9$};
-\node at (5.5,0.5) {$2$};
-\node at (6.5,0.5) {$5$};
-\node at (7.5,0.5) {$6$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$8$};
+        \node at (3.5,0.5) {$2$};
+        \node at (4.5,0.5) {$9$};
+        \node at (5.5,0.5) {$2$};
+        \node at (6.5,0.5) {$5$};
+        \node at (7.5,0.5) {$6$};
+    \end{tikzpicture}
 \end{center}
-será como sigue después de ordenar:
+será así después de ordenar:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$3$};
-\node at (4.5,0.5) {$5$};
-\node at (5.5,0.5) {$6$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$9$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$3$};
+        \node at (4.5,0.5) {$5$};
+        \node at (5.5,0.5) {$6$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$9$};
+    \end{tikzpicture}
 \end{center}
 
 \subsubsection{Algoritmos $O(n^2)$}
@@ -75,9 +75,9 @@ Estos algoritmos son cortos y generalmente
 consisten en dos bucles anidados.
 Un famoso algoritmo de ordenamiento en tiempo $O(n^2)$
 es el \key{ordenamiento burbuja}, donde los elementos
-''burbujean'' en el arreglo según sus valores.
+``burbujean'' en el arreglo según sus valores.
 
-Bubble sort consta de $n$ rondas.
+El ordenamiento burbuja consta de $n$ rondas.
 En cada ronda, el algoritmo itera a través
 de los elementos del arreglo.
 Siempre que se encuentran dos elementos consecutivos
@@ -86,9 +86,9 @@ el algoritmo los intercambia.
 El algoritmo se puede implementar de la siguiente manera:
 \begin{lstlisting}
 for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n-1; j++) {
-        if (array[j] > array[j+1]) {
-            swap(array[j],array[j+1]);
+    for (int j = 0; j < n - 1; j++) {
+        if (arreglo[j] > arreglo[j+1]) {
+            swap(arreglo[j], arreglo[j+1]);
         }
     }
 }
@@ -104,93 +104,92 @@ estará ordenado.
 Por ejemplo, en el arreglo
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
 
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$8$};
-\node at (3.5,0.5) {$2$};
-\node at (4.5,0.5) {$9$};
-\node at (5.5,0.5) {$2$};
-\node at (6.5,0.5) {$5$};
-\node at (7.5,0.5) {$6$};
-\end{tikzpicture}
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$8$};
+        \node at (3.5,0.5) {$2$};
+        \node at (4.5,0.5) {$9$};
+        \node at (5.5,0.5) {$2$};
+        \node at (6.5,0.5) {$5$};
+        \node at (7.5,0.5) {$6$};
+    \end{tikzpicture}
 \end{center}
 
 \noindent
-la primera ronda de bubble sort intercambia elementos
-como sigue:
+la primera ronda de bubble sort intercambia elementos así:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$8$};
-\node at (4.5,0.5) {$9$};
-\node at (5.5,0.5) {$2$};
-\node at (6.5,0.5) {$5$};
-\node at (7.5,0.5) {$6$};
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$8$};
+        \node at (4.5,0.5) {$9$};
+        \node at (5.5,0.5) {$2$};
+        \node at (6.5,0.5) {$5$};
+        \node at (7.5,0.5) {$6$};
 
-\draw[thick,<->] (3.5,-0.25) .. controls (3.25,-1.00) and (2.75,-1.00) .. (2.5,-0.25);
-\end{tikzpicture}
+        \draw[thick,<->] (3.5,-0.25) .. controls (3.25,-1.00) and (2.75,-1.00) .. (2.5,-0.25);
+    \end{tikzpicture}
 \end{center}
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$8$};
-\node at (4.5,0.5) {$2$};
-\node at (5.5,0.5) {$9$};
-\node at (6.5,0.5) {$5$};
-\node at (7.5,0.5) {$6$};
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$8$};
+        \node at (4.5,0.5) {$2$};
+        \node at (5.5,0.5) {$9$};
+        \node at (6.5,0.5) {$5$};
+        \node at (7.5,0.5) {$6$};
 
-\draw[thick,<->] (5.5,-0.25) .. controls (5.25,-1.00) and (4.75,-1.00) .. (4.5,-0.25);
-\end{tikzpicture}
+        \draw[thick,<->] (5.5,-0.25) .. controls (5.25,-1.00) and (4.75,-1.00) .. (4.5,-0.25);
+    \end{tikzpicture}
 \end{center}
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$8$};
-\node at (4.5,0.5) {$2$};
-\node at (5.5,0.5) {$5$};
-\node at (6.5,0.5) {$9$};
-\node at (7.5,0.5) {$6$};
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$8$};
+        \node at (4.5,0.5) {$2$};
+        \node at (5.5,0.5) {$5$};
+        \node at (6.5,0.5) {$9$};
+        \node at (7.5,0.5) {$6$};
 
-\draw[thick,<->] (6.5,-0.25) .. controls (6.25,-1.00) and (5.75,-1.00) .. (5.5,-0.25);
-\end{tikzpicture}
+        \draw[thick,<->] (6.5,-0.25) .. controls (6.25,-1.00) and (5.75,-1.00) .. (5.5,-0.25);
+    \end{tikzpicture}
 \end{center}
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$8$};
-\node at (4.5,0.5) {$2$};
-\node at (5.5,0.5) {$5$};
-\node at (6.5,0.5) {$6$};
-\node at (7.5,0.5) {$9$};
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$8$};
+        \node at (4.5,0.5) {$2$};
+        \node at (5.5,0.5) {$5$};
+        \node at (6.5,0.5) {$6$};
+        \node at (7.5,0.5) {$9$};
 
-\draw[thick,<->] (7.5,-0.25) .. controls (7.25,-1.00) and (6.75,-1.00) .. (6.5,-0.25);
-\end{tikzpicture}
+        \draw[thick,<->] (7.5,-0.25) .. controls (7.25,-1.00) and (6.75,-1.00) .. (6.5,-0.25);
+    \end{tikzpicture}
 \end{center}
 
 \subsubsection{Inversiones}
 
 \index{inversión}
 
-Bubble sort es un ejemplo de un algoritmo de ordenamiento
+El ordenamiento burbuja es un ejemplo de un algoritmo de ordenamiento
 que siempre intercambia elementos \emph{consecutivos}
 en el arreglo.
 Resulta que la complejidad temporal
@@ -198,25 +197,25 @@ de tal algoritmo es \emph{siempre}
 al menos $O(n^2)$, porque en el peor caso,
 se requieren $O(n^2)$ intercambios para ordenar el arreglo.
 
-Un concepto útil al analizar algoritmos de ordenamiento
+\pagebreak Un concepto útil al analizar algoritmos de ordenamiento
 es una \key{inversión}:
 un par de elementos del arreglo
-$(\texttt{array}[a],\texttt{array}[b])$ tal que
-$a<b$ y $\texttt{array}[a]>\texttt{array}[b]$,
+$(\texttt{arreglo}[a], \texttt{arreglo}[b])$ tal que
+$a<b$ y $\texttt{arreglo}[a]>\texttt{arreglo}[b]$,
 es decir, los elementos están en el orden incorrecto.
 Por ejemplo, el arreglo
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$6$};
-\node at (4.5,0.5) {$3$};
-\node at (5.5,0.5) {$5$};
-\node at (6.5,0.5) {$9$};
-\node at (7.5,0.5) {$8$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$6$};
+        \node at (4.5,0.5) {$3$};
+        \node at (5.5,0.5) {$5$};
+        \node at (6.5,0.5) {$9$};
+        \node at (7.5,0.5) {$8$};
+    \end{tikzpicture}
 \end{center}
 tiene tres inversiones: $(6,3)$, $(6,5)$ y $(9,8)$.
 El número de inversiones indica
@@ -236,103 +235,105 @@ intercambiar elementos consecutivos, cada intercambio elimina
 como máximo una inversión, y la complejidad en tiempo
 del algoritmo es al menos $O(n^2)$.
 
-\subsubsection{$O(n \log n)$ algoritmos}
+\subsubsection{Algoritmos en $O(n \log n)$}
 
 \index{ordenamiento por mezcla}
 
 Es posible ordenar un arreglo de manera eficiente
 en tiempo $O(n \log n)$ utilizando algoritmos
 que no se limitan a intercambiar elementos consecutivos.
-Un algoritmo de este tipo es el \key{ordenamiento por mezcla}\footnote{Según \cite{knu983},
-el ordenamiento por mezcla fue inventado por J. von Neumann en 1945.},
+Un algoritmo de este tipo es el \key{ordenamiento por mezcla}
+\footnote{Según \cite{knu983}, el ordenamiento por mezcla fue
+    inventado por J. von Neumann en 1945.} (\textit{merge sort}),
 que se basa en la recursión.
 
-El ordenamiento por mezcla ordena un subarreglo \texttt{array}$[a \ldots b]$ de la siguiente manera:
+El ordenamiento por mezcla ordena un subarreglo
+\texttt{arreglo}$[a \ldots b]$ de la siguiente manera:
 
 \begin{enumerate}
-\item Si $a=b$, no hacer nada, porque el subarreglo ya está ordenado.
-\item Calcular la posición del elemento medio: $k=\lfloor (a+b)/2 \rfloor$.
-\item Ordenar recursivamente el subarreglo \texttt{array}$[a \ldots k]$.
-\item Ordenar recursivamente el subarreglo \texttt{array}$[k+1 \ldots b]$.
-\item \emph{Mezclar} los subarreglos ordenados \texttt{array}$[a \ldots k]$ y
-\texttt{array}$[k+1 \ldots b]$
-en un subarreglo ordenado \texttt{array}$[a \ldots b]$.
+    \item Si $a=b$, no hacer nada, porque el subarreglo ya está ordenado.
+    \item Calcular la posición del elemento medio: $k=\lfloor \frac{a+b}{2} \rfloor$.
+    \item Ordenar recursivamente el subarreglo izquierdo \texttt{arreglo}$[a \ldots k]$.
+    \item Ordenar recursivamente el subarreglo derecho \texttt{arreglo}$[k+1 \ldots b]$.
+    \item \emph{Mezclar} los subarreglos ordenados \texttt{arreglo}$[a \ldots k]$ y
+          \texttt{arreglo}$[k+1 \ldots b]$ en un subarreglo ordenado
+          \texttt{arreglo}$[a \ldots b]$.
 \end{enumerate}
 
 El ordenamiento por mezcla es un algoritmo eficiente, ya que
 reduce a la mitad el tamaño del subarreglo en cada paso.
 La recursión consta de $O(\log n)$ niveles,
-y procesar cada nivel toma $O(n)$ tiempo.
-Mezclar los subarreglos \texttt{array}$[a \ldots k]$ y \texttt{array}$[k+1 \ldots b]$
+y procesar cada nivel toma tiempo $O(n)$.
+Mezclar los subarreglos \texttt{arreglo}$[a \ldots k]$ y
+\texttt{arreglo}$[k+1 \ldots b]$
 es posible en tiempo lineal, porque ya están ordenados.
 
-Por ejemplo, considere ordenar el siguiente arreglo:
+Por ejemplo, considera ordenar el siguiente arreglo:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$2$};
-\node at (4.5,0.5) {$8$};
-\node at (5.5,0.5) {$2$};
-\node at (6.5,0.5) {$5$};
-\node at (7.5,0.5) {$9$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$2$};
+        \node at (4.5,0.5) {$8$};
+        \node at (5.5,0.5) {$2$};
+        \node at (6.5,0.5) {$5$};
+        \node at (7.5,0.5) {$9$};
+    \end{tikzpicture}
 \end{center}
 
 El arreglo se dividirá en dos subarreglos
 de la siguiente manera:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (4,1);
-\draw (5,0) grid (9,1);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (4,1);
+        \draw (5,0) grid (9,1);
 
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$2$};
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$2$};
 
-\node at (5.5,0.5) {$8$};
-\node at (6.5,0.5) {$2$};
-\node at (7.5,0.5) {$5$};
-\node at (8.5,0.5) {$9$};
-\end{tikzpicture}
+        \node at (5.5,0.5) {$8$};
+        \node at (6.5,0.5) {$2$};
+        \node at (7.5,0.5) {$5$};
+        \node at (8.5,0.5) {$9$};
+    \end{tikzpicture}
 \end{center}
 
-Entonces, los subarreglos se ordenarán recursivamente
+Luego, los subarreglos se ordenarán recursivamente
 de la siguiente manera:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (4,1);
-\draw (5,0) grid (9,1);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (4,1);
+        \draw (5,0) grid (9,1);
 
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$3$};
-\node at (3.5,0.5) {$6$};
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$3$};
+        \node at (3.5,0.5) {$6$};
 
-\node at (5.5,0.5) {$2$};
-\node at (6.5,0.5) {$5$};
-\node at (7.5,0.5) {$8$};
-\node at (8.5,0.5) {$9$};
-\end{tikzpicture}
+        \node at (5.5,0.5) {$2$};
+        \node at (6.5,0.5) {$5$};
+        \node at (7.5,0.5) {$8$};
+        \node at (8.5,0.5) {$9$};
+    \end{tikzpicture}
 \end{center}
 
-Finalmente, el algoritmo combina los subarreglos ordenados
-y crea el arreglo ordenado final:
+Finalmente, estos se combinan para crear el arreglo ordenado final:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$3$};
-\node at (4.5,0.5) {$5$};
-\node at (5.5,0.5) {$6$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$9$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$3$};
+        \node at (4.5,0.5) {$5$};
+        \node at (5.5,0.5) {$6$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$9$};
+    \end{tikzpicture}
 \end{center}
 
 \subsubsection{Cota inferior de ordenamiento}
@@ -350,45 +351,45 @@ proporciona más información sobre el contenido del arreglo.
 El proceso crea el siguiente árbol:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) rectangle (3,1);
-\node at (1.5,0.5) {$x < y?$};
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) rectangle (3,1);
+        \node at (1.5,0.5) {$x < y?$};
 
-\draw[thick,->] (1.5,0) -- (-2.5,-1.5);
-\draw[thick,->] (1.5,0) -- (5.5,-1.5);
+        \draw[thick,->] (1.5,0) -- (-2.5,-1.5);
+        \draw[thick,->] (1.5,0) -- (5.5,-1.5);
 
-\draw (-4,-2.5) rectangle (-1,-1.5);
-\draw (4,-2.5) rectangle (7,-1.5);
-\node at (-2.5,-2) {$x < y?$};
-\node at (5.5,-2) {$x < y?$};
+        \draw (-4,-2.5) rectangle (-1,-1.5);
+        \draw (4,-2.5) rectangle (7,-1.5);
+        \node at (-2.5,-2) {$x < y?$};
+        \node at (5.5,-2) {$x < y?$};
 
-\draw[thick,->] (-2.5,-2.5) -- (-4.5,-4);
-\draw[thick,->] (-2.5,-2.5) -- (-0.5,-4);
-\draw[thick,->] (5.5,-2.5) -- (3.5,-4);
-\draw[thick,->] (5.5,-2.5) -- (7.5,-4);
+        \draw[thick,->] (-2.5,-2.5) -- (-4.5,-4);
+        \draw[thick,->] (-2.5,-2.5) -- (-0.5,-4);
+        \draw[thick,->] (5.5,-2.5) -- (3.5,-4);
+        \draw[thick,->] (5.5,-2.5) -- (7.5,-4);
 
-\draw (-6,-5) rectangle (-3,-4);
-\draw (-2,-5) rectangle (1,-4);
-\draw (2,-5) rectangle (5,-4);
-\draw (6,-5) rectangle (9,-4);
-\node at (-4.5,-4.5) {$x < y?$};
-\node at (-0.5,-4.5) {$x < y?$};
-\node at (3.5,-4.5) {$x < y?$};
-\node at (7.5,-4.5) {$x < y?$};
+        \draw (-6,-5) rectangle (-3,-4);
+        \draw (-2,-5) rectangle (1,-4);
+        \draw (2,-5) rectangle (5,-4);
+        \draw (6,-5) rectangle (9,-4);
+        \node at (-4.5,-4.5) {$x < y?$};
+        \node at (-0.5,-4.5) {$x < y?$};
+        \node at (3.5,-4.5) {$x < y?$};
+        \node at (7.5,-4.5) {$x < y?$};
 
-\draw[thick,->] (-4.5,-5) -- (-5.5,-6);
-\draw[thick,->] (-4.5,-5) -- (-3.5,-6);
-\draw[thick,->] (-0.5,-5) -- (0.5,-6);
-\draw[thick,->] (-0.5,-5) -- (-1.5,-6);
-\draw[thick,->] (3.5,-5) -- (2.5,-6);
-\draw[thick,->] (3.5,-5) -- (4.5,-6);
-\draw[thick,->] (7.5,-5) -- (6.5,-6);
-\draw[thick,->] (7.5,-5) -- (8.5,-6);
-\end{tikzpicture}
+        \draw[thick,->] (-4.5,-5) -- (-5.5,-6);
+        \draw[thick,->] (-4.5,-5) -- (-3.5,-6);
+        \draw[thick,->] (-0.5,-5) -- (0.5,-6);
+        \draw[thick,->] (-0.5,-5) -- (-1.5,-6);
+        \draw[thick,->] (3.5,-5) -- (2.5,-6);
+        \draw[thick,->] (3.5,-5) -- (4.5,-6);
+        \draw[thick,->] (7.5,-5) -- (6.5,-6);
+        \draw[thick,->] (7.5,-5) -- (8.5,-6);
+    \end{tikzpicture}
 \end{center}
 
-Aquí ''$x<y?$'' significa que algunos elementos
-$x$ y $y$ son comparados.
+Aquí ``$x<y?$'' significa que algunos elementos
+$x$ e $y$ son comparados.
 Si $x<y$, el proceso continúa a la izquierda,
 y en caso contrario a la derecha.
 Los resultados del proceso son las posibles
@@ -413,9 +414,9 @@ es al menos $n \log n$.
 La cota inferior $n \log n$ no se aplica a
 algoritmos que no comparan elementos del arreglo
 sino que utilizan alguna otra información.
-Un ejemplo de tal algoritmo es
-\key{ordenamiento por conteo} que ordena un arreglo en
-tiempo $O(n)$ suponiendo que cada elemento en el arreglo
+Un ejemplo de tal algoritmo es el
+\key{ordenamiento por conteo}, que ordena un arreglo en
+$O(n)$ suponiendo que cada elemento en el arreglo
 es un entero entre $0 \ldots c$ y $c=O(n)$.
 
 El algoritmo crea un arreglo de \emph{registro},
@@ -423,48 +424,47 @@ cuyos índices son elementos del arreglo original.
 El algoritmo itera a través del arreglo original
 y calcula cuántas veces aparece cada elemento
 en el arreglo.
-\newpage
 
 Por ejemplo, el arreglo
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (8,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$3$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$9$};
-\node at (4.5,0.5) {$9$};
-\node at (5.5,0.5) {$3$};
-\node at (6.5,0.5) {$5$};
-\node at (7.5,0.5) {$9$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (8,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$3$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$9$};
+        \node at (4.5,0.5) {$9$};
+        \node at (5.5,0.5) {$3$};
+        \node at (6.5,0.5) {$5$};
+        \node at (7.5,0.5) {$9$};
+    \end{tikzpicture}
 \end{center}
 corresponde al siguiente arreglo de registro:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (9,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$0$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$0$};
-\node at (4.5,0.5) {$1$};
-\node at (5.5,0.5) {$1$};
-\node at (6.5,0.5) {$0$};
-\node at (7.5,0.5) {$0$};
-\node at (8.5,0.5) {$3$};
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (9,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$0$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$0$};
+        \node at (4.5,0.5) {$1$};
+        \node at (5.5,0.5) {$1$};
+        \node at (6.5,0.5) {$0$};
+        \node at (7.5,0.5) {$0$};
+        \node at (8.5,0.5) {$3$};
 
-\footnotesize
+        \footnotesize
 
-\node at (0.5,1.5) {$1$};
-\node at (1.5,1.5) {$2$};
-\node at (2.5,1.5) {$3$};
-\node at (3.5,1.5) {$4$};
-\node at (4.5,1.5) {$5$};
-\node at (5.5,1.5) {$6$};
-\node at (6.5,1.5) {$7$};
-\node at (7.5,1.5) {$8$};
-\node at (8.5,1.5) {$9$};
-\end{tikzpicture}
+        \node at (0.5,1.5) {$1$};
+        \node at (1.5,1.5) {$2$};
+        \node at (2.5,1.5) {$3$};
+        \node at (3.5,1.5) {$4$};
+        \node at (4.5,1.5) {$5$};
+        \node at (5.5,1.5) {$6$};
+        \node at (6.5,1.5) {$7$};
+        \node at (7.5,1.5) {$8$};
+        \node at (8.5,1.5) {$9$};
+    \end{tikzpicture}
 \end{center}
 
 Por ejemplo, el valor en la posición 3
@@ -492,7 +492,7 @@ usarse como índices en el arreglo de registro.
 Casi nunca es una buena idea usar
 un algoritmo de ordenamiento casero
 en un concurso, porque hay buenas
-implementaciones disponibles en los lenguajes de programación.
+implementaciones disponibles en cada lenguaje de programación.
 Por ejemplo, la biblioteca estándar de C++ contiene
 la función \texttt{sort} que se puede utilizar fácilmente para
 ordenar arreglos y otras estructuras de datos.
@@ -502,15 +502,15 @@ En primer lugar, ahorra tiempo porque no hay necesidad de
 implementar la función.
 En segundo lugar, la implementación de la biblioteca es
 ciertamente correcta y eficiente: no es probable
-que una función de ordenamiento casera sea mejor.
+que una función casera sea mejor.
 
 En esta sección veremos cómo utilizar la
 función \texttt{sort} de C++.
 El siguiente código ordena
 un vector en orden creciente:
 \begin{lstlisting}
-vector<int> v = {4,2,5,3,5,8,3};
-sort(v.begin(),v.end());
+vector<int> v = {4, 2, 5, 3, 5, 8, 3};
+sort(v.begin(), v.end());
 \end{lstlisting}
 Después del ordenamiento, el contenido del
 vector será
@@ -518,23 +518,25 @@ $[2,3,3,4,5,5,8]$.
 El orden de clasificación predeterminado es creciente,
 pero un orden inverso es posible de la siguiente manera:
 \begin{lstlisting}
-sort(v.rbegin(),v.rend());
+sort(v.rbegin(), v.rend());
 \end{lstlisting}
+
 Se puede ordenar un arreglo ordinario de la siguiente manera:
 \begin{lstlisting}
 int n = 7; // tamaño del arreglo
-int a[] = {4,2,5,3,5,8,3};
-sort(a,a+n);
+int a[] = {4, 2, 5, 3, 5, 8, 3};
+sort(a, a + n);
 \end{lstlisting}
-\newpage
+
+\noindent
 El siguiente código ordena la cadena \texttt{s}:
 \begin{lstlisting}
-string s = "monkey";
+string s = "monito";
 sort(s.begin(), s.end());
 \end{lstlisting}
 Ordenar una cadena significa que los caracteres
 de la cadena se ordenan.
-Por ejemplo, la cadena ''monkey'' se convierte en ''ekmnoy''.
+Por ejemplo, la cadena ``monito'' se convierte en ``imnoot''.
 
 \subsubsection{Operadores de comparación}
 
@@ -558,35 +560,38 @@ primeros elementos (\texttt{first}).
 Sin embargo, si los primeros elementos de dos pares son iguales,
 se ordenan según sus segundos elementos (\texttt{second}):
 \begin{lstlisting}
-vector<pair<int,int>> v;
-v.push_back({1,5});
-v.push_back({2,3});
-v.push_back({1,2});
+vector<pair<int, int>> v;
+v.push_back({1, 5});
+v.push_back({2, 3});
+v.push_back({1, 2});
 sort(v.begin(), v.end());
 \end{lstlisting}
 Después de esto, el orden de los pares es
 $(1,2)$, $(1,5)$ y $(2,3)$.
 
-\index{tupla@\texttt{tuple}}
+\index{tuple@\texttt{tuple}}
 
 De manera similar, las tuplas (\texttt{tuple})
 se ordenan principalmente por el primer elemento,
-secundariamente por el segundo elemento, etc.\footnote{Cabe mencionar que en algunos compiladores antiguos,
-la función \texttt{make\_tuple} debe utilizarse para crear una tupla en lugar de
-llaves (por ejemplo, \texttt{make\_tuple(2,1,4)} en lugar de \texttt{\{2,1,4\}}).}:
+secundariamente por el segundo elemento, etc.:\footnote{Cabe mencionar que en algunos compiladores antiguos,
+    la función \texttt{make\_tuple} debe utilizarse para crear una tupla en lugar de
+    llaves (por ejemplo, \texttt{make\_tuple(2,1,4)} en lugar de \texttt{\{2,1,4\}}).}
 \begin{lstlisting}
-vector<tuple<int,int,int>> v;
-v.push_back({2,1,4});
-v.push_back({1,5,3});
-v.push_back({2,1,3});
+vector<tuple<int, int, int>> v;
+v.push_back({2, 1, 4});
+v.push_back({1, 5, 3});
+v.push_back({2, 1, 3});
 sort(v.begin(), v.end());
 \end{lstlisting}
 Después de esto, el orden de las tuplas es
-$(1,5,3)$, $(2,1,3)$ y $(2,1,4)$.
+$(1, 5, 3)$, $(2, 1, 3)$ y $(2, 1, 4)$.
 
-\subsubsection{Structs definidos por el usuario}
+\subsubsection{Estructuras propias}
 
-Los structs definidos por el usuario no tienen un operador de comparación
+\index{struct@\texttt{struct}}
+
+Las estructuras (\texttt{struct}) definidas por el usuario
+no tienen un operador de comparación
 automáticamente.
 El operador debe definirse dentro
 del struct como una función
@@ -597,10 +602,10 @@ si el elemento es menor que el parámetro,
 y \texttt{false} en caso contrario.
 
 Por ejemplo, el siguiente struct \texttt{P}
-contiene las coordenadas x e y de un punto.
+contiene las coordenadas \texttt{x} e \texttt{y} de un punto.
 El operador de comparación se define de tal manera que
-los puntos se ordenan principalmente por la coordenada x
-y secundariamente por la coordenada y.
+los puntos se ordenan principalmente por la coordenada \texttt{x}
+y secundariamente por la coordenada \texttt{y}.
 
 \begin{lstlisting}
 struct P {
@@ -609,7 +614,7 @@ struct P {
         if (x != p.x) return x < p.x;
         else return y < p.y;
     }
-};
+}
 \end{lstlisting}
 
 \subsubsection{Funciones de comparación}
@@ -618,9 +623,9 @@ struct P {
 
 También es posible proporcionar una
 \key{función de comparación} externa a la función \texttt{sort}
-como una función de retrollamada.
+como una función de retrollamada (o \textit{callback}).
 Por ejemplo, la siguiente función de comparación \texttt{comp}
-ordena las cadenas de texto principalmente por longitud y en segundo lugar
+ordena las cadenas de texto principalmente por longitud y secundariamente
 por orden alfabético:
 
 \begin{lstlisting}
@@ -639,42 +644,42 @@ sort(v.begin(), v.end(), comp);
 \index{búsqueda binaria}
 
 Un método general para buscar un elemento
-en un array es usar un bucle \texttt{for}
-que itere a través de los elementos del array.
+en un arreglo es usar un bucle \texttt{for}
+que itere a través de los elementos del arreglo.
 Por ejemplo, el siguiente código busca
-un elemento $x$ en un array:
+un elemento $x$ en un arreglo:
 
 \begin{lstlisting}
 for (int i = 0; i < n; i++) {
-    if (array[i] == x) {
+    if (arreglo[i] == x) {
         // x encontrado en el índice i
     }
 }
 \end{lstlisting}
 
-La complejidad en tiempo de este enfoque es $O(n)$,
+La complejidad temporal de este método es $O(n)$,
 porque en el peor caso, es necesario verificar
-todos los elementos del array.
+todos los elementos del arreglo.
 Si el orden de los elementos es arbitrario,
-este es también el mejor enfoque posible, porque
+este también es el mejor método posible, porque
 no hay información adicional disponible sobre dónde
-en el array deberíamos buscar el elemento $x$.
+en el arreglo deberíamos buscar el elemento $x$.
 
-Sin embargo, si el array está \emph{ordenado},
+Sin embargo, si el arreglo está \emph{ordenado},
 la situación es diferente.
 En este caso, es posible realizar la
 búsqueda mucho más rápido, porque el orden de los
-elementos en el array guía la búsqueda.
+elementos en el arreglo guía la búsqueda.
 El siguiente algoritmo de \key{búsqueda binaria}
-busca eficientemente un elemento en un array ordenado
+busca eficientemente un elemento en un arreglo ordenado
 en tiempo $O(\log n)$.
 
 \subsubsection{Método 1}
 
 La forma habitual de implementar la búsqueda binaria
 se asemeja a buscar una palabra en un diccionario.
-La búsqueda mantiene una región activa en el array,
-que inicialmente contiene todos los elementos del array.
+La búsqueda mantiene una región activa en el arreglo,
+que inicialmente contiene todos los elementos del arreglo.
 Luego, se realizan una serie de pasos,
 cada uno de los cuales divide por la mitad el tamaño de la región.
 
@@ -688,14 +693,14 @@ dependiendo del valor del elemento central.
 
 La idea anterior se puede implementar de la siguiente manera:
 \begin{lstlisting}
-int a = 0, b = n-1;
+int a = 0, b = n - 1;
 while (a <= b) {
-    int k = (a+b)/2;
-    if (array[k] == x) {
+    int k = (a + b) / 2;
+    if (arreglo[k] == x) {
         // x encontrado en el índice k
     }
-    if (array[k] > x) b = k-1;
-    else a = k+1;
+    if (arreglo[k] > x) b = k - 1;
+    else a = k + 1;
 }
 \end{lstlisting}
 
@@ -708,24 +713,26 @@ por lo que la complejidad temporal es $O(\log n)$.
 
 Un método alternativo para implementar la búsqueda binaria
 se basa en una forma eficiente de iterar a través de
-los elementos del vector.
+los elementos del arreglo.
 La idea es hacer saltos y disminuir la velocidad
 cuando nos acercamos al elemento objetivo.
 
-La búsqueda recorre el vector de izquierda a
+La búsqueda recorre el arreglo de izquierda a
 derecha, y la longitud inicial del salto es $n/2$.
 En cada paso, la longitud del salto se dividirá a la mitad:
 primero $n/4$, luego $n/8$, $n/16$, etc., hasta
 que finalmente la longitud sea 1.
-Después de los saltos, ya sea que se haya encontrado el elemento objetivo o sepamos que no aparece en el vector.
+Después de los saltos, sabemos que se ha encontrado el elemento
+objetivo o que no aparece en el arreglo.
 
+\newpage
 El siguiente código implementa la idea anterior:
 \begin{lstlisting}
 int k = 0;
-for (int b = n/2; b >= 1; b /= 2) {
-    while (k+b < n && array[k+b] <= x) k += b;
+for (int b = n / 2; b >= 1; b /= 2) {
+    while (k + b < n && arreglo[k + b] <= x) k += b;
 }
-if (array[k] == x) {
+if (arreglo[k] == x) {
     // x encontrado en el índice k
 }
 \end{lstlisting}
@@ -738,47 +745,48 @@ se realiza como máximo dos veces para cada longitud de salto.
 
 \subsubsection{Funciones de C++}
 
-La biblioteca estándar de C++ contiene las siguientes funciones
+El encabezado \texttt{<algorithm>} de la biblioteca estándar
+de C++ contiene las siguientes funciones
 que se basan en la búsqueda binaria y funcionan en tiempo logarítmico:
 
 \begin{itemize}
-\item \texttt{lower\_bound} devuelve un puntero al
-primer elemento del vector cuyo valor es al menos $x$.
-\item \texttt{upper\_bound} devuelve un puntero al
-primer elemento del vector cuyo valor es mayor que $x$.
-\item \texttt{equal\_range} devuelve ambos punteros.
+    \item \texttt{lower\_bound} devuelve un puntero al
+          primer elemento del arreglo cuyo valor es al menos $x$.
+    \item \texttt{upper\_bound} devuelve un puntero al
+          primer elemento del arreglo cuyo valor es mayor que $x$.
+    \item \texttt{equal\_range} devuelve ambos punteros.
+    \item \texttt{binary\_search} encuentra el elemento $x$
+          en el arreglo.
 \end{itemize}
 
-Las funciones asumen que el vector está ordenado.
+Las funciones asumen que el arreglo está ordenado.
 Si no hay tal elemento, el puntero apunta al
-elemento después del último elemento del vector.
+elemento después del último elemento del arreglo.
 Por ejemplo, el siguiente código averigua si
-un vector contiene un elemento con valor $x$:
+un arreglo contiene un elemento con valor $x$:
 
 \begin{lstlisting}
-auto k = lower_bound(array,array+n,x)-array;
-if (k < n && array[k] == x) {
-    // x encontrado en el índice k
-}
+auto k = lower_bound(arreglo, arreglo + n, x) - arreglo;
+if (k < n && arreglo[k] == x) // x encontrado en el índice k
 \end{lstlisting}
 
-Luego, el siguiente código cuenta la cantidad de elementos
-cuyo valor es $x$:
+El siguiente código cuenta la cantidad de elementos
+cuyo valor es $x$ en un arreglo:
 
 \begin{lstlisting}
-auto a = lower_bound(array, array+n, x);
-auto b = upper_bound(array, array+n, x);
-cout << b-a << "\n";
+auto a = lower_bound(arreglo, arreglo + n, x);
+auto b = upper_bound(arreglo, arreglo + n, x);
+cout << b - a << "\n";
 \end{lstlisting}
 
 Usando \texttt{equal\_range}, el código se vuelve más corto:
 
 \begin{lstlisting}
-auto r = equal_range(array, array+n, x);
-cout << r.second-r.first << "\n";
+auto r = equal_range(arreglo, arreglo + n, x);
+cout << r.second - r.first << "\n";
 \end{lstlisting}
 
-\subsubsection{Encontrando la solución más pequeña}
+\subsubsection{Encontrar la solución más pequeña}
 
 Un uso importante para la búsqueda binaria es
 encontrar la posición en la que el valor de una \emph{función} cambia.
@@ -788,16 +796,16 @@ Se nos da una función $\texttt{ok}(x)$
 que devuelve \texttt{true} si $x$ es una solución válida
 y \texttt{false} en caso contrario.
 Además, sabemos que $\texttt{ok}(x)$ es \texttt{false}
-cuando $x<k$ y \texttt{true} cuando $x \ge k$.
+cuando $x < k$ y \texttt{true} cuando $x \ge k$.
 La situación se ve de la siguiente manera:
 
 \begin{center}
-\begin{tabular}{r|rrrrrrrr}
-$x$ & 0 & 1 & $\cdots$ & $k-1$ & $k$ & $k+1$ & $\cdots$ \\
-\hline
-$\texttt{ok}(x)$ & \texttt{false} & \texttt{false}
-& $\cdots$ & \texttt{false} & \texttt{true} & \texttt{true} & $\cdots$ \\
-\end{tabular}
+    \begin{tabular}{r|rrrrrrrr}
+        $x$              & 0              & 1              & $\cdots$      & $k-1$         & $k$      & $k+1$ & $\cdots$ \\
+        \hline
+        $\texttt{ok}(x)$ & \texttt{false} & \texttt{false}
+                         & $\cdots$       & \texttt{false} & \texttt{true} & \texttt{true} & $\cdots$                    \\
+    \end{tabular}
 \end{center}
 
 \noindent
@@ -806,9 +814,9 @@ Ahora, el valor de $k$ se puede encontrar usando búsqueda binaria:
 \begin{lstlisting}
 int x = -1;
 for (int b = z; b >= 1; b /= 2) {
-    while (!ok(x+b)) x += b;
+    while (!ok(x + b)) x += b;
 }
-int k = x+1;
+int k = x + 1;
 \end{lstlisting}
 
 La búsqueda encuentra el mayor valor de $x$ para el cual
@@ -826,17 +834,17 @@ depende de la función \texttt{ok}.
 Por ejemplo, si la función funciona en tiempo $O(n)$,
 la complejidad total del tiempo es $O(n \log z)$.
 
-\subsubsection{Encontrando el valor máximo}
+\subsubsection{Encontrar el valor máximo}
 
 La búsqueda binaria también se puede utilizar para encontrar
 el valor máximo de una función que primero aumenta y luego disminuye.
 Nuestra tarea es encontrar una posición $k$ tal que
 
 \begin{itemize}
-\item
-$f(x)<f(x+1)$ cuando $x<k$, y
-\item
-$f(x)>f(x+1)$ cuando $x \ge k$.
+    \item
+          $f(x)<f(x+1)$ cuando $x<k$, y
+    \item
+          $f(x)>f(x+1)$ cuando $x \ge k$.
 \end{itemize}
 
 La idea es utilizar la búsqueda binaria
@@ -849,13 +857,13 @@ El siguiente código implementa la búsqueda:
 \begin{lstlisting}
 int x = -1;
 for (int b = z; b >= 1; b /= 2) {
-    while (f(x+b) < f(x+b+1)) x += b;
+    while (f(x + b) < f(x + b + 1)) x += b;
 }
-int k = x+1;
+int k = x + 1;
 \end{lstlisting}
 
-Tenga en cuenta que a diferencia de la búsqueda binaria ordinaria,
+Ten en cuenta que a diferencia de la búsqueda binaria ordinaria,
 aquí no está permitido que los valores consecutivos
-de la función sean iguales.
-En este caso, no sería posible saber
+de la función sean iguales, ya que
+en este caso, no sería posible saber
 cómo continuar la búsqueda.

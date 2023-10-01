@@ -27,8 +27,7 @@ Como primer ejemplo, consideramos un problema
 en el que se nos da un conjunto de monedas
 y nuestra tarea es formar una suma de dinero $n$
 usando las monedas.
-Los valores de las monedas son
-$\texttt{monedas}=\{c_1,c_2,\ldots,c_k\}$,
+Los valores de las $\texttt{monedas}=\{c_1,c_2,\ldots,c_k\}$,
 y cada moneda se puede usar tantas veces como queramos.
 ¿Cuál es el número mínimo de monedas necesario?
 
@@ -37,7 +36,7 @@ Por ejemplo, si las monedas son monedas de euro (en céntimos)
 y $n=520$,
 necesitamos al menos cuatro monedas.
 La solución óptima es seleccionar las monedas
-$200+200+100+20$ cuya suma es 520.
+$200+200+100+20$, cuya suma es 520.
 
 \subsubsection{Algoritmo voraz}
 
@@ -58,12 +57,11 @@ mostrar de la siguiente manera:
 
 Primero, cada moneda 1, 5, 10, 50 y 100 aparece
 como máximo una vez en una solución óptima,
-porque si la
-solución contuviera dos monedas de ese tipo,
+porque si la solución contuviera dos monedas de ese tipo,
 podríamos reemplazarlas por una moneda y
 obtener una solución mejor.
 Por ejemplo, si la solución contuviera
-monedas $5+5$, podríamos reemplazarlas por la moneda $10$.
+$5+5$, podríamos reemplazarlas por la moneda $10$.
 
 De la misma manera, las monedas 2 y 20 aparecen
 como máximo dos veces en una solución óptima,
@@ -103,52 +101,56 @@ es 6, el algoritmo voraz produce la solución
 $4+1+1$ mientras que la solución óptima es $3+3$.
 
 No se sabe si el problema general de las monedas
-se puede resolver utilizando algún algoritmo voraz\footnote{Sin embargo, es posible
-\emph{verificar} en tiempo polinomial
-si el algoritmo voraz presentado en este capítulo funciona para
-un conjunto de monedas dado \cite{pea05}.}.
+se puede resolver utilizando algún algoritmo voraz.\footnote{Sin embargo, es posible
+  \emph{verificar} en tiempo polinomial
+  si el algoritmo voraz presentado en este capítulo funciona para
+  un conjunto de monedas dado \cite{pea05}.}
 Sin embargo, como veremos en el Capítulo 7,
-en algunos casos,
+en algunos casos
 el problema general se puede resolver de manera eficiente
 usando un algoritmo de programación dinámica que siempre proporciona la
 respuesta correcta.
 
 \section{Planificación}
 
-Muchos problemas de planificación se pueden resolver
-utilizando algoritmos voraces.
+Muchos problemas de planificación (\textit{scheduling})
+se pueden resolver utilizando algoritmos voraces.
 Un problema clásico es el siguiente:
-Dado $n$ eventos con sus horas de inicio y finalización,
-encuentra un horario
-que incluya la mayor cantidad de eventos posible.
-No es posible seleccionar un evento parcialmente.
+
+\begin{framed}
+  \noindent Dados $n$ eventos con sus horas de inicio y finalización,
+  encuentra un horario que incluya la mayor cantidad de eventos posible.
+  No es posible seleccionar un evento parcialmente.
+\end{framed}
+
+\newpage
 Por ejemplo, considera los siguientes eventos:
 \begin{center}
-\begin{tabular}{lll}
-evento & hora de inicio & hora de finalización \\
-\hline
-$A$ & 1 & 3 \\
-$B$ & 2 & 5 \\
-$C$ & 3 & 9 \\
-$D$ & 6 & 8 \\
-\end{tabular}
+  \begin{tabular}{lll}
+    evento & hora de inicio & hora de finalización \\
+    \hline
+    $A$    & 1              & 3                    \\
+    $B$    & 2              & 5                    \\
+    $C$    & 3              & 9                    \\
+    $D$    & 6              & 8                    \\
+  \end{tabular}
 \end{center}
 En este caso, el número máximo de eventos es dos.
 Por ejemplo, podemos seleccionar los eventos $B$ y $D$
 de la siguiente manera:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw (2, 0) rectangle (6, -1);
-    \draw[fill=lightgray] (4, -1.5) rectangle (10, -2.5);
-    \draw (6, -3) rectangle (18, -4);
-    \draw[fill=lightgray] (12, -4.5) rectangle (16, -5.5);
-    \node at (2.5,-0.5) {$A$};
-    \node at (4.5,-2) {$B$};
-    \node at (6.5,-3.5) {$C$};
-    \node at (12.5,-5) {$D$};
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw (2, 0) rectangle (6, -1);
+      \draw[fill=lightgray] (4, -1.5) rectangle (10, -2.5);
+      \draw (6, -3) rectangle (18, -4);
+      \draw[fill=lightgray] (12, -4.5) rectangle (16, -5.5);
+      \node at (2.5,-0.5) {$A$};
+      \node at (4.5,-2) {$B$};
+      \node at (6.5,-3.5) {$C$};
+      \node at (12.5,-5) {$D$};
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 Es posible inventar varios algoritmos voraces
@@ -161,31 +163,31 @@ posible.
 En el caso de ejemplo, este algoritmo
 selecciona los siguientes eventos:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw[fill=lightgray] (2, 0) rectangle (6, -1);
-    \draw (4, -1.5) rectangle (10, -2.5);
-    \draw (6, -3) rectangle (18, -4);
-    \draw[fill=lightgray] (12, -4.5) rectangle (16, -5.5);
-    \node at (2.5,-0.5) {$A$};
-    \node at (4.5,-2) {$B$};
-    \node at (6.5,-3.5) {$C$};
-    \node at (12.5,-5) {$D$};
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw[fill=lightgray] (2, 0) rectangle (6, -1);
+      \draw (4, -1.5) rectangle (10, -2.5);
+      \draw (6, -3) rectangle (18, -4);
+      \draw[fill=lightgray] (12, -4.5) rectangle (16, -5.5);
+      \node at (2.5,-0.5) {$A$};
+      \node at (4.5,-2) {$B$};
+      \node at (6.5,-3.5) {$C$};
+      \node at (12.5,-5) {$D$};
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 Sin embargo, seleccionar eventos cortos no siempre
 es una estrategia correcta. Por ejemplo, el algoritmo falla
 en el siguiente caso:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw (1, 0) rectangle (7, -1);
-    \draw[fill=lightgray] (6, -1.5) rectangle (9, -2.5);
-    \draw (8, -3) rectangle (14, -4);
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw (1, 0) rectangle (7, -1);
+      \draw[fill=lightgray] (6, -1.5) rectangle (9, -2.5);
+      \draw (8, -3) rectangle (14, -4);
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 Si seleccionamos el evento corto, solo podemos seleccionar un evento.
 Sin embargo, sería posible seleccionar ambos eventos largos.
@@ -196,18 +198,18 @@ Otra idea es seleccionar siempre el siguiente evento posible
 que \emph{comienza} lo más \emph{temprano} posible.
 Este algoritmo selecciona los siguientes eventos:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw[fill=lightgray] (2, 0) rectangle (6, -1);
-    \draw (4, -1.5) rectangle (10, -2.5);
-    \draw[fill=lightgray] (6, -3) rectangle (18, -4);
-    \draw (12, -4.5) rectangle (16, -5.5);
-    \node at (2.5,-0.5) {$A$};
-    \node at (4.5,-2) {$B$};
-    \node at (6.5,-3.5) {$C$};
-    \node at (12.5,-5) {$D$};
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw[fill=lightgray] (2, 0) rectangle (6, -1);
+      \draw (4, -1.5) rectangle (10, -2.5);
+      \draw[fill=lightgray] (6, -3) rectangle (18, -4);
+      \draw (12, -4.5) rectangle (16, -5.5);
+      \node at (2.5,-0.5) {$A$};
+      \node at (4.5,-2) {$B$};
+      \node at (6.5,-3.5) {$C$};
+      \node at (12.5,-5) {$D$};
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 Sin embargo, podemos encontrar un contraejemplo
@@ -215,13 +217,13 @@ también para este algoritmo.
 Por ejemplo, en el siguiente caso,
 el algoritmo solo selecciona un evento:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw[fill=lightgray] (1, 0) rectangle (14, -1);
-    \draw (3, -1.5) rectangle (7, -2.5);
-    \draw (8, -3) rectangle (12, -4);
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw[fill=lightgray] (1, 0) rectangle (14, -1);
+      \draw (3, -1.5) rectangle (7, -2.5);
+      \draw (8, -3) rectangle (12, -4);
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 Si seleccionamos el primer evento, no es posible
 seleccionar ningún otro evento.
@@ -234,18 +236,18 @@ La tercera idea es siempre seleccionar el siguiente
 evento posible que \emph{termina} lo más \emph{temprano} posible.
 Este algoritmo selecciona los siguientes eventos:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw[fill=lightgray] (2, 0) rectangle (6, -1);
-    \draw (4, -1.5) rectangle (10, -2.5);
-    \draw (6, -3) rectangle (18, -4);
-    \draw[fill=lightgray] (12, -4.5) rectangle (16, -5.5);
-    \node at (2.5,-0.5) {$A$};
-    \node at (4.5,-2) {$B$};
-    \node at (6.5,-3.5) {$C$};
-    \node at (12.5,-5) {$D$};
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw[fill=lightgray] (2, 0) rectangle (6, -1);
+      \draw (4, -1.5) rectangle (10, -2.5);
+      \draw (6, -3) rectangle (18, -4);
+      \draw[fill=lightgray] (12, -4.5) rectangle (16, -5.5);
+      \node at (2.5,-0.5) {$A$};
+      \node at (4.5,-2) {$B$};
+      \node at (6.5,-3.5) {$C$};
+      \node at (12.5,-5) {$D$};
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 Resulta que este algoritmo
@@ -263,7 +265,7 @@ es considerar
 qué sucede si primero seleccionamos un evento
 que termina más tarde que el evento que termina
 lo más temprano posible.
-Ahora, tendremos a lo sumo un número igual de
+Ahora tendremos, a lo sumo, un número igual de
 opciones de cómo podemos seleccionar el siguiente evento.
 Por lo tanto, seleccionar un evento que termine más tarde
 nunca puede generar una solución mejor,
@@ -273,7 +275,7 @@ y el algoritmo voraz es correcto.
 
 Consideremos ahora un problema donde
 se nos dan $n$ tareas con duraciones y tiempos límite
-y nuestra tarea es elegir un orden para realizar las tareas.
+y nuestro trabajo es elegir un orden para realizar las tareas.
 Para cada tarea, ganamos $d-x$ puntos
 donde $d$ es el tiempo límite de la tarea
 y $x$ es el momento en que terminamos la tarea.
@@ -282,41 +284,41 @@ que podemos obtener?
 
 Por ejemplo, supongamos que las tareas son las siguientes:
 \begin{center}
-\begin{tabular}{lll}
-tarea & duración & tiempo límite \\
-\hline
-$A$ & 4 & 2 \\
-$B$ & 3 & 5 \\
-$C$ & 2 & 7 \\
-$D$ & 4 & 5 \\
-\end{tabular}
+  \begin{tabular}{lll}
+    tarea & duración & tiempo límite \\
+    \hline
+    $A$   & 4        & 2             \\
+    $B$   & 3        & 5             \\
+    $C$   & 2        & 7             \\
+    $D$   & 4        & 5             \\
+  \end{tabular}
 \end{center}
 En este caso, un programa óptimo para las tareas
 es el siguiente:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw (0, 0) rectangle (4, -1);
-    \draw (4, 0) rectangle (10, -1);
-    \draw (10, 0) rectangle (18, -1);
-    \draw (18, 0) rectangle (26, -1);
-    \node at (0.5,-0.5) {$C$};
-    \node at (4.5,-0.5) {$B$};
-    \node at (10.5,-0.5) {$A$};
-    \node at (18.5,-0.5) {$D$};
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw (0, 0) rectangle (4, -1);
+      \draw (4, 0) rectangle (10, -1);
+      \draw (10, 0) rectangle (18, -1);
+      \draw (18, 0) rectangle (26, -1);
+      \node at (0.5,-0.5) {$C$};
+      \node at (4.5,-0.5) {$B$};
+      \node at (10.5,-0.5) {$A$};
+      \node at (18.5,-0.5) {$D$};
 
-    \draw (0,1.5) -- (26,1.5);
-    \foreach \i in {0,2,...,26}
-    {
-        \draw (\i,1.25) -- (\i,1.75);
-    }
-    \footnotesize
-    \node at (0,2.5) {0};
-    \node at (10,2.5) {5};
-    \node at (20,2.5) {10};
+      \draw (0,1.5) -- (26,1.5);
+      \foreach \i in {0,2,...,26}
+        {
+          \draw (\i,1.25) -- (\i,1.75);
+        }
+      \footnotesize
+      \node at (0,2.5) {0};
+      \node at (10,2.5) {5};
+      \node at (20,2.5) {10};
 
-  \end{scope}
-\end{tikzpicture}
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 En esta solución, $C$ produce 5 puntos,
 $B$ produce 0 puntos, $A$ produce $-7$ puntos
@@ -332,45 +334,45 @@ La razón de esto es que si alguna vez realizamos
 dos tareas una tras otra de tal manera que la primera tarea
 tarda más que la segunda tarea,
 podemos obtener una mejor solución si intercambiamos las tareas.
-Por ejemplo, considere el siguiente horario:
+Por ejemplo, considera el siguiente horario:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw (0, 0) rectangle (8, -1);
-    \draw (8, 0) rectangle (12, -1);
-    \node at (0.5,-0.5) {$X$};
-    \node at (8.5,-0.5) {$Y$};
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw (0, 0) rectangle (8, -1);
+      \draw (8, 0) rectangle (12, -1);
+      \node at (0.5,-0.5) {$X$};
+      \node at (8.5,-0.5) {$Y$};
 
-\draw [decoration={brace}, decorate, line width=0.3mm] (7.75,-1.5) -- (0.25,-1.5);
-\draw [decoration={brace}, decorate, line width=0.3mm] (11.75,-1.5) -- (8.25,-1.5);
+      \draw [decoration={brace}, decorate, line width=0.3mm] (7.75,-1.5) -- (0.25,-1.5);
+      \draw [decoration={brace}, decorate, line width=0.3mm] (11.75,-1.5) -- (8.25,-1.5);
 
-\footnotesize
-\node at (4,-2.5) {$a$};
-\node at (10,-2.5) {$b$};
+      \footnotesize
+      \node at (4,-2.5) {$a$};
+      \node at (10,-2.5) {$b$};
 
-  \end{scope}
-\end{tikzpicture}
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 Aquí $a>b$, entonces deberíamos intercambiar las tareas:
 \begin{center}
-\begin{tikzpicture}[scale=.4]
-  \begin{scope}
-    \draw (0, 0) rectangle (4, -1);
-    \draw (4, 0) rectangle (12, -1);
-    \node at (0.5,-0.5) {$Y$};
-    \node at (4.5,-0.5) {$X$};
+  \begin{tikzpicture}[scale=.4]
+    \begin{scope}
+      \draw (0, 0) rectangle (4, -1);
+      \draw (4, 0) rectangle (12, -1);
+      \node at (0.5,-0.5) {$Y$};
+      \node at (4.5,-0.5) {$X$};
 
-\draw [decoration={brace}, decorate, line width=0.3mm] (3.75,-1.5) -- (0.25,-1.5);
-\draw [decoration={brace}, decorate, line width=0.3mm] (11.75,-1.5) -- (4.25,-1.5);
+      \draw [decoration={brace}, decorate, line width=0.3mm] (3.75,-1.5) -- (0.25,-1.5);
+      \draw [decoration={brace}, decorate, line width=0.3mm] (11.75,-1.5) -- (4.25,-1.5);
 
-\footnotesize
-\node at (2,-2.5) {$b$};
-\node at (8,-2.5) {$a$};
+      \footnotesize
+      \node at (2,-2.5) {$b$};
+      \node at (8,-2.5) {$a$};
 
-  \end{scope}
-\end{tikzpicture}
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
-Ahora $X$ otorga $b$ puntos menos y $Y$ otorga $a$ puntos más,
+Ahora $X$ otorga $b$ puntos menos e $Y$ otorga $a$ puntos más,
 entonces el puntaje total aumenta en $a-b > 0$.
 En una solución óptima,
 para cualquier par de tareas consecutivas,
@@ -396,7 +398,7 @@ Por ejemplo, si los números son $[1,2,9,2,6]$,
 la mejor solución es seleccionar $x=2$
 que produce la suma
 \[
-|1-2|+|2-2|+|9-2|+|2-2|+|6-2|=12.
+  |1-2|+|2-2|+|9-2|+|2-2|+|6-2|=12.
 \]
 En el caso general, la mejor opción para $x$
 es la \textit{mediana} de los números,
@@ -424,15 +426,15 @@ Por ejemplo, si los números son $[1,2,9,2,6]$,
 la mejor solución es seleccionar $x=4$
 que produce la suma
 \[
-(1-4)^2+(2-4)^2+(9-4)^2+(2-4)^2+(6-4)^2=46.
+  (1-4)^2+(2-4)^2+(9-4)^2+(2-4)^2+(6-4)^2=46.
 \]
 En el caso general, la mejor opción para $x$
 es el \emph{promedio} de los números.
-En el ejemplo, el promedio es $(1+2+9+2+6)/5=4$.
+En el ejemplo, el promedio es $(1+2+9+2+6)\div5=4$.
 Este resultado se puede derivar presentando
 la suma de la siguiente manera:
 \[
-nx^2 - 2x(a_1+a_2+\cdots+a_n) + (a_1^2+a_2^2+\cdots+a_n^2)
+  nx^2 - 2x(a_1+a_2+\cdots+a_n) + (a_1^2+a_2^2+\cdots+a_n^2)
 \]
 La última parte no depende de $x$,
 así que podemos ignorarla.
@@ -457,18 +459,18 @@ sustituyendo cada carácter por la
 palabra clave correspondiente.
 Por ejemplo, el siguiente código binario
 asigna palabras clave para los caracteres
-\texttt{A}–\texttt{D}:
+\texttt{A}--\texttt{D}:
 \begin{center}
-\begin{tabular}{rr}
-carácter & palabra clave \\
-\hline
-\texttt{A} & 00 \\
-\texttt{B} & 01 \\
-\texttt{C} & 10 \\
-\texttt{D} & 11 \\
-\end{tabular}
+  \begin{tabular}{rr}
+    carácter   & palabra clave \\
+    \hline
+    \texttt{A} & 00            \\
+    \texttt{B} & 01            \\
+    \texttt{C} & 10            \\
+    \texttt{D} & 11            \\
+  \end{tabular}
 \end{center}
-Este es un \key{código de longitud constante}
+Este es un \key{código de longitud constante},
 lo que significa que la longitud de cada
 palabra clave es la misma.
 Por ejemplo, podemos comprimir la cadena
@@ -486,14 +488,14 @@ que aparecen raramente.
 Resulta que un \key{código óptimo}
 para la cadena anterior es el siguiente:
 \begin{center}
-\begin{tabular}{rr}
-carácter & palabra clave \\
-\hline
-\texttt{A} & 0 \\
-\texttt{B} & 110 \\
-\texttt{C} & 10 \\
-\texttt{D} & 111 \\
-\end{tabular}
+  \begin{tabular}{rr}
+    carácter   & palabra clave \\
+    \hline
+    \texttt{A} & 0             \\
+    \texttt{B} & 110           \\
+    \texttt{C} & 10            \\
+    \texttt{D} & 111           \\
+  \end{tabular}
 \end{center}
 Un código óptimo produce una cadena comprimida
 que es lo más corta posible.
@@ -516,26 +518,26 @@ Si una palabra clave pudiera ser un prefijo de otra palabra clave,
 esto no siempre sería posible.
 Por ejemplo, el siguiente código \emph{no} es válido:
 \begin{center}
-\begin{tabular}{rr}
-carácter & palabra clave \\
-\hline
-\texttt{A} & 10 \\
-\texttt{B} & 11 \\
-\texttt{C} & 1011 \\
-\texttt{D} & 111 \\
-\end{tabular}
+  \begin{tabular}{rr}
+    carácter   & palabra clave \\
+    \hline
+    \texttt{A} & 10            \\
+    \texttt{B} & 11            \\
+    \texttt{C} & 1011          \\
+    \texttt{D} & 111           \\
+  \end{tabular}
 \end{center}
 Usando este código, no sería posible saber
 si la cadena comprimida 1011 corresponde a
 la cadena \texttt{AB} o la cadena \texttt{C}.
 
-\index{Codificación de Huffman}
+\index{codificación Huffman}
 
-\subsubsection{Codificación de Huffman}
+\subsubsection{Codificación Huffman}
 
-La \key{Codificación de Huffman}\footnote{D. A. Huffman descubrió este método
-al resolver una tarea de un curso universitario
-y publicó el algoritmo en 1952 \cite{huf52}.} es un algoritmo voraz
+La \key{codificación Huffman}\footnote{D. A. Huffman descubrió este método
+  al resolver una tarea de un curso universitario
+  y publicó el algoritmo en 1952 \cite{huf52}.} es un algoritmo voraz
 que construye un código óptimo para
 comprimir una cadena dada.
 El algoritmo construye un árbol binario
@@ -562,19 +564,19 @@ Inicialmente, hay cuatro nodos que corresponden
 a los caracteres de la cadena:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {$5$};
-\node[draw, circle] (2) at (2,0) {$1$};
-\node[draw, circle] (3) at (4,0) {$2$};
-\node[draw, circle] (4) at (6,0) {$1$};
+  \begin{tikzpicture}[scale=0.9]
+    \node[draw, circle] (1) at (0,0) {$5$};
+    \node[draw, circle] (2) at (2,0) {$1$};
+    \node[draw, circle] (3) at (4,0) {$2$};
+    \node[draw, circle] (4) at (6,0) {$1$};
 
-\node[color=blue] at (0,-0.75) {\texttt{A}};
-\node[color=blue] at (2,-0.75) {\texttt{B}};
-\node[color=blue] at (4,-0.75) {\texttt{C}};
-\node[color=blue] at (6,-0.75) {\texttt{D}};
+    \node[color=blue] at (0,-0.75) {\texttt{A}};
+    \node[color=blue] at (2,-0.75) {\texttt{B}};
+    \node[color=blue] at (4,-0.75) {\texttt{C}};
+    \node[color=blue] at (6,-0.75) {\texttt{D}};
 
-%\path[draw,thick,-] (4) -- (5);
-\end{tikzpicture}
+    %\path[draw,thick,-] (4) -- (5);
+  \end{tikzpicture}
 \end{center}
 El nodo que representa el carácter \texttt{A}
 tiene peso 5 porque el carácter \texttt{A}
@@ -587,92 +589,92 @@ corresponden a los caracteres \texttt{B} y \texttt{D},
 ambos con peso 1.
 El resultado es:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {$5$};
-\node[draw, circle] (3) at (2,0) {$2$};
-\node[draw, circle] (2) at (4,0) {$1$};
-\node[draw, circle] (4) at (6,0) {$1$};
-\node[draw, circle] (5) at (5,1) {$2$};
+  \begin{tikzpicture}[scale=0.9]
+    \node[draw, circle] (1) at (0,0) {$5$};
+    \node[draw, circle] (3) at (2,0) {$2$};
+    \node[draw, circle] (2) at (4,0) {$1$};
+    \node[draw, circle] (4) at (6,0) {$1$};
+    \node[draw, circle] (5) at (5,1) {$2$};
 
-\node[color=blue] at (0,-0.75) {\texttt{A}};
-\node[color=blue] at (2,-0.75) {\texttt{C}};
-\node[color=blue] at (4,-0.75) {\texttt{B}};
-\node[color=blue] at (6,-0.75) {\texttt{D}};
+    \node[color=blue] at (0,-0.75) {\texttt{A}};
+    \node[color=blue] at (2,-0.75) {\texttt{C}};
+    \node[color=blue] at (4,-0.75) {\texttt{B}};
+    \node[color=blue] at (6,-0.75) {\texttt{D}};
 
-\node at (4.3,0.7) {0};
-\node at (5.7,0.7) {1};
+    \node at (4.3,0.7) {0};
+    \node at (5.7,0.7) {1};
 
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (4) -- (5);
-\end{tikzpicture}
+    \path[draw,thick,-] (2) -- (5);
+    \path[draw,thick,-] (4) -- (5);
+  \end{tikzpicture}
 \end{center}
 Después de esto, se combinan los nodos con peso 2:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (1,0) {$5$};
-\node[draw, circle] (3) at (3,1) {$2$};
-\node[draw, circle] (2) at (4,0) {$1$};
-\node[draw, circle] (4) at (6,0) {$1$};
-\node[draw, circle] (5) at (5,1) {$2$};
-\node[draw, circle] (6) at (4,2) {$4$};
+  \begin{tikzpicture}[scale=0.9]
+    \node[draw, circle] (1) at (1,0) {$5$};
+    \node[draw, circle] (3) at (3,1) {$2$};
+    \node[draw, circle] (2) at (4,0) {$1$};
+    \node[draw, circle] (4) at (6,0) {$1$};
+    \node[draw, circle] (5) at (5,1) {$2$};
+    \node[draw, circle] (6) at (4,2) {$4$};
 
-\node[color=blue] at (1,-0.75) {\texttt{A}};
-\node[color=blue] at (3,1-0.75) {\texttt{C}};
-\node[color=blue] at (4,-0.75) {\texttt{B}};
-\node[color=blue] at (6,-0.75) {\texttt{D}};
+    \node[color=blue] at (1,-0.75) {\texttt{A}};
+    \node[color=blue] at (3,1-0.75) {\texttt{C}};
+    \node[color=blue] at (4,-0.75) {\texttt{B}};
+    \node[color=blue] at (6,-0.75) {\texttt{D}};
 
-\node at (4.3,0.7) {0};
-\node at (5.7,0.7) {1};
-\node at (3.3,1.7) {0};
-\node at (4.7,1.7) {1};
+    \node at (4.3,0.7) {0};
+    \node at (5.7,0.7) {1};
+    \node at (3.3,1.7) {0};
+    \node at (4.7,1.7) {1};
 
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (4) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (5) -- (6);
-\end{tikzpicture}
+    \path[draw,thick,-] (2) -- (5);
+    \path[draw,thick,-] (4) -- (5);
+    \path[draw,thick,-] (3) -- (6);
+    \path[draw,thick,-] (5) -- (6);
+  \end{tikzpicture}
 \end{center}
 Finalmente, se combinan los dos nodos restantes:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (2,2) {$5$};
-\node[draw, circle] (3) at (3,1) {$2$};
-\node[draw, circle] (2) at (4,0) {$1$};
-\node[draw, circle] (4) at (6,0) {$1$};
-\node[draw, circle] (5) at (5,1) {$2$};
-\node[draw, circle] (6) at (4,2) {$4$};
-\node[draw, circle] (7) at (3,3) {$9$};
+  \begin{tikzpicture}[scale=0.9]
+    \node[draw, circle] (1) at (2,2) {$5$};
+    \node[draw, circle] (3) at (3,1) {$2$};
+    \node[draw, circle] (2) at (4,0) {$1$};
+    \node[draw, circle] (4) at (6,0) {$1$};
+    \node[draw, circle] (5) at (5,1) {$2$};
+    \node[draw, circle] (6) at (4,2) {$4$};
+    \node[draw, circle] (7) at (3,3) {$9$};
 
-\node[color=blue] at (2,2-0.75) {\texttt{A}};
-\node[color=blue] at (3,1-0.75) {\texttt{C}};
-\node[color=blue] at (4,-0.75) {\texttt{B}};
-\node[color=blue] at (6,-0.75) {\texttt{D}};
+    \node[color=blue] at (2,2-0.75) {\texttt{A}};
+    \node[color=blue] at (3,1-0.75) {\texttt{C}};
+    \node[color=blue] at (4,-0.75) {\texttt{B}};
+    \node[color=blue] at (6,-0.75) {\texttt{D}};
 
-\node at (4.3,0.7) {0};
-\node at (5.7,0.7) {1};
-\node at (3.3,1.7) {0};
-\node at (4.7,1.7) {1};
-\node at (2.3,2.7) {0};
-\node at (3.7,2.7) {1};
+    \node at (4.3,0.7) {0};
+    \node at (5.7,0.7) {1};
+    \node at (3.3,1.7) {0};
+    \node at (4.7,1.7) {1};
+    \node at (2.3,2.7) {0};
+    \node at (3.7,2.7) {1};
 
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (4) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (5) -- (6);
-\path[draw,thick,-] (1) -- (7);
-\path[draw,thick,-] (6) -- (7);
-\end{tikzpicture}
+    \path[draw,thick,-] (2) -- (5);
+    \path[draw,thick,-] (4) -- (5);
+    \path[draw,thick,-] (3) -- (6);
+    \path[draw,thick,-] (5) -- (6);
+    \path[draw,thick,-] (1) -- (7);
+    \path[draw,thick,-] (6) -- (7);
+  \end{tikzpicture}
 \end{center}
 
 Ahora todos los nodos están en el árbol, por lo que el código está listo.
 Las siguientes palabras de código se pueden leer del árbol:
 \begin{center}
-\begin{tabular}{rr}
-carácter & palabra de código \\
-\hline
-\texttt{A} & 0 \\
-\texttt{B} & 110 \\
-\texttt{C} & 10 \\
-\texttt{D} & 111 \\
-\end{tabular}
+  \begin{tabular}{rr}
+    carácter   & palabra de código \\
+    \hline
+    \texttt{A} & 0                 \\
+    \texttt{B} & 110               \\
+    \texttt{C} & 10                \\
+    \texttt{D} & 111               \\
+  \end{tabular}
 \end{center}

@@ -5,15 +5,14 @@ La programación competitiva combina dos temas:
 
 El \key{diseño de algoritmos} consiste en la resolución de problemas
 y el pensamiento matemático.
-Se necesitan habilidades para analizar problemas y resolverlos
+Se necesitan habilidades para analizar y resolver problemas
 de manera creativa.
-Un algoritmo para resolver un problema
-debe ser tanto correcto como eficiente,
+Un algoritmo debe ser tanto correcto como eficiente,
 y el núcleo del problema a menudo
-trata de crear un algoritmo eficiente.
+yace en crear un algoritmo eficiente.
 
 El conocimiento teórico de los algoritmos
-es importante para las personas que participan en la programación competitiva.
+es importante para el programador competitivo.
 Típicamente, una solución a un problema es
 una combinación de técnicas conocidas y
 nuevos conocimientos.
@@ -24,8 +23,7 @@ de los algoritmos.
 La \key{implementación de algoritmos} requiere buenas
 habilidades de programación.
 En la programación competitiva, las soluciones
-se califican mediante la prueba de un algoritmo implementado
-usando un conjunto de casos de prueba.
+se califican usando un conjunto de casos de prueba.
 Por lo tanto, no es suficiente que la idea del
 algoritmo sea correcta, sino que la implementación también
 debe ser correcta.
@@ -209,6 +207,7 @@ string s;
 getline(cin, s);
 \end{lstlisting}
 
+\newpage % other ways to avoid pagebreak weren't working :(
 Si la cantidad de datos es desconocida, el siguiente
 bucle es útil:
 \begin{lstlisting}
@@ -230,8 +229,8 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 \end{lstlisting}
 Luego de esto, el programa lee toda entrada del archivo
-''input.txt'' y escribe toda salida en el archivo
-''output.txt''.
+``input.txt'' y escribe toda salida en el archivo
+``output.txt''.
 
 \section{Trabajar con números}
 
@@ -299,9 +298,9 @@ porque $17 = 3 \cdot 5 + 2$.
 
 A veces, la respuesta a un problema es un
 número muy grande, pero es suficiente
-darlo ''módulo $m$'', es decir,
+darlo ``módulo $m$'', es decir,
 el resto cuando la respuesta se divide por $m$
-(por ejemplo, ''módulo $10^9+7$'').
+(por ejemplo, ``módulo $10^9+7$'').
 La idea es que incluso si la respuesta real
 es muy grande, basta con utilizar los tipos
 \texttt{int} y \texttt{long long} para verificar
@@ -312,11 +311,11 @@ en la suma, resta y multiplicación,
 el resto se puede tomar antes de la operación:
 
 \[
-\begin{array}{rcr}
-(a+b) \bmod m & = & (a \bmod m + b \bmod m) \bmod m \\
-(a-b) \bmod m & = & (a \bmod m - b \bmod m) \bmod m \\
-(a \cdot b) \bmod m & = & (a \bmod m \cdot b \bmod m) \bmod m
-\end{array}
+    \begin{array}{rcr}
+        (a+b) \bmod m       & = & (a \bmod m + b \bmod m) \bmod m     \\
+        (a-b) \bmod m       & = & (a \bmod m - b \bmod m) \bmod m     \\
+        (a \cdot b) \bmod m & = & (a \bmod m \cdot b \bmod m) \bmod m
+    \end{array}
 \]
 
 Así, podemos tomar el resto después de cada operación
@@ -424,7 +423,7 @@ Por ello, los programadores competitivos suelen definir
 nombres más cortos para los tipos de datos y otras partes del código.
 
 \subsubsection{Nombres de tipos}
-\index{\texttt{typedef}} % ???
+\index{typedef@\texttt{typedef}}
 Usando el comando \texttt{typedef}
 es posible dar un nombre más corto
 a un tipo de dato.
@@ -493,6 +492,8 @@ Por ejemplo, podemos definir la siguiente macro:
 \begin{lstlisting}
 #define REP(i, a, b) for (int i = a; i <= b; i++)
 \end{lstlisting}
+
+\newpage
 Así, el código
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) buscar(i);
@@ -549,8 +550,8 @@ donde $k$ es un número entero positivo,
 tiene una fórmula cerrada que es un
 polinomio de grado $k+1$.
 Por ejemplo,\footnote{\index{Fórmula de Faulhaber}
-Existe incluso una fórmula general para tales sumas, llamada \key{Fórmula de Faulhaber},
-pero es demasiado compleja para presentarla aquí.}
+    Existe incluso una fórmula general para tales sumas, llamada \key{Fórmula de Faulhaber},
+    pero es demasiado compleja para presentarla aquí.}
 \[\sum_{x=1}^n x = 1+2+3+\ldots+n = \frac{n(n+1)}{2}\]
 y
 \[\sum_{x=1}^n x^2 = 1^2+2^2+3^2+\ldots+n^2 = \frac{n(n+1)(2n+1)}{6}.\]
@@ -612,7 +613,7 @@ en la potencia de dos más cercana que no exceda $k$.
 Por ejemplo, cuando $n=6$, podemos estimar
 la suma de la siguiente manera:
 \[ 1+\frac{1}{2}+\frac{1}{3}+\frac{1}{4}+\frac{1}{5}+\frac{1}{6} \le
-1+\frac{1}{2}+\frac{1}{2}+\frac{1}{4}+\frac{1}{4}+\frac{1}{4}.\]
+    1+\frac{1}{2}+\frac{1}{2}+\frac{1}{4}+\frac{1}{4}+\frac{1}{4}.\]
 Este límite superior consta de $\log_2(n)+1$ partes
 ($1$, $2 \cdot 1/2$, $4 \cdot 1/4$, etc.),
 y el valor de cada parte es como máximo 1.
@@ -644,28 +645,28 @@ Por ejemplo, en el conjunto anterior
 \[4 \in X \hspace{10px}\textrm{y}\hspace{10px} 5 \notin X.\]
 
 \begin{samepage}
-Se pueden construir nuevos conjuntos utilizando operaciones de conjuntos:
-\begin{itemize}
-\item La \key{intersección} $A \cap B$ consiste en elementos
-que están tanto en $A$ como en $B$.
-Por ejemplo, si $A=\{1,2,5\}$ y $B=\{2,4\}$,
-entonces $A \cap B = \{2\}$.
-\item La \key{unión} $A \cup B$ consiste en elementos
-que están en $A$, en $B$, o en ambos.
-Por ejemplo, si $A=\{3,7\}$ y $B=\{2,3,8\}$,
-entonces $A \cup B = \{2,3,7,8\}$.
-\item El \key{complemento} $\bar A$ consiste en elementos
-que no están en $A$.
-La interpretación de un complemento depende del
-\key{conjunto universal}, que contiene todos los elementos posibles.
-Por ejemplo, si $A=\{1,2,5,7\}$ y el conjunto universal es
-$\{1,2,\ldots,10\}$, entonces $\bar A = \{3,4,6,8,9,10\}$.
-\item La \key{diferencia} $A \setminus B = A \cap \bar B$
-consiste en elementos que están en $A$ pero no en $B$.
-Nótese que $B$ puede contener elementos que no están en $A$.
-Por ejemplo, si $A=\{2,3,7,8\}$ y $B=\{3,5,8\}$,
-entonces $A \setminus B = \{2,7\}$.
-\end{itemize}
+    Se pueden construir nuevos conjuntos utilizando operaciones de conjuntos:
+    \begin{itemize}
+        \item La \key{intersección} $A \cap B$ consiste en elementos
+              que están tanto en $A$ como en $B$.
+              Por ejemplo, si $A=\{1,2,5\}$ y $B=\{2,4\}$,
+              entonces $A \cap B = \{2\}$.
+        \item La \key{unión} $A \cup B$ consiste en elementos
+              que están en $A$, en $B$, o en ambos.
+              Por ejemplo, si $A=\{3,7\}$ y $B=\{2,3,8\}$,
+              entonces $A \cup B = \{2,3,7,8\}$.
+        \item El \key{complemento} $\bar A$ consiste en elementos
+              que no están en $A$.
+              La interpretación de un complemento depende del
+              \key{conjunto universal}, que contiene todos los elementos posibles.
+              Por ejemplo, si $A=\{1,2,5,7\}$ y el conjunto universal es
+              $\{1,2,\ldots,10\}$, entonces $\bar A = \{3,4,6,8,9,10\}$.
+        \item La \key{diferencia} $A \setminus B = A \cap \bar B$
+              consiste en elementos que están en $A$ pero no en $B$.
+              Nótese que $B$ puede contener elementos que no están en $A$.
+              Por ejemplo, si $A=\{2,3,7,8\}$ y $B=\{3,5,8\}$,
+              entonces $A \setminus B = \{2,7\}$.
+    \end{itemize}
 \end{samepage}
 
 Si cada elemento de $A$ también pertenece a $S$,
@@ -675,8 +676,8 @@ Un conjunto $S$ siempre tiene $2^{|S|}$ subconjuntos,
 incluido el conjunto vacío.
 Por ejemplo, los subconjuntos del conjunto $\{2,4,7\}$ son
 \begin{center}
-$\emptyset$,
-$\{2\}$, $\{4\}$, $\{7\}$, $\{2,4\}$, $\{2,7\}$, $\{4,7\}$ y $\{2,4,7\}$.
+    $\emptyset$,
+    $\{2\}$, $\{4\}$, $\{7\}$, $\{2,4\}$, $\{2,7\}$, $\{4,7\}$ y $\{2,4,7\}$.
 \end{center}
 
 Algunos conjuntos utilizados con frecuencia son
@@ -719,14 +720,14 @@ $\Leftrightarrow$ (\key{equivalencia}).
 La siguiente tabla muestra los significados de estos operadores:
 
 \begin{center}
-\begin{tabular}{rr|rrrrrrr}
-$A$ & $B$ & $\lnot A$ & $\lnot B$ & $A \land B$ & $A \lor B$ & $A \Rightarrow B$ & $A \Leftrightarrow B$ \\
-\hline
-0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 \\
-0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 \\
-1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 \\
-1 & 1 & 0 & 0 & 1 & 1 & 1 & 1 \\
-\end{tabular}
+    \begin{tabular}{rr|rrrrrrr}
+        $A$ & $B$ & $\lnot A$ & $\lnot B$ & $A \land B$ & $A \lor B$ & $A \Rightarrow B$ & $A \Leftrightarrow B$ \\
+        \hline
+        0   & 0   & 1         & 1         & 0           & 0          & 1                 & 1                     \\
+        0   & 1   & 1         & 0         & 0           & 1          & 1                 & 0                     \\
+        1   & 0   & 0         & 1         & 0           & 1          & 0                 & 0                     \\
+        1   & 1   & 0         & 0         & 1           & 1          & 1                 & 1                     \\
+    \end{tabular}
 \end{center}
 
 La expresión $\lnot A$ tiene el valor opuesto de $A$.
@@ -793,10 +794,10 @@ El \key{factorial} $n!$ puede definirse
 \[\prod_{x=1}^n x = 1 \cdot 2 \cdot 3 \cdot \ldots \cdot n\]
 o recursivamente
 \[
-\begin{array}{lcl}
-0! & = & 1 \\
-n! & = & n \cdot (n-1)! \\
-\end{array}
+    \begin{array}{lcl}
+        0! & = & 1              \\
+        n! & = & n \cdot (n-1)! \\
+    \end{array}
 \]
 
 \index{número de Fibonacci}
@@ -806,11 +807,11 @@ Los \key{números de Fibonacci}
 aparecen en muchas situaciones.
 Se pueden definir recursivamente de la siguiente manera:
 \[
-\begin{array}{lcl}
-f(0) & = & 0 \\
-f(1) & = & 1 \\
-f(n) & = & f(n-1)+f(n-2) \\
-\end{array}
+    \begin{array}{lcl}
+        f(0) & = & 0             \\
+        f(1) & = & 1             \\
+        f(n) & = & f(n-1)+f(n-2) \\
+    \end{array}
 \]
 Los primeros números de Fibonacci son
 \[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \ldots\]
@@ -918,7 +919,7 @@ El ICPC consta de varias etapas y, finalmente, los
 mejores equipos son invitados a la final mundial.
 Aunque hay decenas de miles de participantes
 en el concurso, solo hay una pequeña cantidad\footnote{El número exacto de plazas finales varía
-de un año a otro; en 2017, había 133 plazas finales.} de plazas finales disponibles,
+    de un año a otro; en 2017, había 133 plazas finales.} de plazas finales disponibles,
 por lo que incluso avanzar a las finales
 es un gran logro en algunas regiones.
 
@@ -957,13 +958,13 @@ se enfocan en la programación competitiva y la
 resolución de problemas algorítmicos:
 
 \begin{itemize}
-\item S. S. Skiena y M. A. Revilla:
-\emph{Desafíos de programación: El manual de entrenamiento para concursos de programación} \cite{ski20}
-\item S. Halim, F. Halim y S. Effendy:
-\emph{Programación competitiva 4: Manual para concursantes del ICPC y la IOI} \cite{hal21}
-\item K. Diks et al.:
-\emph{Looking for a Challenge? The Ultimate Problem Set from
-the University of Warsaw Programming Competitions} \cite{dik12}
+    \item S. S. Skiena y M. A. Revilla:
+          \emph{Desafíos de programación: El manual de entrenamiento para concursos de programación} \cite{ski20}
+    \item S. Halim, F. Halim y S. Effendy:
+          \emph{Programación competitiva 4: Manual para concursantes del ICPC y la IOI} \cite{hal21}
+    \item K. Diks et al.:
+          \emph{Looking for a Challenge? The Ultimate Problem Set from
+              the University of Warsaw Programming Competitions} \cite{dik12}
 \end{itemize}
 
 Los primeros dos libros están destinados a principiantes,
@@ -974,12 +975,12 @@ programadores competitivos.
 Algunos libros populares son:
 
 \begin{itemize}
-\item T. H. Cormen, C. E. Leiserson, R. L. Rivest y C. Stein:
-\emph{Introduction to Algorithms} \cite{cor09}
-\item J. Kleinberg y É. Tardos:
-\emph{Algorithm Design} \cite{kle05}
-\item S. S. Skiena:
-\emph{The Algorithm Design Manual} \cite{ski08}
+    \item T. H. Cormen, C. E. Leiserson, R. L. Rivest y C. Stein:
+          \emph{Introduction to Algorithms} \cite{cor09}
+    \item J. Kleinberg y É. Tardos:
+          \emph{Algorithm Design} \cite{kle05}
+    \item S. S. Skiena:
+          \emph{The Algorithm Design Manual} \cite{ski08}
 \end{itemize}
 
 % TODO: All-Spanish books

@@ -18,8 +18,8 @@ Por ejemplo, el tipo \texttt{int} en C++ es
 un tipo de 32 bits, lo que significa que cada número \texttt{int}
 consta de 32 bits.
 
-Aquí está la representación de bits de
-el número \texttt{int} 43: 
+Aquí está la representación de bits del
+número \texttt{int} 43:
 \[00000000000000000000000000101011\]
 Los bits en la representación se indexan de derecha a izquierda.
 Para convertir una representación de bits $b_k \cdots b_2 b_1 b_0$ en un número,
@@ -48,12 +48,12 @@ número opuesto de un número se calcula primero
 invirtiendo todos los bits en el número,
 y luego incrementando el número en uno.
 
-Por ejemplo, la representación de bits de
-el número \texttt{int} $-43$ es
+Por ejemplo, la representación de bits del
+número \texttt{int} $-43$ es
 \[11111111111111111111111111010101.\]
 
 En una representación sin signo, solo se pueden usar
-números no negativos, pero el límite superior para los valores es mayor.
+números no negativos, pero el límite superior para los valores es el doble.
 Una variable sin signo de $n$ bits puede contener cualquier
 entero entre $0$ y $2^n-1$.
 Por ejemplo, en C++, una variable \texttt{unsigned int}
@@ -78,7 +78,7 @@ En una representación con signo,
 el siguiente número después de $2^{n-1}-1$ es $-2^{n-1}$,
 y en una representación sin signo,
 el siguiente número después de $2^n-1$ es $0$.
-Por ejemplo, considere el siguiente código:
+Por ejemplo, considera el siguiente código:
 \begin{lstlisting}
 int x = 2147483647
 cout << x << "\n"; // 2147483647
@@ -89,7 +89,7 @@ cout << x << "\n"; // -2147483648
 Inicialmente, el valor de $x$ es $2^{31}-1$.
 Este es el valor más grande que se puede almacenar
 en una variable \texttt{int},
-entonces el siguiente número después de $2^{31}-1$ es $-2^{31}$.
+por lo que al incrementarse se desborda hacia $-2^{31}$.
 
 
 \section{Operaciones de bits}
@@ -102,42 +102,43 @@ entonces el siguiente número después de $2^{31}-1$ es $-2^{31}$.
 
 La operación \key{and} $x$ \& $y$ produce un número
 que tiene bits uno en las posiciones donde ambos
-$x$ y $y$ tienen bits uno.
+$x$ e $y$ tienen bits uno.
 Por ejemplo, $22$ \& $26$ = 18, porque
 
 \begin{center}
-\begin{tabular}{rrr}
-& 10110 & (22)\\
-\& & 11010 & (26) \\
-\hline
- = & 10010 & (18) \\
-\end{tabular}
+    \begin{tabular}{rrr}
+           & 10110 & (22) \\
+        \& & 11010 & (26) \\
+        \hline
+        =  & 10010 & (18) \\
+    \end{tabular}
 \end{center}
 
 Usando la operación and, podemos verificar si un número
 $x$ es par porque
 $x$ \& $1$ = 0 si $x$ es par, y
 $x$ \& $1$ = 1 si $x$ es impar.
-Más en general, $x$ es divisible por $2^k$
+Más generalmente, $x$ es divisible por $2^k$
 exactamente cuando $x$ \& $(2^k-1)$ = 0.
 
 \subsubsection{Operación or}
 
+\index{|}
 \index{operación or}
 
 La operación \key{or} $x$ | $y$ produce un número
 que tiene bits uno en posiciones donde al menos uno
-de $x$ y $y$ tienen bits uno.
+de $x$ e $y$ tienen bits uno.
 Por ejemplo, $22$ | $26$ = 30, porque
 
 
 \begin{center}
-\begin{tabular}{rrr}
-& 10110 & (22)\\
-$\XOR$ & 11010 & (26) \\
-\hline
- = & 01100 & (12) \\
-\end{tabular}
+    \begin{tabular}{rrr}
+               & 10110 & (22) \\
+        $\XOR$ & 11010 & (26) \\
+        \hline
+        =      & 01100 & (12) \\
+    \end{tabular}
 \end{center}
 
 \subsubsection{Operación not}
@@ -157,13 +158,13 @@ Por ejemplo, si los números son de 32 bits,
 números \texttt{int}, el resultado es el siguiente:
 
 \begin{center}
-\begin{tabular}{rrrr}
-$x$ & = & 29 &   00000000000000000000000000011101 \\
-\textasciitilde$x$ & = & $-30$ & 11111111111111111111111111100010 \\
-\end{tabular}
+    \begin{tabular}{rrrr}
+        $x$                & = & 00000000000000000000000000011101 & (29)    \\
+        \textasciitilde$x$ & = & 11111111111111111111111111100010 & $(-30)$ \\
+    \end{tabular}
 \end{center}
 
-\subsubsection{Desplazamientos de bits}
+\subsubsection{Desplazamiento de bits}
 
 \index{desplazamiento de bits}
 
@@ -176,7 +177,7 @@ porque $14$ y $56$ corresponden a 1110 y 111000.
 De manera similar, $49 > > 3 = 6$,
 porque $49$ y $6$ corresponden a 110001 y 110.
 
-Tenga en cuenta que $x < < k$
+Ten en cuenta que $x < < k$
 corresponde a multiplicar $x$ por $2^k$,
 y $x > > k$
 corresponde a dividir $x$ por $2^k$
@@ -194,7 +195,7 @@ de un número \texttt{int} $x$:
 
 \begin{lstlisting}
 for (int i = 31; i >= 0; i--) {
-    if (x&(1<<i)) cout << "1";
+    if (x & (1 << i)) cout << "1";
     else cout << "0";
 }
 \end{lstlisting}
@@ -212,34 +213,30 @@ invierte el bit $k$ de $x$.
 
 La fórmula $x$ \& $(x-1)$ establece el último
 bit uno de $x$ a cero,
-y la fórmula $x$ \& $-x$ establece todos los
+y la fórmula $x$\nobreakspace\&\nobreakspace$-x$ establece todos los
 bits uno a cero, excepto el último bit uno.
-La fórmula $x$ | $(x-1)$
+La fórmula $x$\nobreakspace|\nobreakspace$(x-1)$
 invierte todos los bits después del último bit uno.
 Además, se debe tener en cuenta que un número positivo $x$ es
-una potencia de dos exactamente cuando $x$ \& $(x-1) = 0$.
+una potencia de dos exactamente cuando $x$\nobreakspace\&\nobreakspace$(x-1) = 0$.
 
 \subsubsection*{Funciones adicionales}
 
 El compilador g++ proporciona las siguientes
 funciones para contar bits:
 
-\begin{itemize}
-\item
-$\texttt{\_\_builtin\_clz}(x)$:
-la cantidad de ceros al principio del número
-\item
-$\texttt{\_\_builtin\_ctz}(x)$:
-la cantidad de ceros al final del número
-\item
-$\texttt{\_\_builtin\_popcount}(x)$:
-la cantidad de unos en el número
-\item
-$\texttt{\_\_builtin\_parity}(x)$:
-la paridad (par o impar) de la cantidad de unos
+\begin{itemize}[itemsep=0em,topsep=0.5em]
+    \item $\texttt{\_\_builtin\_clz}(x)$:
+          la cantidad de ceros al principio del número
+    \item $\texttt{\_\_builtin\_ctz}(x)$:
+          la cantidad de ceros al final del número
+    \item $\texttt{\_\_builtin\_popcount}(x)$:
+          la cantidad de unos en el número
+    \item $\texttt{\_\_builtin\_parity}(x)$:
+          la paridad (par o impar) de la cantidad de unos
 \end{itemize}
-\begin{samepage}
 
+\noindent
 Las funciones se pueden utilizar de la siguiente manera:
 \begin{lstlisting}
 int x = 5328; // 00000000000000000001010011010000
@@ -248,14 +245,13 @@ cout << __builtin_ctz(x) << "\n"; // 4
 cout << __builtin_popcount(x) << "\n"; // 5
 cout << __builtin_parity(x) << "\n"; // 1
 \end{lstlisting}
-\end{samepage}
 
 \section{Representación de conjuntos}
 
 Cada subconjunto de un conjunto
 $\{0,1,2,\ldots,n-1\}$
 se puede representar como un número entero de $n$ bits
-cuyos bits uno indican qué
+cuyos bits unos indican qué
 elementos pertenecen al subconjunto.
 Esta es una forma eficiente de representar conjuntos,
 porque cada elemento requiere solo un bit de memoria,
@@ -271,25 +267,23 @@ que corresponde al número $2^8+2^4+2^3+2^1=282$.
 \subsubsection{Implementación de conjuntos}
 
 El siguiente código declara una variable \texttt{int}
-$x$ que puede contener
-un subconjunto de $\{0,1,2,\ldots,31\}$.
-Después de esto, el código agrega los elementos 1, 3, 4 y 8
-al conjunto e imprime el tamaño del conjunto.
+$x$ que contiene el subconjunto $\{1,3,4,8\}$ del
+conjunto $\{0,\ldots,31\}$, y luego imprime el tamaño del conjunto.
 \begin{lstlisting}
 int x = 0;
-x |= (1<<1);
-x |= (1<<3);
-x |= (1<<4);
-x |= (1<<8);
+x |= (1 << 1);
+x |= (1 << 3);
+x |= (1 << 4);
+x |= (1 << 8);
 cout << __builtin_popcount(x) << "\n"; // 4
 \end{lstlisting}
-Luego, el siguiente código imprime todos
+El siguiente código imprime todos
 los elementos que pertenecen al conjunto:
 \begin{lstlisting}
 for (int i = 0; i < 32; i++) {
-    if (x&(1<<i)) cout << i << " ";
+    if (x & (1 << i)) cout << i << " ";
 }
-// salida: 1 3 4 8
+// 1 3 4 8
 \end{lstlisting}
 
 \subsubsection{Operaciones de conjuntos}
@@ -297,24 +291,24 @@ for (int i = 0; i < 32; i++) {
 Las operaciones de conjuntos se pueden implementar como operaciones de bits de la siguiente manera:
 
 \begin{center}
-\begin{tabular}{lll}
-& sintaxis de conjuntos & sintaxis de bits \\
-\hline
-intersección & $a \cap b$ & $a$ \& $b$ \\
-unión & $a \cup b$ & $a$ | $b$ \\
-complemento & $\bar a$ & \textasciitilde$a$ \\
-diferencia & $a \setminus b$ & $a$ \& (\textasciitilde$b$) \\
-\end{tabular}
+    \begin{tabular}{lll}
+                     & sintaxis de conjuntos & sintaxis de bits            \\
+        \hline
+        intersección & $a \cap b$            & $a$ \& $b$                  \\
+        unión        & $a \cup b$            & $a$ | $b$                   \\
+        complemento  & $\bar a$              & \textasciitilde$a$          \\
+        diferencia   & $a \setminus b$       & $a$ \& (\textasciitilde$b$) \\
+    \end{tabular}
 \end{center}
 
 Por ejemplo, el siguiente código primero construye
-los conjuntos $x=\{1,3,4,8\}$ y $y=\{3,6,8,9\}$,
+los conjuntos $x=\{1,3,4,8\}$ e $y=\{3,6,8,9\}$,
 y luego construye el conjunto $z = x \cup y = \{1,3,4,6,8,9\}$:
 
 \begin{lstlisting}
-int x = (1<<1)|(1<<3)|(1<<4)|(1<<8);
-int y = (1<<3)|(1<<6)|(1<<8)|(1<<9);
-int z = x|y;
+int x = (1 << 1) | (1 << 3) | (1 << 4) | (1 << 8);
+int y = (1 << 3) | (1 << 6) | (1 << 8) | (1 << 9);
+int z = x | y;
 cout << __builtin_popcount(z) << "\n"; // 6
 \end{lstlisting}
 
@@ -324,14 +318,14 @@ El siguiente código recorre
 los subconjuntos de $\{0,1,\ldots,n-1\}$:
 
 \begin{lstlisting}
-for (int b = 0; b < (1<<n); b++) {
+for (int b = 0; b < (1 << n); b++) {
     // procesar subconjunto b
 }
 \end{lstlisting}
 El siguiente código recorre
 los subconjuntos con exactamente $k$ elementos:
 \begin{lstlisting}
-for (int b = 0; b < (1<<n); b++) {
+for (int b = 0; b < (1 << n); b++) {
     if (__builtin_popcount(b) == k) {
         // procesar subconjunto b
     }
@@ -343,7 +337,7 @@ de un conjunto $x$:
 int b = 0;
 do {
     // procesar subconjunto b
-} while (b=(b-x)&x);
+} while (b = (b - x) & x);
 \end{lstlisting}
 
 \section{Optimizaciones de bits}
@@ -359,7 +353,7 @@ de tales situaciones.
 
 \subsubsection{Distancias de Hamming}
 
-\index{Distancia de Hamming}
+\index{distancia de Hamming}
 La \key{distancia de Hamming}
 $\texttt{hamming}(a,b)$ entre dos
 cadenas $a$ y $b$ de igual longitud es
@@ -367,16 +361,16 @@ el número de posiciones en las que las cadenas difieren.
 Por ejemplo,
 \[\texttt{hamming}(01101,11001)=2.\]
 
-Considere el siguiente problema: Dado
+Considera el siguiente problema: Dada
 una lista de $n$ cadenas de bits, cada una de longitud $k$,
-calcule la distancia mínima de Hamming
+calcula la distancia mínima de Hamming
 entre dos cadenas en la lista.
 Por ejemplo, la respuesta para $[00111,01101,11110]$
 es 2, porque
 \begin{itemize}[noitemsep]
-\item $\texttt{hamming}(00111,01101)=2$,
-\item $\texttt{hamming}(00111,11110)=3$, y
-\item $\texttt{hamming}(01101,11110)=3$.
+    \item $\texttt{hamming}(00111,01101)=2$,
+    \item $\texttt{hamming}(00111,11110)=3$, y
+    \item $\texttt{hamming}(01101,11110)=3$.
 \end{itemize}
 
 Una forma directa de resolver el problema es
@@ -388,9 +382,7 @@ calcular distancias:
 \begin{lstlisting}
 int hamming(string a, string b) {
     int d = 0;
-    for (int i = 0; i < k; i++) {
-        if (a[i] != b[i]) d++;
-    }
+    for (int i = 0; i < k; i++) if (a[i] != b[i]) d++;
     return d;
 }
 \end{lstlisting}
@@ -403,7 +395,7 @@ las cadenas como valores \texttt{int} y usar la
 siguiente función para calcular distancias:
 \begin{lstlisting}
 int hamming(int a, int b) {
-    return __builtin_popcount(a^b);
+    return __builtin_popcount(a ^ b);
 }
 \end{lstlisting}
 En la función anterior, la operación xor construye
@@ -413,16 +405,16 @@ Luego, se calcula el número de bits usando
 la función \texttt{\_\_builtin\_popcount}.
 
 Para comparar las implementaciones, generamos
-una lista de 10000 cadenas de bits aleatorias de longitud 30.
+una lista de 10.000 cadenas de bits aleatorias de longitud 30.
 Usando el primer enfoque, la búsqueda tomó
-13.5 segundos, y después de la optimización de bits,
-sólo tomó 0.5 segundos.
+13,5 segundos, y después de la optimización de bits,
+sólo tomó 0,5 segundos.
 Por lo tanto, el código optimizado de bits fue casi
 30 veces más rápido que el código original.
 
 \subsubsection{Contando subcuadrículas}
 
-Como otro ejemplo, considere el
+Como otro ejemplo, considera el
 siguiente problema:
 Dado una cuadrícula de $n \times n$ cuyo
 cada cuadrado es negro (1) o blanco (0),
@@ -430,44 +422,44 @@ calcule el número de subcuadrículas
 cuyas cuatro esquinas son negras.
 Por ejemplo, la cuadrícula
 \begin{center}
-\begin{tikzpicture}[scale=0.5]
-\fill[black] (1,1) rectangle (2,2);
-\fill[black] (1,4) rectangle (2,5);
-\fill[black] (4,1) rectangle (5,2);
-\fill[black] (4,4) rectangle (5,5);
-\fill[black] (1,3) rectangle (2,4);
-\fill[black] (2,3) rectangle (3,4);
-\fill[black] (2,1) rectangle (3,2);
-\fill[black] (0,2) rectangle (1,3);
-\draw (0,0) grid (5,5);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.5]
+        \fill[black] (1,1) rectangle (2,2);
+        \fill[black] (1,4) rectangle (2,5);
+        \fill[black] (4,1) rectangle (5,2);
+        \fill[black] (4,4) rectangle (5,5);
+        \fill[black] (1,3) rectangle (2,4);
+        \fill[black] (2,3) rectangle (3,4);
+        \fill[black] (2,1) rectangle (3,2);
+        \fill[black] (0,2) rectangle (1,3);
+        \draw (0,0) grid (5,5);
+    \end{tikzpicture}
 \end{center}
 contiene dos de estas subcuadrículas:
 \begin{center}
-\begin{tikzpicture}[scale=0.5]
-\fill[black] (1,1) rectangle (2,2);
-\fill[black] (1,4) rectangle (2,5);
-\fill[black] (4,1) rectangle (5,2);
-\fill[black] (4,4) rectangle (5,5);
-\fill[black] (1,3) rectangle (2,4);
-\fill[black] (2,3) rectangle (3,4);
-\fill[black] (2,1) rectangle (3,2);
-\fill[black] (0,2) rectangle (1,3);
-\draw (0,0) grid (5,5);
+    \begin{tikzpicture}[scale=0.5]
+        \fill[black] (1,1) rectangle (2,2);
+        \fill[black] (1,4) rectangle (2,5);
+        \fill[black] (4,1) rectangle (5,2);
+        \fill[black] (4,4) rectangle (5,5);
+        \fill[black] (1,3) rectangle (2,4);
+        \fill[black] (2,3) rectangle (3,4);
+        \fill[black] (2,1) rectangle (3,2);
+        \fill[black] (0,2) rectangle (1,3);
+        \draw (0,0) grid (5,5);
 
-\fill[black] (7+1,1) rectangle (7+2,2);
-\fill[black] (7+1,4) rectangle (7+2,5);
-\fill[black] (7+4,1) rectangle (7+5,2);
-\fill[black] (7+4,4) rectangle (7+5,5);
-\fill[black] (7+1,3) rectangle (7+2,4);
-\fill[black] (7+2,3) rectangle (7+3,4);
-\fill[black] (7+2,1) rectangle (7+3,2);
-\fill[black] (7+0,2) rectangle (7+1,3);
-\draw (7+0,0) grid (7+5,5);
+        \fill[black] (7+1,1) rectangle (7+2,2);
+        \fill[black] (7+1,4) rectangle (7+2,5);
+        \fill[black] (7+4,1) rectangle (7+5,2);
+        \fill[black] (7+4,4) rectangle (7+5,5);
+        \fill[black] (7+1,3) rectangle (7+2,4);
+        \fill[black] (7+2,3) rectangle (7+3,4);
+        \fill[black] (7+2,1) rectangle (7+3,2);
+        \fill[black] (7+0,2) rectangle (7+1,3);
+        \draw (7+0,0) grid (7+5,5);
 
-\draw[color=red,line width=1mm] (1,1) rectangle (3,4);
-\draw[color=red,line width=1mm] (7+1,1) rectangle (7+5,5);
-\end{tikzpicture}
+        \draw[color=red,line width=1mm] (1,1) rectangle (3,4);
+        \draw[color=red,line width=1mm] (7+1,1) rectangle (7+5,5);
+    \end{tikzpicture}
 \end{center}
 
 Existe un algoritmo de tiempo $O(n^3)$ para resolver el problema:
@@ -483,7 +475,7 @@ for (int i = 0; i < n; i++) {
 }
 \end{lstlisting}
 Entonces, esas columnas
-representan $\texttt{conteo}(\texttt{conteo}-1)/2$ subcuadrículas con esquinas negras,
+representan $\texttt{conteo}(\texttt{conteo}-1)\div2$ subcuadrículas con esquinas negras,
 porque podemos elegir cualquiera de los dos para formar una subcuadrícula.
 
 Para optimizar este algoritmo, dividimos la cuadrícula en bloques
@@ -496,17 +488,17 @@ $\texttt{color}[y][k]$ representa
 un bloque de $N$ colores como bits.
 \begin{lstlisting}
 int conteo = 0;
-for (int i = 0; i <= n/N; i++) {
-    conteo += __builtin_popcount(color[a][i]&color[b][i]);
+for (int i = 0; i <= n / N; i++) {
+    conteo += __builtin_popcount(color[a][i] & color[b][i]);
 }
 \end{lstlisting}
 El algoritmo resultante funciona en tiempo $O(n^3/N)$.
 
 Generamos una cuadrícula aleatoria de tamaño $2500 \times 2500$
 y comparamos la implementación original y la optimizada con bits.
-Mientras que el código original tardó $29.6$ segundos,
-la versión optimizada con bits solo tardó $3.1$ segundos
-con $N=32$ (números \texttt{int}) y $1.7$ segundos
+Mientras que el código original tardó $29,6$ segundos,
+la versión optimizada con bits solo tardó $3,1$ segundos
+con $N=32$ (números \texttt{int}) y $1,7$ segundos
 con $N=64$ (números \texttt{long long}).
 
 \section{Programación dinámica}
@@ -520,54 +512,54 @@ de operaciones de bits y programación dinámica.
 
 \subsubsection{Selección óptima}
 
-Como primer ejemplo, considere el siguiente problema:
+Como primer ejemplo, considera el siguiente problema:
 Se nos dan los precios de $k$ productos
 durante $n$ días, y queremos comprar cada producto
 exactamente una vez.
 Sin embargo, solo se nos permite comprar un producto como máximo
 en un día.
 ¿Cuál es el precio total mínimo?
-Por ejemplo, considere el siguiente escenario ($k=3$ y $n=8$):
+Por ejemplo, considera el siguiente escenario ($k=3$ y $n=8$):
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-    \draw (0, 0) grid (8,3);
-    \node at (-2.5,2.5) {product 0};
-    \node at (-2.5,1.5) {product 1};
-    \node at (-2.5,0.5) {product 2};
+    \begin{tikzpicture}[scale=.65]
+        \draw (0, 0) grid (8,3);
+        \node at (-2.5,2.5) {producto 0};
+        \node at (-2.5,1.5) {producto 1};
+        \node at (-2.5,0.5) {producto 2};
 
-    \foreach \x in {0,...,7}
-        {\node at (\x+0.5,3.5) {\x};}
-    \foreach \x/\v in {0/6,1/9,2/5,3/2,4/8,5/9,6/1,7/6}
-        {\node at (\x+0.5,2.5) {\v};}
-    \foreach \x/\v in {0/8,1/2,2/6,3/2,4/7,5/5,6/7,7/2}
-        {\node at (\x+0.5,1.5) {\v};}
-    \foreach \x/\v in {0/5,1/3,2/9,3/7,4/3,5/5,6/1,7/4}
-        {\node at (\x+0.5,0.5) {\v};}
-\end{tikzpicture}
+        \foreach \x in {0,...,7}
+            {\node at (\x+0.5,3.5) {\x};}
+        \foreach \x/\v in {0/6,1/9,2/5,3/2,4/8,5/9,6/1,7/6}
+            {\node at (\x+0.5,2.5) {\v};}
+        \foreach \x/\v in {0/8,1/2,2/6,3/2,4/7,5/5,6/7,7/2}
+            {\node at (\x+0.5,1.5) {\v};}
+        \foreach \x/\v in {0/5,1/3,2/9,3/7,4/3,5/5,6/1,7/4}
+            {\node at (\x+0.5,0.5) {\v};}
+    \end{tikzpicture}
 \end{center}
 En este escenario, el precio total mínimo es $5$:
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-    \fill [color=lightgray] (1, 1) rectangle (2, 2);
-    \fill [color=lightgray] (3, 2) rectangle (4, 3);
-    \fill [color=lightgray] (6, 0) rectangle (7, 1);
-    \draw (0, 0) grid (8,3);
-    \node at (-2.5,2.5) {product 0};
-    \node at (-2.5,1.5) {product 1};
-    \node at (-2.5,0.5) {product 2};
+    \begin{tikzpicture}[scale=.65]
+        \fill [color=lightgray] (1, 1) rectangle (2, 2);
+        \fill [color=lightgray] (3, 2) rectangle (4, 3);
+        \fill [color=lightgray] (6, 0) rectangle (7, 1);
+        \draw (0, 0) grid (8,3);
+        \node at (-2.5,2.5) {producto 0};
+        \node at (-2.5,1.5) {producto 1};
+        \node at (-2.5,0.5) {producto 2};
 
-    \foreach \x in {0,...,7}
-        {\node at (\x+0.5,3.5) {\x};}
-    \foreach \x/\v in {0/6,1/9,2/5,3/2,4/8,5/9,6/1,7/6}
-        {\node at (\x+0.5,2.5) {\v};}
-    \foreach \x/\v in {0/8,1/2,2/6,3/2,4/7,5/5,6/7,7/2}
-        {\node at (\x+0.5,1.5) {\v};}
-    \foreach \x/\v in {0/5,1/3,2/9,3/7,4/3,5/5,6/1,7/4}
-        {\node at (\x+0.5,0.5) {\v};}
-\end{tikzpicture}
+        \foreach \x in {0,...,7}
+            {\node at (\x+0.5,3.5) {\x};}
+        \foreach \x/\v in {0/6,1/9,2/5,3/2,4/8,5/9,6/1,7/6}
+            {\node at (\x+0.5,2.5) {\v};}
+        \foreach \x/\v in {0/8,1/2,2/6,3/2,4/7,5/5,6/7,7/2}
+            {\node at (\x+0.5,1.5) {\v};}
+        \foreach \x/\v in {0/5,1/3,2/9,3/7,4/3,5/5,6/1,7/4}
+            {\node at (\x+0.5,0.5) {\v};}
+    \end{tikzpicture}
 \end{center}
 
-Deje que $\texttt{precio}[x][d]$ denote el precio del producto $x$
+Definamos $\texttt{precio}[x][d]$ como el precio del producto $x$
 en el día $d$.
 Por ejemplo, en el escenario anterior $\texttt{precio}[2][3] = 7$.
 Luego, que $\texttt{total}(S,d)$ denote el precio total mínimo
@@ -581,10 +573,10 @@ y $\texttt{total}(\{x\},0) = \texttt{precio}[x][0]$,
 porque hay una forma de comprar un producto en el primer día.
 Luego, se puede utilizar la siguiente recurrencia:
 \begin{equation*}
-\begin{split}
-\texttt{total}(S,d) = \min( & \texttt{total}(S,d-1), \\
-& \min_{x \in S} (\texttt{total}(S \setminus x,d-1)+\texttt{precio}[x][d]))
-\end{split}
+    \begin{split}
+        \texttt{total}(S,d) = \min( & \texttt{total}(S,d-1), \\
+        & \min_{x \in S} (\texttt{total}(S \setminus x,d-1)+\texttt{precio}[x][d]))
+    \end{split}
 \end{equation*}
 Esto significa que no compramos ningún producto en el día $d$
 o compramos un producto $x$ que pertenece a $S$.
@@ -595,7 +587,7 @@ El siguiente paso es calcular los valores de la función
 usando programación dinámica.
 Para almacenar los valores de la función, declaramos una matriz
 \begin{lstlisting}
-int total[1<<K][N];
+int total[1 << K][N];
 \end{lstlisting}
 donde $K$ y $N$ son constantes adecuadamente grandes.
 La primera dimensión de la matriz corresponde a una representación de bits de un subconjunto.
@@ -603,18 +595,18 @@ La primera dimensión de la matriz corresponde a una representación de bits de 
 Primero, los casos donde $d=0$ se pueden procesar de la siguiente manera:
 \begin{lstlisting}
 for (int x = 0; x < k; x++) {
-    total[1<<x][0] = precio[x][0];
+    total[1 << x][0] = precio[x][0];
 }
 \end{lstlisting}
 Luego, la recurrencia se traduce en el siguiente código:
 \begin{lstlisting}
 for (int d = 1; d < n; d++) {
-    for (int s = 0; s < (1<<k); s++) {
-        total[s][d] = total[s][d-1];
+    for (int s = 0; s < (1 << k); s++) {
+        total[s][d] = total[s][d - 1];
         for (int x = 0; x < k; x++) {
-            if (s&(1<<x)) {
+            if (s & (1 << x)) {
                 total[s][d] = min(total[s][d],
-                                    total[s^(1<<x)][d-1]+precio[x][d]);
+                                  total[s ^ (1<<x)][d - 1] + precio[x][d]);
             }
         }
     }
@@ -626,8 +618,8 @@ La complejidad temporal del algoritmo es $O(n 2^k k)$.
 
 Usando programación dinámica, a menudo es posible
 cambiar una iteración sobre permutaciones a
-una iteración sobre subconjuntos\footnote{Esta técnica fue introducida en 1962
-por M. Held y R. M. Karp \cite{hel62}.}.
+una iteración sobre subconjuntos.\footnote{Esta técnica fue introducida en 1962
+    por M. Held y R. M. Karp \cite{hel62}.}
 El beneficio de esto es que
 $n!$, el número de permutaciones,
 es mucho mayor que $2^n$, el número de subconjuntos.
@@ -636,7 +628,7 @@ $n! \approx 2.4 \cdot 10^{18}$ y $2^n \approx 10^6$.
 Así, para ciertos valores de $n$,
 podemos recorrer eficientemente los subconjuntos pero no las permutaciones.
 
-Como ejemplo, considere el siguiente problema:
+Como ejemplo, considera el siguiente problema:
 Hay un ascensor con peso máximo $x$,
 y $n$ personas con pesos conocidos
 que quieren ir desde la planta baja
@@ -647,15 +639,15 @@ si las personas entran al ascensor en un orden óptimo?
 Por ejemplo, suponga que $x=10$, $n=5$
 y los pesos son los siguientes:
 \begin{center}
-\begin{tabular}{ll}
-persona & peso \\
-\hline
-0 & 2 \\
-1 & 3 \\
-2 & 3 \\
-3 & 5 \\
-4 & 6 \\
-\end{tabular}
+    \begin{tabular}{ll}
+        persona & peso \\
+        \hline
+        0       & 2    \\
+        1       & 3    \\
+        2       & 3    \\
+        3       & 5    \\
+        4       & 6    \\
+    \end{tabular}
 \end{center}
 En este caso, el número mínimo de viajes es 2.
 Un orden óptimo es $\{0,2,3,1,4\}$,
@@ -664,14 +656,14 @@ primero $\{0,2,3\}$ (peso total 10),
 y luego $\{1,4\}$ (peso total 9).
 
 El problema se puede resolver fácilmente en tiempo $O(n! n)$
-probando todas las permutaciones posibles de $n$ personas.
+probando todas las permutaciones de $n$ personas.
 Sin embargo, podemos utilizar programación dinámica para obtener
-un algoritmo más eficiente en tiempo $O(2^n n)$.
+un algoritmo más eficiente de $O(2^n n)$.
 La idea es calcular para cada subconjunto de personas
 dos valores: el número mínimo de viajes necesarios y
 el peso mínimo de las personas que viajan en el último grupo.
 
-Sea $\texttt{peso}[p]$ el peso de
+Definamos $\texttt{peso}[p]$ como el peso de
 la persona $p$.
 Definimos dos funciones:
 $\texttt{viajes}(S)$ es el número mínimo de
@@ -680,7 +672,7 @@ y $\texttt{ultimo}(S)$ es el peso mínimo
 del último viaje.
 Por ejemplo, en el escenario anterior
 \[ \texttt{viajes}(\{1,3,4\})=2 \hspace{10px} \textrm{y}
-\hspace{10px} \texttt{ultimo}(\{1,3,4\})=5,\]
+    \hspace{10px} \texttt{ultimo}(\{1,3,4\})=5,\]
 porque los viajes óptimos son $\{1,4\}$ y $\{3\}$,
 y el segundo viaje tiene un peso de 5.
 Por supuesto, nuestro objetivo final es calcular el valor
@@ -700,26 +692,26 @@ De lo contrario, debemos reservar un nuevo viaje
 que inicialmente solo contiene $p$.
 
 Para implementar programación dinámica,
-declaramos un array
+declaramos un arreglo
 \begin{lstlisting}
-pair<int,int> mejor[1<<N];
+pair<int, int> mejor[1 << N];
 \end{lstlisting}
 que contiene para cada subconjunto $S$
 un par $(\texttt{viajes}(S),\texttt{ultimo}(S))$.
 Establecemos el valor para un grupo vacío de la siguiente manera:
 \begin{lstlisting}
-mejor[0] = {1,0};
+mejor[0] = {1, 0};
 \end{lstlisting}
-Entonces, podemos llenar el array de la siguiente manera:
+Entonces, podemos llenar el arreglo de la siguiente manera:
 
 \begin{lstlisting}
-for (int s = 1; s < (1<<n); s++) {
-    // valor inicial: se necesitan n+1 viajes
-    mejor[s] = {n+1,0};
+for (int s = 1; s < (1 << n); s++) {
+    // valor inicial: se necesitan n + 1 viajes
+    mejor[s] = {n + 1, 0};
     for (int p = 0; p < n; p++) {
-        if (s&(1<<p)) {
-            auto opcion = mejor[s^(1<<p)];
-            if (opcion.second+peso[p] <= x) {
+        if (s & (1 << p)) {
+            auto opcion = mejor[s ^ (1 << p)];
+            if (opcion.second + peso[p] <= x) {
                 // agregar p a un viaje existente
                 opcion.second += peso[p];
             } else {
@@ -732,7 +724,7 @@ for (int s = 1; s < (1<<n); s++) {
     }
 }
 \end{lstlisting}
-Tenga en cuenta que el bucle anterior garantiza que
+Ten en cuenta que el bucle anterior garantiza que
 para cualquier dos subconjuntos $S_1$ y $S_2$
 tal que $S_1 \subset S_2$, procesamos $S_1$ antes de $S_2$.
 Por lo tanto, los valores de programación dinámica se calculan en el
@@ -749,23 +741,23 @@ es decir, la suma de los valores de los subconjuntos de $S$.
 
 Por ejemplo, suponga que $n=3$ y los valores son los siguientes:
 \begin{multicols}{2}
-\begin{itemize}
-\item $\texttt{valor}[\emptyset] = 3$
-\item $\texttt{valor}[\{0\}] = 1$
-\item $\texttt{valor}[\{1\}] = 4$
-\item $\texttt{valor}[\{0,1\}] = 5$
-\item $\texttt{valor}[\{2\}] = 5$
-\item $\texttt{valor}[\{0,2\}] = 1$
-\item $\texttt{valor}[\{1,2\}] = 3$
-\item $\texttt{valor}[\{0,1,2\}] = 3$
-\end{itemize}
+    \begin{itemize}
+        \item $\texttt{valor}[\emptyset] = 3$
+        \item $\texttt{valor}[\{0\}] = 1$
+        \item $\texttt{valor}[\{1\}] = 4$
+        \item $\texttt{valor}[\{0,1\}] = 5$
+        \item $\texttt{valor}[\{2\}] = 5$
+        \item $\texttt{valor}[\{0,2\}] = 1$
+        \item $\texttt{valor}[\{1,2\}] = 3$
+        \item $\texttt{valor}[\{0,1,2\}] = 3$
+    \end{itemize}
 \end{multicols}
 En este caso, por ejemplo,
 \begin{equation*}
-\begin{split}
-\texttt{suma}(\{0,2\}) &= \texttt{valor}[\emptyset]+\texttt{valor}[\{0\}]+\texttt{valor}[\{2\}]+\texttt{valor}[\{0,2\}] \\ 
-                      &= 3 + 1 + 5 + 1 = 10.
-\end{split}
+    \begin{split}
+        \texttt{suma}(\{0,2\}) &= \texttt{valor}[\emptyset]+\texttt{valor}[\{0\}]+\texttt{valor}[\{2\}]+\texttt{valor}[\{0,2\}] \\
+        &= 3 + 1 + 5 + 1 = 10.
+    \end{split}
 \end{equation*}
 
 Debido a que hay un total de $2^n$ subconjuntos,
@@ -792,9 +784,9 @@ porque en este caso no se pueden eliminar elementos de $S$.
 Luego, en el caso general, podemos usar la siguiente recurrencia:
 \begin{equation*}
     \texttt{parcial}(S,k) = \begin{cases}
-               \texttt{parcial}(S,k-1) & k \notin S \\
-               \texttt{parcial}(S,k-1) + \texttt{parcial}(S \setminus \{k\},k-1) & k \in S
-           \end{cases}
+        \texttt{parcial}(S,k-1)                                           & k \notin S \\
+        \texttt{parcial}(S,k-1) + \texttt{parcial}(S \setminus \{k\},k-1) & k \in S
+    \end{cases}
 \end{equation*}
 Aquí nos centramos en el elemento $k$.
 Si $k \in S$, tenemos dos opciones: podemos mantener $k$ en $S$
@@ -803,7 +795,7 @@ o eliminarlo de $S$.
 Hay una forma especialmente ingeniosa de implementar el
 cálculo de sumas. Podemos declarar un arreglo
 \begin{lstlisting}
-int suma[1<<N];
+int suma[1 << N];
 \end{lstlisting}
 que contendrá la suma de cada subconjunto.
 El arreglo se inicializa de la siguiente manera:
@@ -815,8 +807,8 @@ for (int s = 0; s < (1<<n); s++) {
 Luego, podemos llenar el arreglo de la siguiente manera:
 \begin{lstlisting}
 for (int k = 0; k < n; k++) {
-    for (int s = 0; s < (1<<n); s++) {
-        if (s&(1<<k)) suma[s] += suma[s^(1<<k)];
+    for (int s = 0; s < (1 << n); s++) {
+        if (s & (1 << k)) suma[s] += suma[s ^ (1 << k)];
     }
 }
 \end{lstlisting}

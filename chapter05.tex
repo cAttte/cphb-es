@@ -1,6 +1,6 @@
 \chapter{Búsqueda exhaustiva}
 
-\key{Búsqueda exhaustiva}
+La \key{búsqueda exhaustiva}
 es un método general que se puede utilizar
 para resolver casi cualquier problema algorítmico.
 La idea es generar todas las posibles
@@ -8,15 +8,15 @@ soluciones al problema mediante fuerza bruta,
 y luego seleccionar la mejor solución o contar el
 número de soluciones, dependiendo del problema.
 
-La búsqueda exhaustiva es una buena técnica
+La búsqueda exhaustiva es útil
 si hay suficiente tiempo para revisar todas las soluciones,
-ya que la búsqueda suele ser fácil de implementar
+ya que suele ser fácil de implementar
 y siempre proporciona la respuesta correcta.
 Si la búsqueda exhaustiva es demasiado lenta,
 pueden ser necesarias otras técnicas, como algoritmos voraces o
 programación dinámica.
 
-\section{Generando subconjuntos}
+\section{Generar subconjuntos}
 
 \index{subconjunto}
 
@@ -25,101 +25,101 @@ todos los subconjuntos de un conjunto de $n$ elementos.
 Por ejemplo, los subconjuntos de $\{0,1,2\}$ son
 $\emptyset$, $\{0\}$, $\{1\}$, $\{2\}$, $\{0,1\}$,
 $\{0,2\}$, $\{1,2\}$ y $\{0,1,2\}$.
-Hay dos métodos comunes para generar subconjuntos:
-podemos realizar una búsqueda recursiva
+Hay dos métodos comunes para esto:
+realizar una búsqueda recursiva
 o aprovechar la representación en bits de los enteros.
 
 \subsubsection{Método 1}
 
 Una forma elegante de recorrer todos los subconjuntos
-de un conjunto es utilizar recursión.
-La siguiente función \texttt{busqueda}
+de un conjunto es utilizando recursión.
+La siguiente función \texttt{buscar}
 genera los subconjuntos del conjunto
-$\{0,1,\ldots,n-1\}$.
-La función mantiene un vector \texttt{subconjunto}
+$\{0,\ldots,n-1\}$.
+Esta mantiene un vector \texttt{subconj}
 que contendrá los elementos de cada subconjunto.
-La búsqueda comienza cuando se llama
-a la función con el parámetro 0.
+La búsqueda comienza llamando
+a la función con $k = 0$.
 
 \begin{lstlisting}
-void busqueda(int k) {
+void buscar(int k) {
     if (k == n) {
         // procesar subconjunto
     } else {
-        busqueda(k+1);
-        subconjunto.push_back(k);
-        busqueda(k+1);
-        subconjunto.pop_back();
+        buscar(k + 1);
+        subconj.push_back(k);
+        buscar(k + 1);
+        subconj.pop_back();
     }
 }
 \end{lstlisting}
 
-Cuando se llama a la función \texttt{busqueda}
+Cuando se llama a la función \texttt{buscar}
 con el parámetro $k$,
 decide si incluir o no el
-elemento $k$ en el subconjunto,
-y en ambos casos,
+elemento de índice $k$ en el subconjunto
+y, en ambos casos,
 luego se llama a sí misma con el parámetro $k+1$.
 Sin embargo, si $k=n$, la función se da cuenta de que
 todos los elementos han sido procesados
 y se ha generado un subconjunto.
 
-El siguiente árbol ilustra las llamadas a funciones cuando $n=3$.
+El siguiente árbol ilustra las llamadas a la función cuando $n=3$.
 Siempre podemos elegir la rama izquierda
-($k$ no está incluido en el subconjunto) o la rama derecha
-($k$ está incluido en el subconjunto).
+($k$ \emph{no} se incluye en el subconjunto) o la rama derecha
+($k$ \emph{sí} se incluye en el subconjunto).
 
 \begin{center}
-\begin{tikzpicture}[scale=.45]
-  \begin{scope}
-    \small
-    \node at (0,0) {$\texttt{busqueda}(0)$};
+  \begin{tikzpicture}[scale=.45]
+    \begin{scope}
+      \small
+      \node at (0,0) {$\texttt{buscar}(0)$};
 
-    \node at (-8,-4) {$\texttt{busqueda}(1)$};
-    \node at (8,-4) {$\texttt{busqueda}(1)$};
+      \node at (-8,-4) {$\texttt{buscar}(1)$};
+      \node at (8,-4) {$\texttt{buscar}(1)$};
 
-    \path[draw,thick,->] (0,0-0.5) -- (-8,-4+0.5);
-    \path[draw,thick,->] (0,0-0.5) -- (8,-4+0.5);
+      \path[draw,thick,->] (0,0-0.5) -- (-8,-4+0.5);
+      \path[draw,thick,->] (0,0-0.5) -- (8,-4+0.5);
 
-    \node at (-12,-8) {$\texttt{busqueda}(2)$};
-    \node at (-4,-8) {$\texttt{busqueda}(2)$};
-    \node at (4,-8) {$\texttt{busqueda}(2)$};
-    \node at (12,-8) {$\texttt{busqueda}(2)$};
+      \node at (-12,-8) {$\texttt{buscar}(2)$};
+      \node at (-4,-8) {$\texttt{buscar}(2)$};
+      \node at (4,-8) {$\texttt{buscar}(2)$};
+      \node at (12,-8) {$\texttt{buscar}(2)$};
 
-    \path[draw,thick,->] (-8,-4-0.5) -- (-12,-8+0.5);
-    \path[draw,thick,->] (-8,-4-0.5) -- (-4,-8+0.5);
-    \path[draw,thick,->] (8,-4-0.5) -- (4,-8+0.5);
-    \path[draw,thick,->] (8,-4-0.5) -- (12,-8+0.5);
+      \path[draw,thick,->] (-8,-4-0.5) -- (-12,-8+0.5);
+      \path[draw,thick,->] (-8,-4-0.5) -- (-4,-8+0.5);
+      \path[draw,thick,->] (8,-4-0.5) -- (4,-8+0.5);
+      \path[draw,thick,->] (8,-4-0.5) -- (12,-8+0.5);
 
-    \node at (-14,-12) {$\texttt{busqueda}(3)$};
-    \node at (-10,-12) {$\texttt{busqueda}(3)$};
-    \node at (-6,-12) {$\texttt{busqueda}(3)$};
-    \node at (-2,-12) {$\texttt{busqueda}(3)$};
-    \node at (2,-12) {$\texttt{busqueda}(3)$};
-    \node at (6,-12) {$\texttt{busqueda}(3)$};
-    \node at (10,-12) {$\texttt{busqueda}(3)$};
-    \node at (14,-12) {$\texttt{busqueda}(3)$};
+      \node at (-14,-12) {$\texttt{buscar}(3)$};
+      \node at (-10,-12) {$\texttt{buscar}(3)$};
+      \node at (-6,-12) {$\texttt{buscar}(3)$};
+      \node at (-2,-12) {$\texttt{buscar}(3)$};
+      \node at (2,-12) {$\texttt{buscar}(3)$};
+      \node at (6,-12) {$\texttt{buscar}(3)$};
+      \node at (10,-12) {$\texttt{buscar}(3)$};
+      \node at (14,-12) {$\texttt{buscar}(3)$};
 
-    \node at (-14,-13.5) {$\emptyset$};
-    \node at (-10,-13.5) {$\{2\}$};
-    \node at (-6,-13.5) {$\{1\}$};
-    \node at (-2,-13.5) {$\{1,2\}$};
-    \node at (2,-13.5) {$\{0\}$};
-    \node at (6,-13.5) {$\{0,2\}$};
-    \node at (10,-13.5) {$\{0,1\}$};
-    \node at (14,-13.5) {$\{0,1,2\}$};
+      \node at (-14,-13.5) {$\emptyset$};
+      \node at (-10,-13.5) {$\{2\}$};
+      \node at (-6,-13.5) {$\{1\}$};
+      \node at (-2,-13.5) {$\{1,2\}$};
+      \node at (2,-13.5) {$\{0\}$};
+      \node at (6,-13.5) {$\{0,2\}$};
+      \node at (10,-13.5) {$\{0,1\}$};
+      \node at (14,-13.5) {$\{0,1,2\}$};
 
 
-    \path[draw,thick,->] (-12,-8-0.5) -- (-14,-12+0.5);
-    \path[draw,thick,->] (-12,-8-0.5) -- (-10,-12+0.5);
-    \path[draw,thick,->] (-4,-8-0.5) -- (-6,-12+0.5);
-    \path[draw,thick,->] (-4,-8-0.5) -- (-2,-12+0.5);
-    \path[draw,thick,->] (4,-8-0.5) -- (2,-12+0.5);
-    \path[draw,thick,->] (4,-8-0.5) -- (6,-12+0.5);
-    \path[draw,thick,->] (12,-8-0.5) -- (10,-12+0.5);
-    \path[draw,thick,->] (12,-8-0.5) -- (14,-12+0.5);
-\end{scope}
-\end{tikzpicture}
+      \path[draw,thick,->] (-12,-8-0.5) -- (-14,-12+0.5);
+      \path[draw,thick,->] (-12,-8-0.5) -- (-10,-12+0.5);
+      \path[draw,thick,->] (-4,-8-0.5) -- (-6,-12+0.5);
+      \path[draw,thick,->] (-4,-8-0.5) -- (-2,-12+0.5);
+      \path[draw,thick,->] (4,-8-0.5) -- (2,-12+0.5);
+      \path[draw,thick,->] (4,-8-0.5) -- (6,-12+0.5);
+      \path[draw,thick,->] (12,-8-0.5) -- (10,-12+0.5);
+      \path[draw,thick,->] (12,-8-0.5) -- (14,-12+0.5);
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 \subsubsection{Método 2}
@@ -143,7 +143,7 @@ El siguiente código recorre los subconjuntos
 de un conjunto de $n$ elementos
 
 \begin{lstlisting}
-for (int b = 0; b < (1<<n); b++) {
+for (int b = 0; b < (1 << n); b++) {
     // procesar subconjunto
 }
 \end{lstlisting}
@@ -155,15 +155,15 @@ el código construye un vector que contiene los
 elementos en el subconjunto.
 
 \begin{lstlisting}
-for (int b = 0; b < (1<<n); b++) {
-    vector<int> subconjunto;
+for (int b = 0; b < (1 << n); b++) {
+    vector<int> subconj;
     for (int i = 0; i < n; i++) {
-        if (b&(1<<i)) subconjunto.push_back(i);
+        if (b & (1 << i)) subconj.push_back(i);
     }
 }
 \end{lstlisting}
 
-\section{Generando permutaciones}
+\section{Generar permutaciones}
 
 \index{permutación}
 
@@ -172,7 +172,7 @@ todas las permutaciones de un conjunto de $n$ elementos.
 Por ejemplo, las permutaciones de $\{0,1,2\}$ son
 $(0,1,2)$, $(0,2,1)$, $(1,0,2)$, $(1,2,0)$,
 $(2,0,1)$ y $(2,1,0)$.
-De nuevo, hay dos enfoques:
+De nuevo, hay dos métodos:
 podemos usar recursión o recorrer las
 permutaciones de forma iterativa.
 
@@ -182,52 +182,49 @@ Al igual que los subconjuntos, las permutaciones se pueden generar
 usando recursión.
 La siguiente función \texttt{buscar} recorre
 las permutaciones del conjunto $\{0,1,\ldots,n-1\}$.
-La función construye un vector \texttt{permutación}
+La función construye un vector \texttt{perm}
 que contiene la permutación,
-y la búsqueda comienza cuando se llama a la función
-sin parámetros.
+y la búsqueda comienza llamando a la función.
 
 \begin{lstlisting}
 void buscar() {
-    if (permutacion.size() == n) {
+    if (perm.size() == n) {
         // procesar permutación
     } else {
         for (int i = 0; i < n; i++) {
             if (elegido[i]) continue;
             elegido[i] = true;
-            permutacion.push_back(i);
+            perm.push_back(i);
             buscar();
             elegido[i] = false;
-            permutacion.pop_back();
+            perm.pop_back();
         }
     }
 }
 \end{lstlisting}
 
 Cada llamada a la función añade un nuevo elemento a
-\texttt{permutacion}.
-El array \texttt{elegido} indica cuáles
+\texttt{perm}.
+El vector \texttt{elegido} indica cuáles
 elementos ya están incluidos en la permutación.
-Si el tamaño de \texttt{permutacion} es igual al tamaño del conjunto,
+Si el tamaño de \texttt{perm} es igual al tamaño del conjunto,
 se ha generado una permutación.
 
 \subsubsection{Método 2}
 
 \index{next\_permutation@\texttt{next\_permutation}}
 
-Otro método para generar permutaciones
-es comenzar con la permutación
-$\{0,1,\ldots,n-1\}$ y usar repetidamente
+Un método simple es comenzar con la permutación
+$\{0,\ldots,n-1\}$ y usar repetidamente
 una función que construye la siguiente permutación
 en orden creciente.
 La biblioteca estándar de C++ contiene la función
 \texttt{next\_permutation} que se puede utilizar para esto:
 
 \begin{lstlisting}
-vector<int> permutacion;
-for (int i = 0; i < n; i++) {
-    permutacion.push_back(i);
-}
+vector<int> perm; // construir permutación inicial
+for (int i = 0; i < n; i++) perm.push_back(i);
+
 do {
     // procesar permutacion
 } while (next_permutation(permutacion.begin(),permutacion.end()));
@@ -237,7 +234,7 @@ do {
 
 \index{backtracking}
 
-Un algoritmo de \key{backtracking}
+Un algoritmo que utiliza \key{backtracking}
 comienza con una solución vacía
 y extiende la solución paso a paso.
 La búsqueda recursivamente
@@ -246,37 +243,37 @@ se puede construir una solución.
 
 \index{problema de las reinas}
 
-Como ejemplo, considere el problema de
+Como ejemplo, considera el problema de
 calcular el número
 de formas en que $n$ reinas pueden ser colocadas en
-un tablero de ajedrez $n \times n$ de tal manera que
-ninguna reina ataque a las demás.
+un tablero de ajedrez $n \times n$ tal que
+ninguna reina ataque a otra.
 Por ejemplo, cuando $n=4$,
 hay dos soluciones posibles:
 
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-  \begin{scope}
-    \draw (0, 0) grid (4, 4);
-    \node at (1.5,3.5) {\symqueen};
-    \node at (3.5,2.5) {\symqueen};
-    \node at (0.5,1.5) {\symqueen};
-    \node at (2.5,0.5) {\symqueen};
+  \begin{tikzpicture}[scale=.65]
+    \begin{scope}
+      \draw (0, 0) grid (4, 4);
+      \node at (1.5,3.5) {\symqueen};
+      \node at (3.5,2.5) {\symqueen};
+      \node at (0.5,1.5) {\symqueen};
+      \node at (2.5,0.5) {\symqueen};
 
-    \draw (6, 0) grid (10, 4);
-    \node at (6+2.5,3.5) {\symqueen};
-    \node at (6+0.5,2.5) {\symqueen};
-    \node at (6+3.5,1.5) {\symqueen};
-    \node at (6+1.5,0.5) {\symqueen};
+      \draw (6, 0) grid (10, 4);
+      \node at (6+2.5,3.5) {\symqueen};
+      \node at (6+0.5,2.5) {\symqueen};
+      \node at (6+3.5,1.5) {\symqueen};
+      \node at (6+1.5,0.5) {\symqueen};
 
-  \end{scope}
-\end{tikzpicture}
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 El problema se puede resolver mediante backtracking
 colocando reinas en el tablero fila por fila.
-Más precisamente, se colocará exactamente una reina en cada fila de tal manera que ninguna reina ataque
-a ninguna de las reinas colocadas anteriormente.
+Más precisamente, se colocará exactamente una reina por fila
+tal que ninguna reina ataque a otra colocada anteriormente.
 Se ha encontrado una solución cuando todas
 las $n$ reinas han sido colocadas en el tablero.
 
@@ -285,51 +282,51 @@ algunas soluciones parciales generadas por
 el algoritmo de backtracking son las siguientes:
 
 \begin{center}
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \draw (0, 0) grid (4, 4);
+  \begin{tikzpicture}[scale=.55]
+    \begin{scope}
+      \draw (0, 0) grid (4, 4);
 
-    \draw (-9, -6) grid (-5, -2);
-    \draw (-3, -6) grid (1, -2);
-    \draw (3, -6) grid (7, -2);
-    \draw (9, -6) grid (13, -2);
+      \draw (-9, -6) grid (-5, -2);
+      \draw (-3, -6) grid (1, -2);
+      \draw (3, -6) grid (7, -2);
+      \draw (9, -6) grid (13, -2);
 
-    \node at (-9+0.5,-3+0.5) {\symqueen};
-    \node at (-3+1+0.5,-3+0.5) {\symqueen};
-    \node at (3+2+0.5,-3+0.5) {\symqueen};
-    \node at (9+3+0.5,-3+0.5) {\symqueen};
+      \node at (-9+0.5,-3+0.5) {\symqueen};
+      \node at (-3+1+0.5,-3+0.5) {\symqueen};
+      \node at (3+2+0.5,-3+0.5) {\symqueen};
+      \node at (9+3+0.5,-3+0.5) {\symqueen};
 
-    \draw (2,0) -- (-7,-2);
-    \draw (2,0) -- (-1,-2);
-    \draw (2,0) -- (5,-2);
-    \draw (2,0) -- (11,-2);
+      \draw (2,0) -- (-7,-2);
+      \draw (2,0) -- (-1,-2);
+      \draw (2,0) -- (5,-2);
+      \draw (2,0) -- (11,-2);
 
-    \draw (-11, -12) grid (-7, -8);
-    \draw (-6, -12) grid (-2, -8);
-    \draw (-1, -12) grid (3, -8);
-    \draw (4, -12) grid (8, -8);
-    \draw[white] (11, -12) grid (15, -8);
-    \node at (-11+1+0.5,-9+0.5) {\symqueen};
-    \node at (-6+1+0.5,-9+0.5) {\symqueen};
-    \node at (-1+1+0.5,-9+0.5) {\symqueen};
-    \node at (4+1+0.5,-9+0.5) {\symqueen};
-    \node at (-11+0+0.5,-10+0.5) {\symqueen};
-    \node at (-6+1+0.5,-10+0.5) {\symqueen};
-    \node at (-1+2+0.5,-10+0.5) {\symqueen};
-    \node at (4+3+0.5,-10+0.5) {\symqueen};
+      \draw (-11, -12) grid (-7, -8);
+      \draw (-6, -12) grid (-2, -8);
+      \draw (-1, -12) grid (3, -8);
+      \draw (4, -12) grid (8, -8);
+      \draw[white] (11, -12) grid (15, -8);
+      \node at (-11+1+0.5,-9+0.5) {\symqueen};
+      \node at (-6+1+0.5,-9+0.5) {\symqueen};
+      \node at (-1+1+0.5,-9+0.5) {\symqueen};
+      \node at (4+1+0.5,-9+0.5) {\symqueen};
+      \node at (-11+0+0.5,-10+0.5) {\symqueen};
+      \node at (-6+1+0.5,-10+0.5) {\symqueen};
+      \node at (-1+2+0.5,-10+0.5) {\symqueen};
+      \node at (4+3+0.5,-10+0.5) {\symqueen};
 
-    \draw (-1,-6) -- (-9,-8);
-    \draw (-1,-6) -- (-4,-8);
-    \draw (-1,-6) -- (1,-8);
-    \draw (-1,-6) -- (6,-8);
+      \draw (-1,-6) -- (-9,-8);
+      \draw (-1,-6) -- (-4,-8);
+      \draw (-1,-6) -- (1,-8);
+      \draw (-1,-6) -- (6,-8);
 
-    \node at (-9,-13) {ilegal};
-    \node at (-4,-13) {ilegal};
-    \node at (1,-13) {ilegal};
-    \node at (6,-13) {válida};
+      \node at (-9,-13) {ilegal};
+      \node at (-4,-13) {ilegal};
+      \node at (1,-13) {ilegal};
+      \node at (6,-13) {válida};
 
-  \end{scope}
-\end{tikzpicture}
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 En el nivel más bajo, las tres primeras configuraciones
@@ -339,37 +336,36 @@ y se puede extender a una solución completa colocando
 dos reinas más en el tablero.
 Solo hay una forma de colocar las dos reinas restantes.
 
-\begin{samepage}
+\newpage
 El algoritmo se puede implementar de la siguiente manera:
 \begin{lstlisting}
-void search(int y) {
+void buscar(int y) {
     if (y == n) {
-        count++;
+        cuenta++;
         return;
     }
     for (int x = 0; x < n; x++) {
-        if (column[x] || diag1[x+y] || diag2[x-y+n-1]) continue;
-        column[x] = diag1[x+y] = diag2[x-y+n-1] = 1;
-        search(y+1);
-        column[x] = diag1[x+y] = diag2[x-y+n-1] = 0;
+        if (col[x] || diag1[x + y] || diag2[x - y + n - 1]) continue;
+        col[x] = diag1[x + y] = diag2[x - y + n - 1] = true;
+        search(y + 1);
+        col[x] = diag1[x + y] = diag2[x - y + n - 1] = false;
     }
 }
 \end{lstlisting}
-\end{samepage}
-La búsqueda comienza llamando a \texttt{search(0)}.
+La búsqueda comienza llamando la función con $y = 0$.
 El tamaño del tablero es de $n \times n$,
 y el código calcula el número de soluciones
-en \texttt{count}.
+en \texttt{cuenta}.
 
 El código asume que las filas y columnas
 del tablero están numeradas de 0 a $n-1$.
-Cuando se llama a la función \texttt{search} con el parámetro $y$,
-coloca una reina en la fila $y$
+Cuando se llama a la función \texttt{buscar} con el parámetro $y$,
+esta coloca una reina en la fila $y$
 y luego se llama a sí misma con el parámetro $y+1$.
-Entonces, si $y=n$, se ha encontrado una solución
-y la variable \texttt{count} se incrementa en uno.
+Finalmente, si $y=n$, se ha encontrado una solución
+y la variable \texttt{cuenta} se incrementa en uno.
 
-El arreglo \texttt{column} lleva un registro de las columnas
+El arreglo \texttt{col} lleva un registro de las columnas
 que contienen una reina,
 y los arreglos \texttt{diag1} y \texttt{diag2}
 llevan un registro de las diagonales.
@@ -379,68 +375,68 @@ Por ejemplo, las columnas y diagonales del
 tablero de $4 \times 4$ están numeradas de la siguiente manera:
 
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-  \begin{scope}
-    \draw (0-6, 0) grid (4-6, 4);
-    \node at (-6+0.5,3.5) {$0$};
-    \node at (-6+1.5,3.5) {$1$};
-    \node at (-6+2.5,3.5) {$2$};
-    \node at (-6+3.5,3.5) {$3$};
-    \node at (-6+0.5,2.5) {$0$};
-    \node at (-6+1.5,2.5) {$1$};
-    \node at (-6+2.5,2.5) {$2$};
-    \node at (-6+3.5,2.5) {$3$};
-    \node at (-6+0.5,1.5) {$0$};
-    \node at (-6+1.5,1.5) {$1$};
-    \node at (-6+2.5,1.5) {$2$};
-    \node at (-6+3.5,1.5) {$3$};
-    \node at (-6+0.5,0.5) {$0$};
-    \node at (-6+1.5,0.5) {$1$};
-    \node at (-6+2.5,0.5) {$2$};
-    \node at (-6+3.5,0.5) {$3$};
+  \begin{tikzpicture}[scale=.65]
+    \begin{scope}
+      \draw (0-6, 0) grid (4-6, 4);
+      \node at (-6+0.5,3.5) {$0$};
+      \node at (-6+1.5,3.5) {$1$};
+      \node at (-6+2.5,3.5) {$2$};
+      \node at (-6+3.5,3.5) {$3$};
+      \node at (-6+0.5,2.5) {$0$};
+      \node at (-6+1.5,2.5) {$1$};
+      \node at (-6+2.5,2.5) {$2$};
+      \node at (-6+3.5,2.5) {$3$};
+      \node at (-6+0.5,1.5) {$0$};
+      \node at (-6+1.5,1.5) {$1$};
+      \node at (-6+2.5,1.5) {$2$};
+      \node at (-6+3.5,1.5) {$3$};
+      \node at (-6+0.5,0.5) {$0$};
+      \node at (-6+1.5,0.5) {$1$};
+      \node at (-6+2.5,0.5) {$2$};
+      \node at (-6+3.5,0.5) {$3$};
 
-    \draw (0, 0) grid (4, 4);
-    \node at (0.5,3.5) {$0$};
-    \node at (1.5,3.5) {$1$};
-    \node at (2.5,3.5) {$2$};
-    \node at (3.5,3.5) {$3$};
-    \node at (0.5,2.5) {$1$};
-    \node at (1.5,2.5) {$2$};
-    \node at (2.5,2.5) {$3$};
-    \node at (3.5,2.5) {$4$};
-    \node at (0.5,1.5) {$2$};
-    \node at (1.5,1.5) {$3$};
-    \node at (2.5,1.5) {$4$};
-    \node at (3.5,1.5) {$5$};
-    \node at (0.5,0.5) {$3$};
-    \node at (1.5,0.5) {$4$};
-    \node at (2.5,0.5) {$5$};
-    \node at (3.5,0.5) {$6$};
+      \draw (0, 0) grid (4, 4);
+      \node at (0.5,3.5) {$0$};
+      \node at (1.5,3.5) {$1$};
+      \node at (2.5,3.5) {$2$};
+      \node at (3.5,3.5) {$3$};
+      \node at (0.5,2.5) {$1$};
+      \node at (1.5,2.5) {$2$};
+      \node at (2.5,2.5) {$3$};
+      \node at (3.5,2.5) {$4$};
+      \node at (0.5,1.5) {$2$};
+      \node at (1.5,1.5) {$3$};
+      \node at (2.5,1.5) {$4$};
+      \node at (3.5,1.5) {$5$};
+      \node at (0.5,0.5) {$3$};
+      \node at (1.5,0.5) {$4$};
+      \node at (2.5,0.5) {$5$};
+      \node at (3.5,0.5) {$6$};
 
-    \draw (6, 0) grid (10, 4);
-    \node at (6.5,3.5) {$3$};
-    \node at (7.5,3.5) {$4$};
-    \node at (8.5,3.5) {$5$};
-    \node at (9.5,3.5) {$6$};
-    \node at (6.5,2.5) {$2$};
-    \node at (7.5,2.5) {$3$};
-    \node at (8.5,2.5) {$4$};
-    \node at (9.5,2.5) {$5$};
-    \node at (6.5,1.5) {$1$};
-    \node at (7.5,1.5) {$2$};
-    \node at (8.5,1.5) {$3$};
-    \node at (9.5,1.5) {$4$};
-    \node at (6.5,0.5) {$0$};
-    \node at (7.5,0.5) {$1$};
-    \node at (8.5,0.5) {$2$};
-    \node at (9.5,0.5) {$3$};
+      \draw (6, 0) grid (10, 4);
+      \node at (6.5,3.5) {$3$};
+      \node at (7.5,3.5) {$4$};
+      \node at (8.5,3.5) {$5$};
+      \node at (9.5,3.5) {$6$};
+      \node at (6.5,2.5) {$2$};
+      \node at (7.5,2.5) {$3$};
+      \node at (8.5,2.5) {$4$};
+      \node at (9.5,2.5) {$5$};
+      \node at (6.5,1.5) {$1$};
+      \node at (7.5,1.5) {$2$};
+      \node at (8.5,1.5) {$3$};
+      \node at (9.5,1.5) {$4$};
+      \node at (6.5,0.5) {$0$};
+      \node at (7.5,0.5) {$1$};
+      \node at (8.5,0.5) {$2$};
+      \node at (9.5,0.5) {$3$};
 
-    \node at (-4,-1) {\texttt{column}};
-    \node at (2,-1) {\texttt{diag1}};
-    \node at (8,-1) {\texttt{diag2}};
+      \node at (-4,-1) {\texttt{col}};
+      \node at (2,-1) {\texttt{diag1}};
+      \node at (8,-1) {\texttt{diag2}};
 
-  \end{scope}
-\end{tikzpicture}
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 Sea $q(n)$ el número de formas de
@@ -452,14 +448,15 @@ exponencialmente.
 Por ejemplo, calcular $q(16)=14772512$
 usando el algoritmo anterior ya toma aproximadamente un minuto
 en una computadora moderna\footnote{No se conoce ninguna forma eficiente de
-calcular valores más grandes de $q(n)$. El récord actual es
-$q(27)=234907967154122528$, calculado en 2016 \cite{q27}.}.
+  calcular valores más grandes de $q(n)$. El récord actual es
+  $q(27)=234907967154122528$, calculado en 2016 \cite{q27}.}.
 
-\section{Poda de la búsqueda}
+\newpage
+\section{Podar la búsqueda}
 
-A menudo podemos optimizar backtracking podando el árbol de búsqueda.
-La idea es agregar ''inteligencia'' al algoritmo
-para que pueda notar lo más rápido posible
+A menudo podemos optimizar backtracking \emph{podando} el árbol de búsqueda.
+La idea es agregar ``inteligencia'' al algoritmo
+para que pueda notar lo antes posible
 si una solución parcial no puede extenderse
 a una solución completa.
 Dichas optimizaciones pueden tener un tremendo
@@ -471,47 +468,45 @@ en una cuadrícula de $n \times n$ desde la esquina superior izquierda
 hasta la esquina inferior derecha, de tal manera que
 el camino visite cada cuadrado exactamente una vez.
 Por ejemplo, en una cuadrícula de $7 \times 7$,
-hay 111712 de estos caminos.
+hay 111.712 de estos caminos.
 Uno de los caminos es el siguiente:
 
 \begin{center}
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \draw (0, 0) grid (7, 7);
-    \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-          (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-          (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-          (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-          (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
-          (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
-          (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
-          (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.55]
+    \begin{scope}
+      \draw (0, 0) grid (7, 7);
+      \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+      (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+      (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+      (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+      (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
+      (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
+      (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
+      (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 
 Nos enfocamos en el caso de $7 \times 7$,
 porque su nivel de dificultad es apropiado para nuestras necesidades.
-Comenzamos con un algoritmo de backtracking sencillo,
-y luego lo optimizamos paso a paso utilizando observaciones
+Comenzaremos con un algoritmo de backtracking sencillo,
+y luego lo optimizaremos paso a paso utilizando observaciones
 sobre cómo se puede podar la búsqueda.
-Después de cada optimización, medimos el tiempo de ejecución
+Después de cada optimización, mediremos el tiempo de ejecución
 del algoritmo y el número de llamadas recursivas,
-para que veamos claramente el efecto de cada
+para ver claramente el efecto de cada
 optimización en la eficiencia de la búsqueda.
 
 \subsubsection{Algoritmo básico}
 
-La primera versión del algoritmo no contiene
-ninguna optimización. Simplemente usamos backtracking para generar
+La primera versión del algoritmo no contiene optimizaciones.
+Simplemente usamos backtracking para generar
 todos los caminos posibles desde la esquina superior izquierda hasta
-la esquina inferior derecha y contamos el número de tales caminos.
+la inferior derecha y los contamos.
 
-\begin{itemize}
-\item
-tiempo de ejecución: 483 segundos
-\item
-número de llamadas recursivas: 76 mil millones
+\begin{itemize}[itemsep=0em,topsep=0.5em]
+  \item tiempo de ejecución: 483 segundos
+  \item número de llamadas recursivas: 76 mil millones
 \end{itemize}
 
 \subsubsection{Optimización 1}
@@ -524,47 +519,45 @@ después del primer paso.
 Por ejemplo, los siguientes caminos son simétricos:
 
 \begin{center}
-\begin{tabular}{ccc}
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \draw (0, 0) grid (7, 7);
-    \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-          (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-          (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-          (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-          (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
-          (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
-          (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
-          (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
-  \end{scope}
-\end{tikzpicture}
-& \hspace{20px}
-& 
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}[yscale=1,xscale=-1,rotate=-90]
-    \draw (0, 0) grid (7, 7);
-    \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-          (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-          (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-          (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-          (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
-          (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
-          (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
-          (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
-  \end{scope}
-\end{tikzpicture}
-\end{tabular}
+  \begin{tabular}{ccc}
+    \begin{tikzpicture}[scale=.55]
+      \begin{scope}
+        \draw (0, 0) grid (7, 7);
+        \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+        (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+        (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+        (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+        (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
+        (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
+        (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
+        (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
+      \end{scope}
+    \end{tikzpicture}
+     & \hspace{20px}
+     &
+    \begin{tikzpicture}[scale=.55]
+      \begin{scope}[yscale=1,xscale=-1,rotate=-90]
+        \draw (0, 0) grid (7, 7);
+        \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+        (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+        (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+        (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+        (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
+        (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
+        (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
+        (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
+      \end{scope}
+    \end{tikzpicture}
+  \end{tabular}
 \end{center}
 
 Por lo tanto, podemos decidir que siempre primero
-nos movemos un paso hacia abajo (o hacia la derecha),
+nos movemos hacia abajo (o hacia la derecha),
 y finalmente multiplicamos el número de soluciones por dos.
 
-\begin{itemize}
-\item
-tiempo de ejecución: 244 segundos
-\item
-número de llamadas recursivas: 38 mil millones
+\begin{itemize}[itemsep=0em,topsep=0.5em]
+  \item tiempo de ejecución: 244 segundos
+  \item número de llamadas recursivas: 38 mil millones
 \end{itemize}
 
 \subsubsection{Optimización 2}
@@ -576,24 +569,23 @@ no será posible completar la solución.
 Un ejemplo de esto es el siguiente camino:
 
 \begin{center}
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \draw (0, 0) grid (7, 7);
-    \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-          (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-          (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-          (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-          (6.5,0.5);
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.55]
+    \begin{scope}
+      \draw (0, 0) grid (7, 7);
+      \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+      (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+      (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+      (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+      (6.5,0.5);
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 Usando esta observación, podemos terminar la búsqueda
 inmediatamente si llegamos a la casilla inferior derecha demasiado pronto.
-\begin{itemize}
-\item
-tiempo de ejecución: 119 segundos
-\item
-número de llamadas recursivas: 20 mil millones
+
+\begin{itemize}[itemsep=0em,topsep=0.5em]
+  \item tiempo de ejecución: 119 segundos
+  \item número de llamadas recursivas: 20 mil millones
 \end{itemize}
 
 \subsubsection{Optimización 3}
@@ -606,26 +598,24 @@ Por ejemplo, en la siguiente situación,
 el camino puede girar hacia la izquierda o hacia la derecha:
 
 \begin{center}
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \draw (0, 0) grid (7, 7);
-    \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-          (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-          (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-          (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-          (5.5,0.5) -- (5.5,6.5);
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.55]
+    \begin{scope}
+      \draw (0, 0) grid (7, 7);
+      \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+      (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+      (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+      (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+      (5.5,0.5) -- (5.5,6.5);
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 En este caso, ya no podemos visitar todas las casillas,
 por lo que podemos terminar la búsqueda.
 Esta optimización es muy útil:
 
-\begin{itemize}
-\item
-tiempo de ejecución: 1.8 segundos
-\item
-número de llamadas recursivas: 221 millones
+\begin{itemize}[itemsep=0em,topsep=0.5em]
+  \item tiempo de ejecución: 1,8 segundos
+  \item número de llamadas recursivas: 221 millones
 \end{itemize}
 
 \subsubsection{Optimización 4}
@@ -636,30 +626,28 @@ si el camino no puede continuar hacia adelante
 pero puede girar hacia la izquierda o hacia la derecha,
 la cuadrícula se divide en dos partes
 que contienen casillas no visitadas en ambas partes.
-Por ejemplo, considere el siguiente camino:
+Por ejemplo, considera el siguiente camino:
 
 \begin{center}
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \draw (0, 0) grid (7, 7);
-    \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-          (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-          (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-          (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-          (5.5,0.5) -- (5.5,4.5) -- (3.5,4.5);
-  \end{scope}
-\end{tikzpicture}
+  \begin{tikzpicture}[scale=.55]
+    \begin{scope}
+      \draw (0, 0) grid (7, 7);
+      \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+      (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+      (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+      (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+      (5.5,0.5) -- (5.5,4.5) -- (3.5,4.5);
+    \end{scope}
+  \end{tikzpicture}
 \end{center}
 Está claro que ya no podemos visitar todas las casillas,
 por lo que podemos terminar la búsqueda.
 Después de esta optimización, la búsqueda es
 muy eficiente:
 
-\begin{itemize}
-\item
-tiempo de ejecución: 0.6 segundos
-\item
-número de llamadas recursivas: 69 millones
+\begin{itemize}[itemsep=0em,topsep=0.5em]
+  \item tiempo de ejecución: 0,6 segundos
+  \item número de llamadas recursivas: 69 millones
 \end{itemize}
 
 ~\\
@@ -700,7 +688,7 @@ Típicamente, podemos convertir un factor de $2^n$
 en un factor de $2^{n/2}$ usando la técnica de encuentro en el
 medio.
 
-Como ejemplo, considere un problema donde
+Como ejemplo, considera un problema donde
 se nos da una lista de $n$ números y
 un número $x$,
 y queremos averiguar si es posible
@@ -718,13 +706,13 @@ El tiempo de ejecución de dicho algoritmo es $O(2^n)$,
 porque hay $2^n$ subconjuntos.
 Sin embargo, usando la técnica de encuentro en el medio,
 podemos lograr un algoritmo más eficiente de tiempo $O(2^{n/2})$\footnote{Esta
-idea fue introducida en 1974 por E. Horowitz y S. Sahni \cite{hor74}.}.
-Tenga en cuenta que $O(2^n)$ y $O(2^{n/2})$ son diferentes
+  idea fue introducida en 1974 por E. Horowitz y S. Sahni \cite{hor74}.}.
+Ten en cuenta que $O(2^n)$ y $O(2^{n/2})$ son diferentes
 complejidades porque $2^{n/2}$ es igual a $\sqrt{2^n}$.
 
 La idea es dividir la lista en
-dos listas $A$ y $B$ de modo que ambas
-listas contengan aproximadamente la mitad de los números.
+dos sublistas $A$ y $B$ de modo que ambas
+contengan aproximadamente la mitad de los números.
 La primera búsqueda genera todos los subconjuntos
 de $A$ y almacena sus sumas en una lista $S_A$.
 Correspondientemente, la segunda búsqueda crea
