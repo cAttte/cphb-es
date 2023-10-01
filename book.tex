@@ -1,9 +1,6 @@
 \documentclass[twoside,12pt,a4paper,spanish]{book}
 
-%\includeonly{chapter08,list}
-
-\usepackage[spanish,shorthands=off,es-lcroman]{babel}
-\unaccentedoperators
+\usepackage[spanish,es-sloppy]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
 \usepackage[table]{xcolor}
@@ -32,7 +29,7 @@
 \usepackage{skak}
 \usepackage[scaled=0.95]{inconsolata}
 
-\usetikzlibrary{patterns,snakes}
+\usetikzlibrary{patterns,decorations.pathreplacing}
 \pagestyle{plain}
 
 \definecolor{keywords}{HTML}{44548A}
@@ -81,9 +78,6 @@
 {\normalfont\large\bfseries\sffamily}{\thesubsection}{1em}{}
 
 \begin{document}
-
-%\setcounter{page}{1}
-%\pagenumbering{roman}
 
 \frontmatter
 \maketitle
@@ -134,7 +128,7 @@
 
 \cleardoublepage
 \phantomsection
-\addcontentsline{toc}{chapter}{Bibliography}
+\addcontentsline{toc}{chapter}{Bibliografía}
 \include{list}
 
 \cleardoublepage
