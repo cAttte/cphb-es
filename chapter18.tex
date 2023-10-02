@@ -166,7 +166,7 @@ Hence, the corresponding tree traversal array is as follows:
 \node at (6.5,0.5) {$8$};
 \node at (7.5,0.5) {$9$};
 \node at (8.5,0.5) {$5$};
-% 
+%
 % \footnotesize
 % \node at (0.5,1.4) {$1$};
 % \node at (1.5,1.4) {$2$};
@@ -201,7 +201,7 @@ nodes of the subtree of node $4$:
 \node at (6.5,0.5) {$8$};
 \node at (7.5,0.5) {$9$};
 \node at (8.5,0.5) {$5$};
-% 
+%
 % \footnotesize
 % \node at (0.5,1.4) {$1$};
 % \node at (1.5,1.4) {$2$};
@@ -304,7 +304,7 @@ For example, the array for the above tree is as follows:
 \node at (6.5,-1.5) {$3$};
 \node at (7.5,-1.5) {$1$};
 \node at (8.5,-1.5) {$1$};
-% 
+%
 % \footnotesize
 % \node at (0.5,1.4) {$1$};
 % \node at (1.5,1.4) {$2$};
@@ -364,7 +364,7 @@ can be found as follows:
 \node at (6.5,-1.5) {$3$};
 \node at (7.5,-1.5) {$1$};
 \node at (8.5,-1.5) {$1$};
-% 
+%
 % \footnotesize
 % \node at (0.5,1.4) {$1$};
 % \node at (1.5,1.4) {$2$};
@@ -652,9 +652,9 @@ nodes in $O(\log n)$ time.
 \subsubsection{Method 2}
 
 Another way to solve the problem is based on
-a tree traversal array\footnote{This lowest common ancestor algorithm was presented in \cite{ben00}.
+a tree traversal array.\footnote{This lowest common ancestor algorithm was presented in \cite{ben00}.
 This technique is sometimes called the \index{Euler tour technique}
-\key{Euler tour technique} \cite{tar84}.}.
+\key{Euler tour technique} \cite{tar84}.}
 Once again, the idea is to traverse the nodes
 using a depth-first search:
 
@@ -703,7 +703,7 @@ in the array and there are a total of $2n-1$
 nodes in the array.
 
 We store two values in the array:
-the identifier of the node and the depth of the 
+the identifier of the node and the depth of the
 node in the tree.
 The following array corresponds to the above tree:
 
@@ -1028,7 +1028,7 @@ contains two nodes whose value is 3.
 However, it would be too slow to create
 all data structures from scratch.
 Instead, at each node $s$,
-we create an initial data structure $\texttt{d}[s]$ 
+we create an initial data structure $\texttt{d}[s]$
 that only contains the value of $s$.
 After this, we go through the children of $s$ and
 \emph{merge} $\texttt{d}[s]$ and
@@ -1109,8 +1109,8 @@ when $a$ and $b$ are C++ standard library data structures.
 
 There is also an offline algorithm
 for processing a set of
-lowest common ancestor queries\footnote{This
-algorithm was published by R. E. Tarjan in 1979 \cite{tar79}.}.
+lowest common ancestor queries.\footnote{This
+algorithm was published by R. E. Tarjan in 1979 \cite{tar79}.}
 The algorithm is based on the union-find data structure
 (see Chapter 15.2), and the benefit of the algorithm is
 that it is easier to implement than the
@@ -1130,7 +1130,7 @@ it goes through all nodes $y$ such that
 the lowest common ancestor of $x$ and $y$
 has to be found.
 If $y$ has already been visited,
-the algorithm reports that the 
+the algorithm reports that the
 lowest common ancestor of $x$ and $y$
 is the highest node in the set of $y$.
 Then, after processing node $x$,
