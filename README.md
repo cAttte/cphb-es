@@ -1,31 +1,24 @@
-# Competitive Programmer's Handbook - Spanish Translation assisted by AI (GPT-4)
+# Manual de programación competitiva
 
-Competitive Programmer's Handbook is a modern introduction to competitive programming.
-The book discusses programming tricks and algorithm design techniques relevant in competitive programming.
+Esta es una traducción del _Competitive Programmer's Handbook_, una introducción moderna a la programación competitiva escrita por Antti Laaksonen. Este libro discute trucos y técnicas del diseño algorítmico relevantes en la programación competitiva.
 
-## CSES Problem Set
+## Problemas de CSES
 
-The CSES Problem Set contains a collection of competitive programming problems.
-You can practice the techniques presented in the book by solving the problems.
+El _problemset_ de CSES es una colección de problemas de programación competitiva (en inglés). Puedes practicar las prácticas presentadas en este libro resolviendo estos problemas. https://cses.fi/problemset/
 
-https://cses.fi/problemset/
-
-## Cómo compilar
+<!-- ## Cómo compilar
 De momento, los comandos que han servido en pruebas han sido:
 ```
 pdflatex book.tex
 makeindex book.idx
 pdflatex book.tex
 ```
-(Sí, el primer comando se debe ejecutar una vez más al final)
+(Sí, el primer comando se debe ejecutar una vez más al final) -->
 
-## License
+## Licencia
 
-The license of the book is Creative Commons BY-NC-SA 4.0.
+Este libro está licenciado bajo [Creative Commons BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es).
 
-## Other books
+## Otros libros del autor
 
-Guide to Competitive Programming is a printed book, published by Springer, based on Competitive Programmer's Handbook.
-There is also a Russian edition Олимпиадное программирование (Olympiad Programming) and a Korean edition 알고리즘 트레이닝: 프로그래밍 대회 입문 가이드.
-
-https://cses.fi/book/
+_Guide to Competitive Programming_ es un libro impreso, publicado por Springer, basado en los contenidos del _Competitive Programmer's Handbook_. También existe una edición rusa _Олимпиадное программирование_ y una edición coreana _알고리즘 트레이닝: 프로그래밍 대회 입문 가이드_. https://cses.fi/book/
