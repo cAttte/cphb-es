@@ -1,1225 +1,1157 @@
-\chapter{Tree queries}
+\chapter{Consultas en árboles}
 
-\index{tree query}
+\index{consulta en árbol}
 
-This chapter discusses techniques for
-processing queries on
-subtrees and paths of a rooted tree.
-For example, such queries are:
-
+En este capítulo veremos técnicas para procesar consultas en
+subárboles y caminos de un árbol con raíz. Por ejemplo, tales
+consultas pueden ser:
 \begin{itemize}
-\item what is the $k$th ancestor of a node?
-\item what is the sum of values in the subtree of a node?
-\item what is the sum of values on a path between two nodes?
-\item what is the lowest common ancestor of two nodes?
+    \item ¿cuál es el $k$-ésimo ancestro de un nodo?
+    \item ¿cuál es la suma de valores en el subárbol de un nodo?
+    \item ¿cuál es la suma de valores en un camino entre dos nodos?
+    \item ¿cuál es el ancestro común más bajo de dos nodos?
 \end{itemize}
 
-\section{Finding ancestors}
+\section{Encontrar ancestros}
 
-\index{ancestor}
+\index{ancestro}
 
-The $k$th \key{ancestor} of a node $x$ in a rooted tree
-is the node that we will reach if we move $k$
-levels up from $x$.
-Let $\texttt{ancestor}(x,k)$ denote the $k$th ancestor of a node $x$
-(or $0$ if there is no such an ancestor).
-For example, in the following tree,
-$\texttt{ancestor}(2,1)=1$ and $\texttt{ancestor}(8,2)=4$.
+El $k$-ésimo \key{ancestro} de un nodo $x$ en un árbol con raíz es el
+nodo que alcanzaremos si nos movemos $k$ niveles hacia arriba desde $x$.
+Definamos $\texttt{ancestro}(x,k)$ como el $k$-ésimo ancestro de un nodo
+$x$ (o $0$ si tal ancestro no existe). Por ejemplo, en el siguiente árbol,
+$\texttt{ancestro}(2,1)=1$ y $\texttt{ancestro}(8,2)=4$.
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (2,1) {$2$};
-\node[draw, circle] (3) at (-2,1) {$4$};
-\node[draw, circle] (4) at (0,1) {$5$};
-\node[draw, circle] (5) at (2,-1) {$6$};
-\node[draw, circle] (6) at (-3,-1) {$3$};
-\node[draw, circle] (7) at (-1,-1) {$7$};
-\node[draw, circle] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (2,1) {$2$};
+        \node[draw, circle] (3) at (-2,1) {$4$};
+        \node[draw, circle] (4) at (0,1) {$5$};
+        \node[draw, circle] (5) at (2,-1) {$6$};
+        \node[draw, circle] (6) at (-3,-1) {$3$};
+        \node[draw, circle] (7) at (-1,-1) {$7$};
+        \node[draw, circle] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
 
-\path[draw=red,thick,->,line width=2pt] (8) edge [bend left] (3);
-\path[draw=red,thick,->,line width=2pt] (2) edge [bend right] (1);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (8) edge [bend left] (3);
+        \path[draw=red,thick,->,line width=2pt] (2) edge [bend right] (1);
+    \end{tikzpicture}
 \end{center}
 
-An easy way to calculate any value of $\texttt{ancestor}(x,k)$
-is to perform a sequence of $k$ moves in the tree.
-However, the time complexity of this method
-is $O(k)$, which may be slow, because a tree of $n$
-nodes may have a chain of $n$ nodes.
+Una manera fácil de calcular cualquier valor de $\texttt{ancestro}(x,k)$
+es realizar una secuencia de $k$ movimientos en el árbol. No obstante,
+la complejidad temporal de este método es $O(k)$, que puede ser lento,
+porque un árbol de $n$ nodos puede contener una cadena de $n$ nodos
+en el peor caso.
 
-Fortunately, using a technique similar to that
-used in Chapter 16.3, any value of $\texttt{ancestor}(x,k)$
-can be efficiently calculated in $O(\log k)$ time
-after preprocessing.
-The idea is to precalculate all values $\texttt{ancestor}(x,k)$
-where $k \le n$ is a power of two.
-For example, the values for the above tree
-are as follows:
+Afortunadamente, utilizando una técnica similar a aquella del Capítulo
+16.3, cualquier valor de $\texttt{ancestro}(x,k)$ puede ser calculado
+eficientemente en $O(\log k)$ luego de un preprocesamiento.
+La idea es precalcular todos los valores de $\texttt{ancestro}(x,k)$
+donde $k \le n$ sea una potencia de 2. Por ejemplo, los valores para
+el árbol de arriba son los siguientes:
 
 \begin{center}
-\begin{tabular}{r|rrrrrrrrr}
-$x$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
-\hline
-$\texttt{ancestor}(x,1)$ & 0 & 1 & 4 & 1 & 1 & 2 & 4 & 7 \\
-$\texttt{ancestor}(x,2)$ & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 4 \\
-$\texttt{ancestor}(x,4)$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-$\cdots$ \\
-\end{tabular}
+    \begin{tabular}{r|rrrrrrrrr}
+        $x$                      & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+        \hline
+        $\texttt{ancestor}(x,1)$ & 0 & 1 & 4 & 1 & 1 & 2 & 4 & 7 \\
+        $\texttt{ancestor}(x,2)$ & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 4 \\
+        $\texttt{ancestor}(x,4)$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+        $\cdots$                                                 \\
+    \end{tabular}
 \end{center}
 
-The preprocessing takes $O(n \log n)$ time,
-because $O(\log n)$ values are calculated for each node.
-After this, any value of $\texttt{ancestor}(x,k)$ can be calculated
-in $O(\log k)$ time by representing $k$
-as a sum where each term is a power of two.
+El preprocesamiento tarda $O(n \log n)$, porque se calculan $O(\log n)$
+valores por cada nodo. Luego de esto, cada valor de
+$\texttt{ancestro}(x,k)$ puede calcularse en $O(\log k)$ si
+representamos $k$ como una suma donde cada término es una potencia de 2.
 
-\section{Subtrees and paths}
+\section{Subárboles y caminos}
 
-\index{tree traversal array}
+\index{arreglo de recorrido del árbol}
 
-A \key{tree traversal array} contains the nodes of a rooted tree
-in the order in which a depth-first search
-from the root node visits them.
-For example, in the tree
+Un \key{arreglo de recorrido del árbol} contiene los nodos de un
+árbol con raíz en el orden en que los visita una búsqueda en
+profundidad. Por ejemplo, en el árbol
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (-3,1) {$2$};
-\node[draw, circle] (3) at (-1,1) {$3$};
-\node[draw, circle] (4) at (1,1) {$4$};
-\node[draw, circle] (5) at (3,1) {$5$};
-\node[draw, circle] (6) at (-3,-1) {$6$};
-\node[draw, circle] (7) at (-0.5,-1) {$7$};
-\node[draw, circle] (8) at (1,-1) {$8$};
-\node[draw, circle] (9) at (2.5,-1) {$9$};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (-3,1) {$2$};
+        \node[draw, circle] (3) at (-1,1) {$3$};
+        \node[draw, circle] (4) at (1,1) {$4$};
+        \node[draw, circle] (5) at (3,1) {$5$};
+        \node[draw, circle] (6) at (-3,-1) {$6$};
+        \node[draw, circle] (7) at (-0.5,-1) {$7$};
+        \node[draw, circle] (8) at (1,-1) {$8$};
+        \node[draw, circle] (9) at (2.5,-1) {$9$};
 
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (6);
-\path[draw,thick,-] (4) -- (7);
-\path[draw,thick,-] (4) -- (8);
-\path[draw,thick,-] (4) -- (9);
-\end{tikzpicture}
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (6);
+        \path[draw,thick,-] (4) -- (7);
+        \path[draw,thick,-] (4) -- (8);
+        \path[draw,thick,-] (4) -- (9);
+    \end{tikzpicture}
 \end{center}
-a depth-first search proceeds as follows:
+una búsqueda en profundidad procede de la siguiente manera:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (-3,1) {$2$};
-\node[draw, circle] (3) at (-1,1) {$3$};
-\node[draw, circle] (4) at (1,1) {$4$};
-\node[draw, circle] (5) at (3,1) {$5$};
-\node[draw, circle] (6) at (-3,-1) {$6$};
-\node[draw, circle] (7) at (-0.5,-1) {$7$};
-\node[draw, circle] (8) at (1,-1) {$8$};
-\node[draw, circle] (9) at (2.5,-1) {$9$};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (-3,1) {$2$};
+        \node[draw, circle] (3) at (-1,1) {$3$};
+        \node[draw, circle] (4) at (1,1) {$4$};
+        \node[draw, circle] (5) at (3,1) {$5$};
+        \node[draw, circle] (6) at (-3,-1) {$6$};
+        \node[draw, circle] (7) at (-0.5,-1) {$7$};
+        \node[draw, circle] (8) at (1,-1) {$8$};
+        \node[draw, circle] (9) at (2.5,-1) {$9$};
 
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (6);
-\path[draw,thick,-] (4) -- (7);
-\path[draw,thick,-] (4) -- (8);
-\path[draw,thick,-] (4) -- (9);
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (6);
+        \path[draw,thick,-] (4) -- (7);
+        \path[draw,thick,-] (4) -- (8);
+        \path[draw,thick,-] (4) -- (9);
 
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (2);
+        \path[draw=red,thick,->,line width=2pt] (2) edge [bend right=15] (6);
+        \path[draw=red,thick,->,line width=2pt] (6) edge [bend right=15] (2);
+        \path[draw=red,thick,->,line width=2pt] (2) edge [bend right=15] (1);
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (3);
+        \path[draw=red,thick,->,line width=2pt] (3) edge [bend right=15] (1);
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (4);
+        \path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (7);
+        \path[draw=red,thick,->,line width=2pt] (7) edge [bend right=15] (4);
+        \path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (8);
+        \path[draw=red,thick,->,line width=2pt] (8) edge [bend right=15] (4);
+        \path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (9);
+        \path[draw=red,thick,->,line width=2pt] (9) edge [bend right=15] (4);
+        \path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (1);
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (5);
+        \path[draw=red,thick,->,line width=2pt] (5) edge [bend right=15] (1);
 
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (2);
-\path[draw=red,thick,->,line width=2pt] (2) edge [bend right=15] (6);
-\path[draw=red,thick,->,line width=2pt] (6) edge [bend right=15] (2);
-\path[draw=red,thick,->,line width=2pt] (2) edge [bend right=15] (1);
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (3);
-\path[draw=red,thick,->,line width=2pt] (3) edge [bend right=15] (1);
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (4);
-\path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (7);
-\path[draw=red,thick,->,line width=2pt] (7) edge [bend right=15] (4);
-\path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (8);
-\path[draw=red,thick,->,line width=2pt] (8) edge [bend right=15] (4);
-\path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (9);
-\path[draw=red,thick,->,line width=2pt] (9) edge [bend right=15] (4);
-\path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (1);
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (5);
-\path[draw=red,thick,->,line width=2pt] (5) edge [bend right=15] (1);
-
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
-Hence, the corresponding tree traversal array is as follows:
+Por ende, el arreglo de recorrido del árbol es el siguiente:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (9,1);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (9,1);
 
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$3$};
-\node at (4.5,0.5) {$4$};
-\node at (5.5,0.5) {$7$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$9$};
-\node at (8.5,0.5) {$5$};
-%
-% \footnotesize
-% \node at (0.5,1.4) {$1$};
-% \node at (1.5,1.4) {$2$};
-% \node at (2.5,1.4) {$3$};
-% \node at (3.5,1.4) {$4$};
-% \node at (4.5,1.4) {$5$};
-% \node at (5.5,1.4) {$6$};
-% \node at (6.5,1.4) {$7$};
-% \node at (7.5,1.4) {$8$};
-% \node at (8.5,1.4) {$9$};
-\end{tikzpicture}
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$3$};
+        \node at (4.5,0.5) {$4$};
+        \node at (5.5,0.5) {$7$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$9$};
+        \node at (8.5,0.5) {$5$};
+        %
+        % \footnotesize
+        % \node at (0.5,1.4) {$1$};
+        % \node at (1.5,1.4) {$2$};
+        % \node at (2.5,1.4) {$3$};
+        % \node at (3.5,1.4) {$4$};
+        % \node at (4.5,1.4) {$5$};
+        % \node at (5.5,1.4) {$6$};
+        % \node at (6.5,1.4) {$7$};
+        % \node at (7.5,1.4) {$8$};
+        % \node at (8.5,1.4) {$9$};
+    \end{tikzpicture}
 \end{center}
 
-\subsubsection{Subtree queries}
+\subsubsection{Consultas en subárboles}
 
-Each subtree of a tree corresponds to a subarray
-of the tree traversal array such that
-the first element of the subarray is the root node.
-For example, the following subarray contains the
-nodes of the subtree of node $4$:
+Cada subárbol de un árbol corresponde a un subarreglo del arreglo
+de recorrido del árbol tal que el primer elemento del subarreglo
+sea el nodo raíz. Por ejemplo, el siguiente subarreglo contiene
+los nodos del subárbol del nodo $4$:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=lightgray] (4,0) rectangle (8,1);
-\draw (0,0) grid (9,1);
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=lightgray] (4,0) rectangle (8,1);
+        \draw (0,0) grid (9,1);
 
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$3$};
-\node at (4.5,0.5) {$4$};
-\node at (5.5,0.5) {$7$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$9$};
-\node at (8.5,0.5) {$5$};
-%
-% \footnotesize
-% \node at (0.5,1.4) {$1$};
-% \node at (1.5,1.4) {$2$};
-% \node at (2.5,1.4) {$3$};
-% \node at (3.5,1.4) {$4$};
-% \node at (4.5,1.4) {$5$};
-% \node at (5.5,1.4) {$6$};
-% \node at (6.5,1.4) {$7$};
-% \node at (7.5,1.4) {$8$};
-% \node at (8.5,1.4) {$9$};
-\end{tikzpicture}
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$3$};
+        \node at (4.5,0.5) {$4$};
+        \node at (5.5,0.5) {$7$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$9$};
+        \node at (8.5,0.5) {$5$};
+        %
+        % \footnotesize
+        % \node at (0.5,1.4) {$1$};
+        % \node at (1.5,1.4) {$2$};
+        % \node at (2.5,1.4) {$3$};
+        % \node at (3.5,1.4) {$4$};
+        % \node at (4.5,1.4) {$5$};
+        % \node at (5.5,1.4) {$6$};
+        % \node at (6.5,1.4) {$7$};
+        % \node at (7.5,1.4) {$8$};
+        % \node at (8.5,1.4) {$9$};
+    \end{tikzpicture}
 \end{center}
-Using this fact, we can efficiently process queries
-that are related to subtrees of a tree.
-As an example, consider a problem where each node
-is assigned a value, and our task is to support
-the following queries:
+
+Utilizando este hecho, podemos eficientemente procesar consultas
+relacionadas a los subárboles de un árbol. Por ejemplo, considera
+un problema donde cada nodo es asignado un valor, y nuestra tarea
+es llevar a cabo estas consultas:
 \begin{itemize}
-\item update the value of a node
-\item calculate the sum of values in the subtree of a node
+    \item actualizar el valor de un nodo
+    \item calcular la suma de valores en el subárbol de un nodo
 \end{itemize}
 
-Consider the following tree where the blue numbers
-are the values of the nodes.
-For example, the sum of the subtree of node $4$
-is $3+4+3+1=11$.
+Considera el siguiente árbol donde los números azules son los valores
+de los nodos. Por ejemplo, la suma del subárbol del nodo $4$ es
+$3+4+3+1=11$.
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (-3,1) {$2$};
-\node[draw, circle] (3) at (-1,1) {$3$};
-\node[draw, circle] (4) at (1,1) {$4$};
-\node[draw, circle] (5) at (3,1) {$5$};
-\node[draw, circle] (6) at (-3,-1) {$6$};
-\node[draw, circle] (7) at (-0.5,-1) {$7$};
-\node[draw, circle] (8) at (1,-1) {$8$};
-\node[draw, circle] (9) at (2.5,-1) {$9$};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (-3,1) {$2$};
+        \node[draw, circle] (3) at (-1,1) {$3$};
+        \node[draw, circle] (4) at (1,1) {$4$};
+        \node[draw, circle] (5) at (3,1) {$5$};
+        \node[draw, circle] (6) at (-3,-1) {$6$};
+        \node[draw, circle] (7) at (-0.5,-1) {$7$};
+        \node[draw, circle] (8) at (1,-1) {$8$};
+        \node[draw, circle] (9) at (2.5,-1) {$9$};
 
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (6);
-\path[draw,thick,-] (4) -- (7);
-\path[draw,thick,-] (4) -- (8);
-\path[draw,thick,-] (4) -- (9);
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (6);
+        \path[draw,thick,-] (4) -- (7);
+        \path[draw,thick,-] (4) -- (8);
+        \path[draw,thick,-] (4) -- (9);
 
-\node[color=blue] at (0,3+0.65) {2};
-\node[color=blue] at (-3-0.65,1) {3};
-\node[color=blue] at (-1-0.65,1) {5};
-\node[color=blue] at (1+0.65,1) {3};
-\node[color=blue] at (3+0.65,1) {1};
-\node[color=blue] at (-3,-1-0.65) {4};
-\node[color=blue] at (-0.5,-1-0.65) {4};
-\node[color=blue] at (1,-1-0.65) {3};
-\node[color=blue] at (2.5,-1-0.65) {1};
-\end{tikzpicture}
+        \node[color=blue] at (0,3+0.65) {2};
+        \node[color=blue] at (-3-0.65,1) {3};
+        \node[color=blue] at (-1-0.65,1) {5};
+        \node[color=blue] at (1+0.65,1) {3};
+        \node[color=blue] at (3+0.65,1) {1};
+        \node[color=blue] at (-3,-1-0.65) {4};
+        \node[color=blue] at (-0.5,-1-0.65) {4};
+        \node[color=blue] at (1,-1-0.65) {3};
+        \node[color=blue] at (2.5,-1-0.65) {1};
+    \end{tikzpicture}
 \end{center}
 
-The idea is to construct a tree traversal array that contains
-three values for each node: the identifier of the node,
-the size of the subtree, and the value of the node.
-For example, the array for the above tree is as follows:
+La idea es construir un arreglo de recorrido de árbol que contenga
+tres valores por cada nodo: su identificador, el tamaño de su subárbol,
+y el valor del nodo. Por ejemplo, el arreglo para el árbol anterior
+es el siguiente:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,1) grid (9,-2);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,1) grid (9,-2);
 
-\node[left] at (-1,0.5) {node id};
-\node[left] at (-1,-0.5) {subtree size};
-\node[left] at (-1,-1.5) {node value};
+        \node[left] at (-1,0.5) {id del nodo};
+        \node[left] at (-1,-0.5) {tamaño de subárbol};
+        \node[left] at (-1,-1.5) {valor del nodo};
 
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$3$};
-\node at (4.5,0.5) {$4$};
-\node at (5.5,0.5) {$7$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$9$};
-\node at (8.5,0.5) {$5$};
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$3$};
+        \node at (4.5,0.5) {$4$};
+        \node at (5.5,0.5) {$7$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$9$};
+        \node at (8.5,0.5) {$5$};
 
-\node at (0.5,-0.5) {$9$};
-\node at (1.5,-0.5) {$2$};
-\node at (2.5,-0.5) {$1$};
-\node at (3.5,-0.5) {$1$};
-\node at (4.5,-0.5) {$4$};
-\node at (5.5,-0.5) {$1$};
-\node at (6.5,-0.5) {$1$};
-\node at (7.5,-0.5) {$1$};
-\node at (8.5,-0.5) {$1$};
+        \node at (0.5,-0.5) {$9$};
+        \node at (1.5,-0.5) {$2$};
+        \node at (2.5,-0.5) {$1$};
+        \node at (3.5,-0.5) {$1$};
+        \node at (4.5,-0.5) {$4$};
+        \node at (5.5,-0.5) {$1$};
+        \node at (6.5,-0.5) {$1$};
+        \node at (7.5,-0.5) {$1$};
+        \node at (8.5,-0.5) {$1$};
 
-\node at (0.5,-1.5) {$2$};
-\node at (1.5,-1.5) {$3$};
-\node at (2.5,-1.5) {$4$};
-\node at (3.5,-1.5) {$5$};
-\node at (4.5,-1.5) {$3$};
-\node at (5.5,-1.5) {$4$};
-\node at (6.5,-1.5) {$3$};
-\node at (7.5,-1.5) {$1$};
-\node at (8.5,-1.5) {$1$};
-%
-% \footnotesize
-% \node at (0.5,1.4) {$1$};
-% \node at (1.5,1.4) {$2$};
-% \node at (2.5,1.4) {$3$};
-% \node at (3.5,1.4) {$4$};
-% \node at (4.5,1.4) {$5$};
-% \node at (5.5,1.4) {$6$};
-% \node at (6.5,1.4) {$7$};
-% \node at (7.5,1.4) {$8$};
-% \node at (8.5,1.4) {$9$};
-\end{tikzpicture}
+        \node at (0.5,-1.5) {$2$};
+        \node at (1.5,-1.5) {$3$};
+        \node at (2.5,-1.5) {$4$};
+        \node at (3.5,-1.5) {$5$};
+        \node at (4.5,-1.5) {$3$};
+        \node at (5.5,-1.5) {$4$};
+        \node at (6.5,-1.5) {$3$};
+        \node at (7.5,-1.5) {$1$};
+        \node at (8.5,-1.5) {$1$};
+        %
+        % \footnotesize
+        % \node at (0.5,1.4) {$1$};
+        % \node at (1.5,1.4) {$2$};
+        % \node at (2.5,1.4) {$3$};
+        % \node at (3.5,1.4) {$4$};
+        % \node at (4.5,1.4) {$5$};
+        % \node at (5.5,1.4) {$6$};
+        % \node at (6.5,1.4) {$7$};
+        % \node at (7.5,1.4) {$8$};
+        % \node at (8.5,1.4) {$9$};
+    \end{tikzpicture}
 \end{center}
 
-Using this array, we can calculate the sum of values
-in any subtree by first finding out the size of the subtree
-and then the values of the corresponding nodes.
-For example, the values in the subtree of node $4$
-can be found as follows:
+Utilizando este arreglo, podemos calcular la suma de valores en
+cualquier subárbol si primero encontramos el tamaño del subárbol
+y luego los valores de los nodos correspondientes. Por ejemplo,
+los valores en el subárbol del nodo $4$ pueden encontrarse así:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=lightgray] (4,1) rectangle (5,0);
-\fill[color=lightgray] (4,0) rectangle (5,-1);
-\fill[color=lightgray] (4,-1) rectangle (8,-2);
-\draw (0,1) grid (9,-2);
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=lightgray] (4,1) rectangle (5,0);
+        \fill[color=lightgray] (4,0) rectangle (5,-1);
+        \fill[color=lightgray] (4,-1) rectangle (8,-2);
+        \draw (0,1) grid (9,-2);
 
-\node[left] at (-1,0.5) {node id};
-\node[left] at (-1,-0.5) {subtree size};
-\node[left] at (-1,-1.5) {node value};
+        \node[left] at (-1,0.5) {id del nodo};
+        \node[left] at (-1,-0.5) {tamaño de subárbol};
+        \node[left] at (-1,-1.5) {valor del nodo};
 
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$3$};
-\node at (4.5,0.5) {$4$};
-\node at (5.5,0.5) {$7$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$9$};
-\node at (8.5,0.5) {$5$};
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$3$};
+        \node at (4.5,0.5) {$4$};
+        \node at (5.5,0.5) {$7$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$9$};
+        \node at (8.5,0.5) {$5$};
 
-\node at (0.5,-0.5) {$9$};
-\node at (1.5,-0.5) {$2$};
-\node at (2.5,-0.5) {$1$};
-\node at (3.5,-0.5) {$1$};
-\node at (4.5,-0.5) {$4$};
-\node at (5.5,-0.5) {$1$};
-\node at (6.5,-0.5) {$1$};
-\node at (7.5,-0.5) {$1$};
-\node at (8.5,-0.5) {$1$};
+        \node at (0.5,-0.5) {$9$};
+        \node at (1.5,-0.5) {$2$};
+        \node at (2.5,-0.5) {$1$};
+        \node at (3.5,-0.5) {$1$};
+        \node at (4.5,-0.5) {$4$};
+        \node at (5.5,-0.5) {$1$};
+        \node at (6.5,-0.5) {$1$};
+        \node at (7.5,-0.5) {$1$};
+        \node at (8.5,-0.5) {$1$};
 
-\node at (0.5,-1.5) {$2$};
-\node at (1.5,-1.5) {$3$};
-\node at (2.5,-1.5) {$4$};
-\node at (3.5,-1.5) {$5$};
-\node at (4.5,-1.5) {$3$};
-\node at (5.5,-1.5) {$4$};
-\node at (6.5,-1.5) {$3$};
-\node at (7.5,-1.5) {$1$};
-\node at (8.5,-1.5) {$1$};
-%
-% \footnotesize
-% \node at (0.5,1.4) {$1$};
-% \node at (1.5,1.4) {$2$};
-% \node at (2.5,1.4) {$3$};
-% \node at (3.5,1.4) {$4$};
-% \node at (4.5,1.4) {$5$};
-% \node at (5.5,1.4) {$6$};
-% \node at (6.5,1.4) {$7$};
-% \node at (7.5,1.4) {$8$};
-% \node at (8.5,1.4) {$9$};
-\end{tikzpicture}
+        \node at (0.5,-1.5) {$2$};
+        \node at (1.5,-1.5) {$3$};
+        \node at (2.5,-1.5) {$4$};
+        \node at (3.5,-1.5) {$5$};
+        \node at (4.5,-1.5) {$3$};
+        \node at (5.5,-1.5) {$4$};
+        \node at (6.5,-1.5) {$3$};
+        \node at (7.5,-1.5) {$1$};
+        \node at (8.5,-1.5) {$1$};
+        %
+        % \footnotesize
+        % \node at (0.5,1.4) {$1$};
+        % \node at (1.5,1.4) {$2$};
+        % \node at (2.5,1.4) {$3$};
+        % \node at (3.5,1.4) {$4$};
+        % \node at (4.5,1.4) {$5$};
+        % \node at (5.5,1.4) {$6$};
+        % \node at (6.5,1.4) {$7$};
+        % \node at (7.5,1.4) {$8$};
+        % \node at (8.5,1.4) {$9$};
+    \end{tikzpicture}
 \end{center}
 
-To answer the queries efficiently,
-it suffices to store the values of the
-nodes in a binary indexed or segment tree.
-After this, we can both update a value
-and calculate the sum of values in $O(\log n)$ time.
+Para realizar las consultas eficientemente, es suficiente almacenar
+los valores de los nodos en un árbol binario indexado o de segmentos.
+Luego de esto, podemos actualizar un valor y calcular la suma de valores
+en $O(\log n)$.
 
-\subsubsection{Path queries}
+\subsubsection{Consultas en caminos}
 
-Using a tree traversal array, we can also efficiently
-calculate sums of values on
-paths from the root node to any
-node of the tree.
-Consider a problem where our task
-is to support the following queries:
+Utilizando un arreglo de recorrido del árbol, también podemos
+calcular sumas de valores eficientemente en caminos desde el nodo raíz
+a cualquier nodo del árbol. Considera un problema donde nuestra tarea
+es soportar las siguientes consultas:
 \begin{itemize}
-\item change the value of a node
-\item calculate the sum of values on a path from
-the root to a node
+    \item modificar el valor de un nodo
+    \item calcular la suma de valores en un camino de la raíz a un nodo
 \end{itemize}
 
-For example, in the following tree,
-the sum of values from the root node to node 7 is
-$4+5+5=14$:
+Por ejemplo, en el siguiente árbol, la suma de valores de la raíz al
+nodo 7 es $4+5+5=14$:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (-3,1) {$2$};
-\node[draw, circle] (3) at (-1,1) {$3$};
-\node[draw, circle] (4) at (1,1) {$4$};
-\node[draw, circle] (5) at (3,1) {$5$};
-\node[draw, circle] (6) at (-3,-1) {$6$};
-\node[draw, circle] (7) at (-0.5,-1) {$7$};
-\node[draw, circle] (8) at (1,-1) {$8$};
-\node[draw, circle] (9) at (2.5,-1) {$9$};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (-3,1) {$2$};
+        \node[draw, circle] (3) at (-1,1) {$3$};
+        \node[draw, circle] (4) at (1,1) {$4$};
+        \node[draw, circle] (5) at (3,1) {$5$};
+        \node[draw, circle] (6) at (-3,-1) {$6$};
+        \node[draw, circle] (7) at (-0.5,-1) {$7$};
+        \node[draw, circle] (8) at (1,-1) {$8$};
+        \node[draw, circle] (9) at (2.5,-1) {$9$};
 
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (6);
-\path[draw,thick,-] (4) -- (7);
-\path[draw,thick,-] (4) -- (8);
-\path[draw,thick,-] (4) -- (9);
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (6);
+        \path[draw,thick,-] (4) -- (7);
+        \path[draw,thick,-] (4) -- (8);
+        \path[draw,thick,-] (4) -- (9);
 
-\node[color=blue] at (0,3+0.65) {4};
-\node[color=blue] at (-3-0.65,1) {5};
-\node[color=blue] at (-1-0.65,1) {3};
-\node[color=blue] at (1+0.65,1) {5};
-\node[color=blue] at (3+0.65,1) {2};
-\node[color=blue] at (-3,-1-0.65) {3};
-\node[color=blue] at (-0.5,-1-0.65) {5};
-\node[color=blue] at (1,-1-0.65) {3};
-\node[color=blue] at (2.5,-1-0.65) {1};
-\end{tikzpicture}
+        \node[color=blue] at (0,3+0.65) {4};
+        \node[color=blue] at (-3-0.65,1) {5};
+        \node[color=blue] at (-1-0.65,1) {3};
+        \node[color=blue] at (1+0.65,1) {5};
+        \node[color=blue] at (3+0.65,1) {2};
+        \node[color=blue] at (-3,-1-0.65) {3};
+        \node[color=blue] at (-0.5,-1-0.65) {5};
+        \node[color=blue] at (1,-1-0.65) {3};
+        \node[color=blue] at (2.5,-1-0.65) {1};
+    \end{tikzpicture}
 \end{center}
 
-We can solve this problem like before,
-but now each value in the last row of the array is the sum of values
-on a path from the root to the node.
-For example, the following array corresponds to the above tree:
+Podemos resolver este problema como anteriormente, pero ahora cada valor
+en la última fila del arreglo es la suma de valores de un camino desde
+la raíz al nodo. Por ejemplo, el siguiente arreglo corresponde al
+árbol de arriba:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,1) grid (9,-2);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,1) grid (9,-2);
 
-\node[left] at (-1,0.5) {node id};
-\node[left] at (-1,-0.5) {subtree size};
-\node[left] at (-1,-1.5) {path sum};
+        \node[left] at (-1,0.5) {id del nodo};
+        \node[left] at (-1,-0.5) {tamaño del subárbol};
+        \node[left] at (-1,-1.5) {suma del camino};
 
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$3$};
-\node at (4.5,0.5) {$4$};
-\node at (5.5,0.5) {$7$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$9$};
-\node at (8.5,0.5) {$5$};
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$3$};
+        \node at (4.5,0.5) {$4$};
+        \node at (5.5,0.5) {$7$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$9$};
+        \node at (8.5,0.5) {$5$};
 
-\node at (0.5,-0.5) {$9$};
-\node at (1.5,-0.5) {$2$};
-\node at (2.5,-0.5) {$1$};
-\node at (3.5,-0.5) {$1$};
-\node at (4.5,-0.5) {$4$};
-\node at (5.5,-0.5) {$1$};
-\node at (6.5,-0.5) {$1$};
-\node at (7.5,-0.5) {$1$};
-\node at (8.5,-0.5) {$1$};
+        \node at (0.5,-0.5) {$9$};
+        \node at (1.5,-0.5) {$2$};
+        \node at (2.5,-0.5) {$1$};
+        \node at (3.5,-0.5) {$1$};
+        \node at (4.5,-0.5) {$4$};
+        \node at (5.5,-0.5) {$1$};
+        \node at (6.5,-0.5) {$1$};
+        \node at (7.5,-0.5) {$1$};
+        \node at (8.5,-0.5) {$1$};
 
-\node at (0.5,-1.5) {$4$};
-\node at (1.5,-1.5) {$9$};
-\node at (2.5,-1.5) {$12$};
-\node at (3.5,-1.5) {$7$};
-\node at (4.5,-1.5) {$9$};
-\node at (5.5,-1.5) {$14$};
-\node at (6.5,-1.5) {$12$};
-\node at (7.5,-1.5) {$10$};
-\node at (8.5,-1.5) {$6$};
-\end{tikzpicture}
+        \node at (0.5,-1.5) {$4$};
+        \node at (1.5,-1.5) {$9$};
+        \node at (2.5,-1.5) {$12$};
+        \node at (3.5,-1.5) {$7$};
+        \node at (4.5,-1.5) {$9$};
+        \node at (5.5,-1.5) {$14$};
+        \node at (6.5,-1.5) {$12$};
+        \node at (7.5,-1.5) {$10$};
+        \node at (8.5,-1.5) {$6$};
+    \end{tikzpicture}
 \end{center}
 
-When the value of a node increases by $x$,
-the sums of all nodes in its subtree increase by $x$.
-For example, if the value of node 4 increases by 1,
-the array changes as follows:
-
-\begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=lightgray] (4,-1) rectangle (8,-2);
-\draw (0,1) grid (9,-2);
-
-\node[left] at (-1,0.5) {node id};
-\node[left] at (-1,-0.5) {subtree size};
-\node[left] at (-1,-1.5) {path sum};
-
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$6$};
-\node at (3.5,0.5) {$3$};
-\node at (4.5,0.5) {$4$};
-\node at (5.5,0.5) {$7$};
-\node at (6.5,0.5) {$8$};
-\node at (7.5,0.5) {$9$};
-\node at (8.5,0.5) {$5$};
-
-\node at (0.5,-0.5) {$9$};
-\node at (1.5,-0.5) {$2$};
-\node at (2.5,-0.5) {$1$};
-\node at (3.5,-0.5) {$1$};
-\node at (4.5,-0.5) {$4$};
-\node at (5.5,-0.5) {$1$};
-\node at (6.5,-0.5) {$1$};
-\node at (7.5,-0.5) {$1$};
-\node at (8.5,-0.5) {$1$};
-
-\node at (0.5,-1.5) {$4$};
-\node at (1.5,-1.5) {$9$};
-\node at (2.5,-1.5) {$12$};
-\node at (3.5,-1.5) {$7$};
-\node at (4.5,-1.5) {$10$};
-\node at (5.5,-1.5) {$15$};
-\node at (6.5,-1.5) {$13$};
-\node at (7.5,-1.5) {$11$};
-\node at (8.5,-1.5) {$6$};
-\end{tikzpicture}
-\end{center}
-
-Thus, to support both the operations,
-we should be able to increase all values
-in a range and retrieve a single value.
-This can be done in $O(\log n)$ time
-using a binary indexed
-or segment tree (see Chapter 9.4).
-
-\section{Lowest common ancestor}
-
-\index{lowest common ancestor}
-
-The \key{lowest common ancestor}
-of two nodes of a rooted tree is the lowest node
-whose subtree contains both the nodes.
-A typical problem is to efficiently process
-queries that ask to find the lowest
-common ancestor of two nodes.
-
-For example, in the following tree,
-the lowest common ancestor of nodes 5 and 8
-is node 2:
-\begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (2,1) {$4$};
-\node[draw, circle] (3) at (-2,1) {$2$};
-\node[draw, circle] (4) at (0,1) {$3$};
-\node[draw, circle] (5) at (2,-1) {$7$};
-\node[draw, circle, fill=lightgray] (6) at (-3,-1) {$5$};
-\node[draw, circle] (7) at (-1,-1) {$6$};
-\node[draw, circle, fill=lightgray] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
-
-\path[draw=red,thick,->,line width=2pt] (6) edge [bend left] (3);
-\path[draw=red,thick,->,line width=2pt] (8) edge [bend right=40] (3);
-\end{tikzpicture}
-\end{center}
-
-Next we will discuss two efficient techniques for
-finding the lowest common ancestor of two nodes.
-
-\subsubsection{Method 1}
-
-One way to solve the problem is to use the fact
-that we can efficiently find the $k$th
-ancestor of any node in the tree.
-Using this, we can divide the problem of
-finding the lowest common ancestor into two parts.
-
-We use two pointers that initially point to the
-two nodes whose lowest common ancestor we should find.
-First, we move one of the pointers upwards
-so that both pointers point to nodes at the same level.
-
-In the example scenario, we move the second pointer one
-level up so that it points to node 6
-which is at the same level with node 5:
+Cuando el valor de un nodo se aumenta por $x$, la suma de todos los
+nodos en su subárbol aumenta por $x$. Por ejemplo, si el valor de nodo 4
+aumenta por 1, el arreglo cambia de la siguiente manera:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (2,1) {$4$};
-\node[draw, circle] (3) at (-2,1) {$2$};
-\node[draw, circle] (4) at (0,1) {$3$};
-\node[draw, circle] (5) at (2,-1) {$7$};
-\node[draw, circle,fill=lightgray] (6) at (-3,-1) {$5$};
-\node[draw, circle,fill=lightgray] (7) at (-1,-1) {$6$};
-\node[draw, circle] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=lightgray] (4,-1) rectangle (8,-2);
+        \draw (0,1) grid (9,-2);
 
-\path[draw=red,thick,->,line width=2pt] (8) edge [bend right] (7);
-\end{tikzpicture}
+        \node[left] at (-1,0.5) {id del nodo};
+        \node[left] at (-1,-0.5) {tamaño del subárbol};
+        \node[left] at (-1,-1.5) {suma del camino};
+
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$6$};
+        \node at (3.5,0.5) {$3$};
+        \node at (4.5,0.5) {$4$};
+        \node at (5.5,0.5) {$7$};
+        \node at (6.5,0.5) {$8$};
+        \node at (7.5,0.5) {$9$};
+        \node at (8.5,0.5) {$5$};
+
+        \node at (0.5,-0.5) {$9$};
+        \node at (1.5,-0.5) {$2$};
+        \node at (2.5,-0.5) {$1$};
+        \node at (3.5,-0.5) {$1$};
+        \node at (4.5,-0.5) {$4$};
+        \node at (5.5,-0.5) {$1$};
+        \node at (6.5,-0.5) {$1$};
+        \node at (7.5,-0.5) {$1$};
+        \node at (8.5,-0.5) {$1$};
+
+        \node at (0.5,-1.5) {$4$};
+        \node at (1.5,-1.5) {$9$};
+        \node at (2.5,-1.5) {$12$};
+        \node at (3.5,-1.5) {$7$};
+        \node at (4.5,-1.5) {$10$};
+        \node at (5.5,-1.5) {$15$};
+        \node at (6.5,-1.5) {$13$};
+        \node at (7.5,-1.5) {$11$};
+        \node at (8.5,-1.5) {$6$};
+    \end{tikzpicture}
 \end{center}
 
-After this, we determine the minimum number of steps
-needed to move both pointers upwards so that
-they will point to the same node.
-The node to which the pointers point after this
-is the lowest common ancestor.
+Por ende, para soportar las dos operaciones, deberíamos ser capaces
+de aumentar todos los valores de un rango y acceder a un valor. Esto
+puede hacerse en $O(\log n)$ utilizando un árbol binario indexado o
+un árbol de segmentos (ver Capítulo 9.4).
 
-In the example scenario, it suffices to move both pointers
-one step upwards to node 2,
-which is the lowest common ancestor:
+\section{Ancestro común más bajo}
+
+\index{ancestro común más bajo}
+
+El \key{ancestro común más bajo} de dos nodos de un árbol con raíz
+es el nodo más bajo cuyo subárbol contenga ambos nodos. Un problema
+típico es eficientemente procesar consultas que piden encontrar el
+ancestro común más bajo de dos nodos.
+
+Por ejemplo, en el siguiente árbol, el ancestro común más bajo de
+los nodos 5 y 8 es el nodo 2:
+\begin{center}
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (2,1) {$4$};
+        \node[draw, circle] (3) at (-2,1) {$2$};
+        \node[draw, circle] (4) at (0,1) {$3$};
+        \node[draw, circle] (5) at (2,-1) {$7$};
+        \node[draw, circle, fill=lightgray] (6) at (-3,-1) {$5$};
+        \node[draw, circle] (7) at (-1,-1) {$6$};
+        \node[draw, circle, fill=lightgray] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
+
+        \path[draw=red,thick,->,line width=2pt] (6) edge [bend left] (3);
+        \path[draw=red,thick,->,line width=2pt] (8) edge [bend right=40] (3);
+    \end{tikzpicture}
+\end{center}
+
+Ahora veremos dos técnicas eficientes para encontrar el ancestro
+común más bajo de dos nodos.
+
+\subsubsection{Método 1}
+
+Una manera de resolver el problema es usando el hecho de que podemos
+eficientemente encontrar el $k$-ésimo ancestro de cualquier nodo en el
+árbol. Con esto, podemos dividir el problema del ancestro común más
+bajo en dos partes.
+
+Utilizamos dos punteros que inicialmente apuntan a los dos nodos cuyo
+ancestro común más bajo queremos encontrar. Primero, movemos alguno de
+los dos punteros hacia arriba tal que los dos punteros queden en el
+mismo nivel.
+
+En la situación de ejemplo, movemos el segundo puntero un nivel hacia
+arriba tal que apunte al nodo 6, que se encuentra en el mismo nivel
+que el nodo 5:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (2,1) {$4$};
-\node[draw, circle,fill=lightgray] (3) at (-2,1) {$2$};
-\node[draw, circle] (4) at (0,1) {$3$};
-\node[draw, circle] (5) at (2,-1) {$7$};
-\node[draw, circle] (6) at (-3,-1) {$5$};
-\node[draw, circle] (7) at (-1,-1) {$6$};
-\node[draw, circle] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (2,1) {$4$};
+        \node[draw, circle] (3) at (-2,1) {$2$};
+        \node[draw, circle] (4) at (0,1) {$3$};
+        \node[draw, circle] (5) at (2,-1) {$7$};
+        \node[draw, circle,fill=lightgray] (6) at (-3,-1) {$5$};
+        \node[draw, circle,fill=lightgray] (7) at (-1,-1) {$6$};
+        \node[draw, circle] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
 
-\path[draw=red,thick,->,line width=2pt] (6) edge [bend left] (3);
-\path[draw=red,thick,->,line width=2pt] (7) edge [bend right] (3);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (8) edge [bend right] (7);
+    \end{tikzpicture}
 \end{center}
 
-Since both parts of the algorithm can be performed in
-$O(\log n)$ time using precomputed information,
-we can find the lowest common ancestor of any two
-nodes in $O(\log n)$ time.
+Luego de esto, determinamos el mínimo número de pasos necesarios
+para mover los dos punteros hacia arriba tal que apunten
+al mismo nodo. El nodo al que apunten los dos punteros luego de esto
+es el ancestro común más bajo.
 
-\subsubsection{Method 2}
-
-Another way to solve the problem is based on
-a tree traversal array.\footnote{This lowest common ancestor algorithm was presented in \cite{ben00}.
-This technique is sometimes called the \index{Euler tour technique}
-\key{Euler tour technique} \cite{tar84}.}
-Once again, the idea is to traverse the nodes
-using a depth-first search:
+En la situación de ejemplo, es suficiente mover los dos punteros un
+paso hacia arriba, hasta el nodo 2, que resulta ser el ancestro común
+más bajo:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (2,1) {$4$};
-\node[draw, circle] (3) at (-2,1) {$2$};
-\node[draw, circle] (4) at (0,1) {$3$};
-\node[draw, circle] (5) at (2,-1) {$7$};
-\node[draw, circle] (6) at (-3,-1) {$5$};
-\node[draw, circle] (7) at (-1,-1) {$6$};
-\node[draw, circle] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (2,1) {$4$};
+        \node[draw, circle,fill=lightgray] (3) at (-2,1) {$2$};
+        \node[draw, circle] (4) at (0,1) {$3$};
+        \node[draw, circle] (5) at (2,-1) {$7$};
+        \node[draw, circle] (6) at (-3,-1) {$5$};
+        \node[draw, circle] (7) at (-1,-1) {$6$};
+        \node[draw, circle] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
 
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (3);
-\path[draw=red,thick,->,line width=2pt] (3) edge [bend right=15] (6);
-\path[draw=red,thick,->,line width=2pt] (6) edge [bend right=15] (3);
-\path[draw=red,thick,->,line width=2pt] (3) edge [bend right=15] (7);
-\path[draw=red,thick,->,line width=2pt] (7) edge [bend right=15] (8);
-\path[draw=red,thick,->,line width=2pt] (8) edge [bend right=15] (7);
-\path[draw=red,thick,->,line width=2pt] (7) edge [bend right=15] (3);
-\path[draw=red,thick,->,line width=2pt] (3) edge [bend right=15] (1);
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (4);
-\path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (1);
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (2);
-\path[draw=red,thick,->,line width=2pt] (2) edge [bend right=15] (5);
-\path[draw=red,thick,->,line width=2pt] (5) edge [bend right=15] (2);
-\path[draw=red,thick,->,line width=2pt] (2) edge [bend right=15] (1);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (6) edge [bend left] (3);
+        \path[draw=red,thick,->,line width=2pt] (7) edge [bend right] (3);
+    \end{tikzpicture}
 \end{center}
 
-However, we use a different tree
-traversal array than before:
-we add each node to the array \emph{always}
-when the depth-first search walks through the node,
-and not only at the first visit.
-Hence, a node that has $k$ children appears $k+1$ times
-in the array and there are a total of $2n-1$
-nodes in the array.
+Debido a que las dos fases del algoritmo pueden realizarse en
+$O(\log n)$ utilizando información precomputada, podemos encontrar
+el ancestro común más bajo de cualquier par de nodos en $O(\log n)$.
 
-We store two values in the array:
-the identifier of the node and the depth of the
-node in the tree.
-The following array corresponds to the above tree:
+\subsubsection{Método 2}
+
+\index{técnica del camino euleriano}
+
+Otra forma de resolver este problema se basa en un arreglo de
+recorrido.\footnote{Este algoritmo fue presentado en
+    \cite{ben00}. Esta técnica es conocida como la \key{técnica del
+        camino euleriano} (o ETT, por \textit{Euler tour technique}).
+    \cite{tar84}} Nuevamente, la idea es recorrer los nodos
+utilizando una búsqueda en profundidad:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (2,1) {$4$};
+        \node[draw, circle] (3) at (-2,1) {$2$};
+        \node[draw, circle] (4) at (0,1) {$3$};
+        \node[draw, circle] (5) at (2,-1) {$7$};
+        \node[draw, circle] (6) at (-3,-1) {$5$};
+        \node[draw, circle] (7) at (-1,-1) {$6$};
+        \node[draw, circle] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
 
-\node[left] at (-1,1.5) {node id};
-\node[left] at (-1,0.5) {depth};
-
-\draw (0,1) grid (15,2);
-\node at (0.5,1.5) {$1$};
-\node at (1.5,1.5) {$2$};
-\node at (2.5,1.5) {$5$};
-\node at (3.5,1.5) {$2$};
-\node at (4.5,1.5) {$6$};
-\node at (5.5,1.5) {$8$};
-\node at (6.5,1.5) {$6$};
-\node at (7.5,1.5) {$2$};
-\node at (8.5,1.5) {$1$};
-\node at (9.5,1.5) {$3$};
-\node at (10.5,1.5) {$1$};
-\node at (11.5,1.5) {$4$};
-\node at (12.5,1.5) {$7$};
-\node at (13.5,1.5) {$4$};
-\node at (14.5,1.5) {$1$};
-
-\draw (0,0) grid (15,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$3$};
-\node at (3.5,0.5) {$2$};
-\node at (4.5,0.5) {$3$};
-\node at (5.5,0.5) {$4$};
-\node at (6.5,0.5) {$3$};
-\node at (7.5,0.5) {$2$};
-\node at (8.5,0.5) {$1$};
-\node at (9.5,0.5) {$2$};
-\node at (10.5,0.5) {$1$};
-\node at (11.5,0.5) {$2$};
-\node at (12.5,0.5) {$3$};
-\node at (13.5,0.5) {$2$};
-\node at (14.5,0.5) {$1$};
-
-\footnotesize
-\node at (0.5,2.5) {$0$};
-\node at (1.5,2.5) {$1$};
-\node at (2.5,2.5) {$2$};
-\node at (3.5,2.5) {$3$};
-\node at (4.5,2.5) {$4$};
-\node at (5.5,2.5) {$5$};
-\node at (6.5,2.5) {$6$};
-\node at (7.5,2.5) {$7$};
-\node at (8.5,2.5) {$8$};
-\node at (9.5,2.5) {$9$};
-\node at (10.5,2.5) {$10$};
-\node at (11.5,2.5) {$11$};
-\node at (12.5,2.5) {$12$};
-\node at (13.5,2.5) {$13$};
-\node at (14.5,2.5) {$14$};
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (3);
+        \path[draw=red,thick,->,line width=2pt] (3) edge [bend right=15] (6);
+        \path[draw=red,thick,->,line width=2pt] (6) edge [bend right=15] (3);
+        \path[draw=red,thick,->,line width=2pt] (3) edge [bend right=15] (7);
+        \path[draw=red,thick,->,line width=2pt] (7) edge [bend right=15] (8);
+        \path[draw=red,thick,->,line width=2pt] (8) edge [bend right=15] (7);
+        \path[draw=red,thick,->,line width=2pt] (7) edge [bend right=15] (3);
+        \path[draw=red,thick,->,line width=2pt] (3) edge [bend right=15] (1);
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (4);
+        \path[draw=red,thick,->,line width=2pt] (4) edge [bend right=15] (1);
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend right=15] (2);
+        \path[draw=red,thick,->,line width=2pt] (2) edge [bend right=15] (5);
+        \path[draw=red,thick,->,line width=2pt] (5) edge [bend right=15] (2);
+        \path[draw=red,thick,->,line width=2pt] (2) edge [bend right=15] (1);
+    \end{tikzpicture}
 \end{center}
 
-Now we can find the lowest common ancestor
-of nodes $a$ and $b$ by finding the node with the \emph{minimum} depth
-between nodes $a$ and $b$ in the array.
-For example, the lowest common ancestor of nodes $5$ and $8$
-can be found as follows:
+No obstante, usamos un arreglo de recorrido de árbol distinto:
+añadimos cada nodo al arreglo \emph{siempre} que la búsqueda en
+profundidad pase por el nodo, y no solo en la primera visita.
+Por lo tanto, un nodo con $k$ hijos aparece $k+1$ veces en el arreglo
+y hay un total de $2n-1$ nodos en el arreglo.
+
+Almacenamos dos valores en el arreglo: el identificador del nodo
+y la profundidad del nodo en el árbol. El siguiente arreglo
+corresponde al árbol de arriba:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
+    \begin{tikzpicture}[scale=0.7]
 
-\node[left] at (-1,1.5) {node id};
-\node[left] at (-1,0.5) {depth};
+        \node[left] at (-1,1.5) {id del nodo};
+        \node[left] at (-1,0.5) {profundidad};
 
-\fill[color=lightgray] (2,1) rectangle (3,2);
-\fill[color=lightgray] (5,1) rectangle (6,2);
-\fill[color=lightgray] (2,0) rectangle (6,1);
+        \draw (0,1) grid (15,2);
+        \node at (0.5,1.5) {$1$};
+        \node at (1.5,1.5) {$2$};
+        \node at (2.5,1.5) {$5$};
+        \node at (3.5,1.5) {$2$};
+        \node at (4.5,1.5) {$6$};
+        \node at (5.5,1.5) {$8$};
+        \node at (6.5,1.5) {$6$};
+        \node at (7.5,1.5) {$2$};
+        \node at (8.5,1.5) {$1$};
+        \node at (9.5,1.5) {$3$};
+        \node at (10.5,1.5) {$1$};
+        \node at (11.5,1.5) {$4$};
+        \node at (12.5,1.5) {$7$};
+        \node at (13.5,1.5) {$4$};
+        \node at (14.5,1.5) {$1$};
 
-\node at (3.5,-0.5) {$\uparrow$};
+        \draw (0,0) grid (15,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$3$};
+        \node at (3.5,0.5) {$2$};
+        \node at (4.5,0.5) {$3$};
+        \node at (5.5,0.5) {$4$};
+        \node at (6.5,0.5) {$3$};
+        \node at (7.5,0.5) {$2$};
+        \node at (8.5,0.5) {$1$};
+        \node at (9.5,0.5) {$2$};
+        \node at (10.5,0.5) {$1$};
+        \node at (11.5,0.5) {$2$};
+        \node at (12.5,0.5) {$3$};
+        \node at (13.5,0.5) {$2$};
+        \node at (14.5,0.5) {$1$};
 
-\draw (0,1) grid (15,2);
-\node at (0.5,1.5) {$1$};
-\node at (1.5,1.5) {$2$};
-\node at (2.5,1.5) {$5$};
-\node at (3.5,1.5) {$2$};
-\node at (4.5,1.5) {$6$};
-\node at (5.5,1.5) {$8$};
-\node at (6.5,1.5) {$6$};
-\node at (7.5,1.5) {$2$};
-\node at (8.5,1.5) {$1$};
-\node at (9.5,1.5) {$3$};
-\node at (10.5,1.5) {$1$};
-\node at (11.5,1.5) {$4$};
-\node at (12.5,1.5) {$7$};
-\node at (13.5,1.5) {$4$};
-\node at (14.5,1.5) {$1$};
-
-
-\draw (0,0) grid (15,1);
-\node at (0.5,0.5) {$1$};
-\node at (1.5,0.5) {$2$};
-\node at (2.5,0.5) {$3$};
-\node at (3.5,0.5) {$2$};
-\node at (4.5,0.5) {$3$};
-\node at (5.5,0.5) {$4$};
-\node at (6.5,0.5) {$3$};
-\node at (7.5,0.5) {$2$};
-\node at (8.5,0.5) {$1$};
-\node at (9.5,0.5) {$2$};
-\node at (10.5,0.5) {$1$};
-\node at (11.5,0.5) {$2$};
-\node at (12.5,0.5) {$3$};
-\node at (13.5,0.5) {$2$};
-\node at (14.5,0.5) {$1$};
-
-\footnotesize
-\node at (0.5,2.5) {$0$};
-\node at (1.5,2.5) {$1$};
-\node at (2.5,2.5) {$2$};
-\node at (3.5,2.5) {$3$};
-\node at (4.5,2.5) {$4$};
-\node at (5.5,2.5) {$5$};
-\node at (6.5,2.5) {$6$};
-\node at (7.5,2.5) {$7$};
-\node at (8.5,2.5) {$8$};
-\node at (9.5,2.5) {$9$};
-\node at (10.5,2.5) {$10$};
-\node at (11.5,2.5) {$11$};
-\node at (12.5,2.5) {$12$};
-\node at (13.5,2.5) {$13$};
-\node at (14.5,2.5) {$14$};
-\end{tikzpicture}
+        \footnotesize
+        \node at (0.5,2.5) {$0$};
+        \node at (1.5,2.5) {$1$};
+        \node at (2.5,2.5) {$2$};
+        \node at (3.5,2.5) {$3$};
+        \node at (4.5,2.5) {$4$};
+        \node at (5.5,2.5) {$5$};
+        \node at (6.5,2.5) {$6$};
+        \node at (7.5,2.5) {$7$};
+        \node at (8.5,2.5) {$8$};
+        \node at (9.5,2.5) {$9$};
+        \node at (10.5,2.5) {$10$};
+        \node at (11.5,2.5) {$11$};
+        \node at (12.5,2.5) {$12$};
+        \node at (13.5,2.5) {$13$};
+        \node at (14.5,2.5) {$14$};
+    \end{tikzpicture}
 \end{center}
 
-Node 5 is at position 2, node 8 is at position 5,
-and the node with minimum depth between
-positions $2 \ldots 5$ is node 2 at position 3
-whose depth is 2.
-Thus, the lowest common ancestor of
-nodes 5 and 8 is node 2.
-
-Thus, to find the lowest common ancestor
-of two nodes it suffices to process a range
-minimum query.
-Since the array is static,
-we can process such queries in $O(1)$ time
-after an $O(n \log n)$ time preprocessing.
-
-\subsubsection{Distances of nodes}
-
-The distance between nodes $a$ and $b$
-equals the length of the path from $a$ to $b$.
-It turns out that the problem of calculating
-the distance between nodes reduces to
-finding their lowest common ancestor.
-
-First, we root the tree arbitrarily.
-After this, the distance of nodes $a$ and $b$
-can be calculated using the formula
-\[\texttt{depth}(a)+\texttt{depth}(b)-2 \cdot \texttt{depth}(c),\]
-where $c$ is the lowest common ancestor of $a$ and $b$
-and $\texttt{depth}(s)$ denotes the depth of node $s$.
-For example, consider the distance of nodes 5 and 8:
-\begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (2,1) {$4$};
-\node[draw, circle] (3) at (-2,1) {$2$};
-\node[draw, circle] (4) at (0,1) {$3$};
-\node[draw, circle] (5) at (2,-1) {$7$};
-\node[draw, circle] (6) at (-3,-1) {$5$};
-\node[draw, circle] (7) at (-1,-1) {$6$};
-\node[draw, circle] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
-
-\path[draw=red,thick,-,line width=2pt] (8) -- node[font=\small] {} (7);
-\path[draw=red,thick,-,line width=2pt] (7) -- node[font=\small] {} (3);
-\path[draw=red,thick,-,line width=2pt] (6) -- node[font=\small] {} (3);
-\end{tikzpicture}
-\end{center}
-
-The lowest common ancestor of nodes 5 and 8 is node 2.
-The depths of the nodes are
-$\texttt{depth}(5)=3$, $\texttt{depth}(8)=4$ and $\texttt{depth}(2)=2$,
-so the distance between nodes 5 and 8 is
-$3+4-2\cdot2=3$.
-
-\section{Offline algorithms}
-
-So far, we have discussed \emph{online} algorithms
-for tree queries.
-Those algorithms are able to process
-queries one after another so that
-each query is answered before receiving the next query.
-
-However, in many problems, the online
-property is not necessary.
-In this section, we focus on \emph{offline} algorithms.
-Those algorithms are given a set of queries which can
-be answered in any order.
-It is often easier to design an offline algorithm
-compared to an online algorithm.
-
-\subsubsection{Merging data structures}
-
-One method to construct an offline algorithm
-is to perform a depth-first tree traversal
-and maintain data structures in nodes.
-At each node $s$, we create a data structure
-$\texttt{d}[s]$ that is based on the
-data structures of the children of $s$.
-Then, using this data structure,
-all queries related to $s$ are processed.
-
-As an example, consider the following problem:
-We are given a tree where each node has some value.
-Our task is to process queries of the form
-''calculate the number of nodes with value $x$
-in the subtree of node $s$''.
-For example, in the following tree,
-the subtree of node $4$ contains two nodes
-whose value is 3.
+Ahora podemos encontrar el ancestro común más bajo de los nodos $a$
+y $b$ encontrando el nodo de \emph{mínima profundidad} entre los
+nodos $a$ y $b$ en el arreglo. Por ejemplo, el ancestro común más
+bajo de los nodos $5$ y $8$ puede encontrarse así:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (-3,1) {$2$};
-\node[draw, circle] (3) at (-1,1) {$3$};
-\node[draw, circle] (4) at (1,1) {$4$};
-\node[draw, circle] (5) at (3,1) {$5$};
-\node[draw, circle] (6) at (-3,-1) {$6$};
-\node[draw, circle] (7) at (-0.5,-1) {$7$};
-\node[draw, circle] (8) at (1,-1) {$8$};
-\node[draw, circle] (9) at (2.5,-1) {$9$};
+    \begin{tikzpicture}[scale=0.7]
 
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (6);
-\path[draw,thick,-] (4) -- (7);
-\path[draw,thick,-] (4) -- (8);
-\path[draw,thick,-] (4) -- (9);
+        \node[left] at (-1,1.5) {id del nodo};
+        \node[left] at (-1,0.5) {profundidad};
 
-\node[color=blue] at (0,3+0.65) {2};
-\node[color=blue] at (-3-0.65,1) {3};
-\node[color=blue] at (-1-0.65,1) {5};
-\node[color=blue] at (1+0.65,1) {3};
-\node[color=blue] at (3+0.65,1) {1};
-\node[color=blue] at (-3,-1-0.65) {4};
-\node[color=blue] at (-0.5,-1-0.65) {4};
-\node[color=blue] at (1,-1-0.65) {3};
-\node[color=blue] at (2.5,-1-0.65) {1};
-\end{tikzpicture}
+        \fill[color=lightgray] (2,1) rectangle (3,2);
+        \fill[color=lightgray] (5,1) rectangle (6,2);
+        \fill[color=lightgray] (2,0) rectangle (6,1);
+
+        \node at (3.5,-0.5) {$\uparrow$};
+
+        \draw (0,1) grid (15,2);
+        \node at (0.5,1.5) {$1$};
+        \node at (1.5,1.5) {$2$};
+        \node at (2.5,1.5) {$5$};
+        \node at (3.5,1.5) {$2$};
+        \node at (4.5,1.5) {$6$};
+        \node at (5.5,1.5) {$8$};
+        \node at (6.5,1.5) {$6$};
+        \node at (7.5,1.5) {$2$};
+        \node at (8.5,1.5) {$1$};
+        \node at (9.5,1.5) {$3$};
+        \node at (10.5,1.5) {$1$};
+        \node at (11.5,1.5) {$4$};
+        \node at (12.5,1.5) {$7$};
+        \node at (13.5,1.5) {$4$};
+        \node at (14.5,1.5) {$1$};
+
+
+        \draw (0,0) grid (15,1);
+        \node at (0.5,0.5) {$1$};
+        \node at (1.5,0.5) {$2$};
+        \node at (2.5,0.5) {$3$};
+        \node at (3.5,0.5) {$2$};
+        \node at (4.5,0.5) {$3$};
+        \node at (5.5,0.5) {$4$};
+        \node at (6.5,0.5) {$3$};
+        \node at (7.5,0.5) {$2$};
+        \node at (8.5,0.5) {$1$};
+        \node at (9.5,0.5) {$2$};
+        \node at (10.5,0.5) {$1$};
+        \node at (11.5,0.5) {$2$};
+        \node at (12.5,0.5) {$3$};
+        \node at (13.5,0.5) {$2$};
+        \node at (14.5,0.5) {$1$};
+
+        \footnotesize
+        \node at (0.5,2.5) {$0$};
+        \node at (1.5,2.5) {$1$};
+        \node at (2.5,2.5) {$2$};
+        \node at (3.5,2.5) {$3$};
+        \node at (4.5,2.5) {$4$};
+        \node at (5.5,2.5) {$5$};
+        \node at (6.5,2.5) {$6$};
+        \node at (7.5,2.5) {$7$};
+        \node at (8.5,2.5) {$8$};
+        \node at (9.5,2.5) {$9$};
+        \node at (10.5,2.5) {$10$};
+        \node at (11.5,2.5) {$11$};
+        \node at (12.5,2.5) {$12$};
+        \node at (13.5,2.5) {$13$};
+        \node at (14.5,2.5) {$14$};
+    \end{tikzpicture}
 \end{center}
 
-In this problem, we can use map structures
-to answer the queries.
-For example, the maps for node 4 and
-its children are as follows:
+El nodo 5 está en posición 2, nodo 8 en posición 5, y el nodo de
+mínima profundidad entre las posiciones $2 \ldots 5$ es el nodo 2
+en posición 3, cuya profundidad es 2. Por ende, el ancestro común
+más bajo de los nodos 5 y 8 es el nodo 2.
+
+Por esto, para encontrar el ancestro común más bajo de dos nodos
+es suficiente procesar una consulta de mínimo en rango. Ya que el
+arreglo es estático, podemos procesar tales consultas en $O(1)$
+luego de un preprocesamiento $O(n \log n)$.
+
+\subsubsection{Distancias entre nodos}
+
+La distancia entre los nodos $a$ y $b$ es igual a la longitud del camino
+de $a$ a $b$. Resulta que el problema de calcular la distancia entre
+nodos se reduce a encontrar el ancestro común más bajo.
+
+Primero, le asignamos una raíz al árbol arbitrariamente. Luego de esto,
+la distancia entre los nodos $a$ y $b$ puede calcularse utilizando la
+fórmula
+\[\texttt{profundidad}(a)+\texttt{profundidad}(b)-2 \cdot \texttt{profundidad}(c),\]
+donde $c$ es el ancestro común más bajo de $a$ y $b$, y
+$\texttt{profundidad}(s)$ denota la profundidad del nodo $s$.
+Por ejemplo, considera la distancia entre los nodos 5 y 8:
+\begin{center}
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (2,1) {$4$};
+        \node[draw, circle] (3) at (-2,1) {$2$};
+        \node[draw, circle] (4) at (0,1) {$3$};
+        \node[draw, circle] (5) at (2,-1) {$7$};
+        \node[draw, circle] (6) at (-3,-1) {$5$};
+        \node[draw, circle] (7) at (-1,-1) {$6$};
+        \node[draw, circle] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
+
+        \path[draw=red,thick,-,line width=2pt] (8) -- node[font=\small] {} (7);
+        \path[draw=red,thick,-,line width=2pt] (7) -- node[font=\small] {} (3);
+        \path[draw=red,thick,-,line width=2pt] (6) -- node[font=\small] {} (3);
+    \end{tikzpicture}
+\end{center}
+
+El ancestro común más bajo de los nodos 5 y 8 es el 2. Las profundidades
+de los nodos son $\texttt{profundidad}(5)=3$, $\texttt{profundidad}(8)=4$
+y $\texttt{profundidad}(2)=2$, por lo que la distancia entre los nodos
+5 y 8 es $3+4-2\cdot2=3$.
+
+\section{Algoritmos offline}
+
+Hasta ahora, hemos visto algoritmos \emph{online} para procesar
+consultas en árboles. Estos algoritmos son capaces de procesar
+consultas una tras otra tal que cada una es realizada antes
+de recibir la siguiente consulta.
+
+No obstante, en muchos problemas, la propiedad online no es necesaria.
+En esta sección, veremos algoritmos \emph{offline}. Estos algoritmos
+reciben un conjunto de consultas que pueden realizarse en cualquier
+orden. Usualmente es más fácil diseñar un algoritmo offline que un
+algoritmo online.
+
+\subsubsection{Combinar estructuras de datos}
+
+Un método para construir un algoritmo offline es realizar una
+búsqueda en profundidad del árbol y mantener estructuras de datos
+en los nodos. En cada nodo $s$, creamos una estructura de datos
+$\texttt{d}[s]$ que está basada en las estructuras de datos de los
+hijos de $s$. Luego, utilizando esta estructura, todas las consultas
+relacionadas a $s$ son procesadas.
+
+Por ejemplo, considera el siguiente problema: recibimos un árbol
+donde cada nodo posee un valor. Nuestra tarea es procesar consultas
+de forma ``calcula el número de nodos con valor $x$ en el subárbol
+del nodo $s$''. Por ejemplo, en el siguiente árbol, el subárbol del
+nodo $4$ contiene dos nodos cuyos valores son 3.
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (-3,1) {$2$};
+        \node[draw, circle] (3) at (-1,1) {$3$};
+        \node[draw, circle] (4) at (1,1) {$4$};
+        \node[draw, circle] (5) at (3,1) {$5$};
+        \node[draw, circle] (6) at (-3,-1) {$6$};
+        \node[draw, circle] (7) at (-0.5,-1) {$7$};
+        \node[draw, circle] (8) at (1,-1) {$8$};
+        \node[draw, circle] (9) at (2.5,-1) {$9$};
 
-\node[draw, rectangle] (a) at (4,5.5)
-{
-\footnotesize
-\begin{tabular}{rrr}
-4 \\
-\hline
-1 \\
-\end{tabular}};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (6);
+        \path[draw,thick,-] (4) -- (7);
+        \path[draw,thick,-] (4) -- (8);
+        \path[draw,thick,-] (4) -- (9);
 
-\node[draw, rectangle] (b) at (8,5.5)
-{
-\footnotesize
-\begin{tabular}{rrr}
-3 \\
-\hline
-1 \\
-\end{tabular}};
-
-
-\node[draw, rectangle] (c) at (12,5.5)
-{
-\footnotesize
-\begin{tabular}{rr}
-1 \\
-\hline
-1 \\
-\end{tabular}};
-
-\node[draw, rectangle] (d) at (8,8.5)
-{
-\footnotesize
-\begin{tabular}{rrr}
-1 & 3 & 4 \\
-\hline
-1 & 2 & 1 \\
-\end{tabular}};
-\path[draw,thick,-] (a) -- (d);
-\path[draw,thick,-] (b) -- (d);
-\path[draw,thick,-] (c) -- (d);
-\end{tikzpicture}
+        \node[color=blue] at (0,3+0.65) {2};
+        \node[color=blue] at (-3-0.65,1) {3};
+        \node[color=blue] at (-1-0.65,1) {5};
+        \node[color=blue] at (1+0.65,1) {3};
+        \node[color=blue] at (3+0.65,1) {1};
+        \node[color=blue] at (-3,-1-0.65) {4};
+        \node[color=blue] at (-0.5,-1-0.65) {4};
+        \node[color=blue] at (1,-1-0.65) {3};
+        \node[color=blue] at (2.5,-1-0.65) {1};
+    \end{tikzpicture}
 \end{center}
 
-If we create such a data structure for each node,
-we can easily process all given queries,
-because we can handle all queries related
-to a node immediately after creating its
-data structure. For example, the above
-map structure for node 4
-tells us that its subtree
-contains two nodes whose value is 3.
-
-However, it would be too slow to create
-all data structures from scratch.
-Instead, at each node $s$,
-we create an initial data structure $\texttt{d}[s]$
-that only contains the value of $s$.
-After this, we go through the children of $s$ and
-\emph{merge} $\texttt{d}[s]$ and
-all data structures
-$\texttt{d}[u]$ where $u$ is a child of $s$.
-
-For example, in the above tree, the map
-for node $4$ is created by merging the following maps:
+En este problema, podemos utilizar estructuras de mapas para resolver
+las consultas. Por ejemplo, los mapas para los nodos 4 y sus hijos
+son los siguientes:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
+    \begin{tikzpicture}[scale=0.7]
 
-\node[draw, rectangle] (a) at (4,5.5)
-{
-\footnotesize
-\begin{tabular}{rrr}
-4 \\
-\hline
-1 \\
-\end{tabular}};
+        \node[draw, rectangle] (a) at (4,5.5)
+        {
+            \footnotesize
+            \begin{tabular}{rrr}
+                4 \\
+                \hline
+                1 \\
+            \end{tabular}};
 
-\node[draw, rectangle] (b) at (7,5.5)
-{
-\footnotesize
-\begin{tabular}{rrr}
-3 \\
-\hline
-1 \\
-\end{tabular}};
+        \node[draw, rectangle] (b) at (8,5.5)
+        {
+            \footnotesize
+            \begin{tabular}{rrr}
+                3 \\
+                \hline
+                1 \\
+            \end{tabular}};
 
-\node[draw, rectangle] (c) at (10,5.5)
-{
-\footnotesize
-\begin{tabular}{rr}
-1 \\
-\hline
-1 \\
-\end{tabular}};
+        \node[draw, rectangle] (c) at (12,5.5)
+        {
+            \footnotesize
+            \begin{tabular}{rr}
+                1 \\
+                \hline
+                1 \\
+            \end{tabular}};
 
-\node[draw, rectangle] (d) at (1,5.5)
-{
-\footnotesize
-\begin{tabular}{rr}
-3 \\
-\hline
-1 \\
-\end{tabular}};
-
-\end{tikzpicture}
+        \node[draw, rectangle] (d) at (8,8.5)
+        {
+            \footnotesize
+            \begin{tabular}{rrr}
+                1 & 3 & 4 \\
+                \hline
+                1 & 2 & 1 \\
+            \end{tabular}};
+        \path[draw,thick,-] (a) -- (d);
+        \path[draw,thick,-] (b) -- (d);
+        \path[draw,thick,-] (c) -- (d);
+    \end{tikzpicture}
 \end{center}
 
-Here the first map is the initial data structure
-for node 4,
-and the other three maps correspond to nodes 7, 8 and 9.
+Si creamos una estructura tal para cada nodo, podemos fácilmente
+procesar todas las consultas porque podemos resolver todas las
+consultas relacionadas a un nodo inmediatamente después de crear su
+estructura de datos. Por ejemplo, el mapa de arriba para el nodo 4
+dice que su subárbol contiene dos nodos cuyos valores son 3.
 
-The merging at node $s$ can be done as follows:
-We go through the children of $s$
-and at each child $u$ merge $\texttt{d}[s]$
-and $\texttt{d}[u]$.
-We always copy the contents from $\texttt{d}[u]$
-to $\texttt{d}[s]$.
-However, before this, we \emph{swap}
-the contents of $\texttt{d}[s]$ and $\texttt{d}[u]$
-if $\texttt{d}[s]$ is smaller than $\texttt{d}[u]$.
-By doing this, each value is copied only $O(\log n)$
-times during the tree traversal,
-which ensures that the algorithm is efficient.
+Sin embargo, sería demasiado lento crear todas las estructuras desde cero.
+En vez, por cada nodo $s$, creamos una estructura de datos inicial
+$\texttt{d}[s]$ que solo contenga el valor de $s$. Luego de esto, podemos
+recorrer los hijos de $s$ y \emph{mezclar} $\texttt{d}[s]$ con todas
+las estructuras $\texttt{d}[u]$ donde $u$ sea un hijo de $s$.
 
-To swap the contents of two data structures $a$ and $b$
-efficiently, we can just use the following code:
+Por ejemplo, en el árbol de arriba, el mapa para el nodo 4 es creado
+mezclando los siguientes mapas:
+
+\begin{center}
+    \begin{tikzpicture}[scale=0.7]
+
+        \node[draw, rectangle] (a) at (4,5.5)
+        {
+            \footnotesize
+            \begin{tabular}{rrr}
+                4 \\
+                \hline
+                1 \\
+            \end{tabular}};
+
+        \node[draw, rectangle] (b) at (7,5.5)
+        {
+            \footnotesize
+            \begin{tabular}{rrr}
+                3 \\
+                \hline
+                1 \\
+            \end{tabular}};
+
+        \node[draw, rectangle] (c) at (10,5.5)
+        {
+            \footnotesize
+            \begin{tabular}{rr}
+                1 \\
+                \hline
+                1 \\
+            \end{tabular}};
+
+        \node[draw, rectangle] (d) at (1,5.5)
+        {
+            \footnotesize
+            \begin{tabular}{rr}
+                3 \\
+                \hline
+                1 \\
+            \end{tabular}};
+
+    \end{tikzpicture}
+\end{center}
+
+Aquí el primer mapa es la estructura de datos inicial para el nodo 4,
+y los otros tres mapas corresponden a los nodos 7, 8, y 9.
+
+La mezcla en el nodo $s$ puede hacerse de la siguiente manera:
+Visitamos todos los hijos de $s$ y por cada hijo $u$ mezclamos
+$\texttt{d}[s]$ con $\texttt{d}[u]$. Siempre copiamos los contenidos
+de $\texttt{d}[u]$ a $\texttt{d}[s]$. Antes de esto, \emph{intercambiamos}
+los contenidos de $\texttt{d}[s]$ y $\texttt{d}[u]$ si $\texttt{d}[s]$
+es más pequeño que $\texttt{d}[u]$. Al hacer esto, cada valor es copiado
+solamente $O(\log n)$ veces durante el recorrido del árbol, lo que
+asegura que el algoritmo es eficiente.
+
+Para intercambiar los contenidos de dos estructuras de datos $a$ y $b$
+eficientemente, podemos simplemente usar el siguiente código:
+
 \begin{lstlisting}
-swap(a,b);
+swap(a, b);
 \end{lstlisting}
-It is guaranteed that the above code works in constant time
-when $a$ and $b$ are C++ standard library data structures.
 
-\subsubsection{Lowest common ancestors}
+Está garantizado que el código de arriba funciona en tiempo constante
+donde $a$ y $b$ son estructuras de datos de la librería estándar de C++.
 
-There is also an offline algorithm
-for processing a set of
-lowest common ancestor queries.\footnote{This
-algorithm was published by R. E. Tarjan in 1979 \cite{tar79}.}
-The algorithm is based on the union-find data structure
-(see Chapter 15.2), and the benefit of the algorithm is
-that it is easier to implement than the
-algorithms discussed earlier in this chapter.
+\subsubsection{Ancestro común más bajo}
 
-The algorithm is given as input a set of pairs of nodes,
-and it determines for each such pair the
-lowest common ancestor of the nodes.
-The algorithm performs a depth-first tree traversal
-and maintains disjoint sets of nodes.
-Initially, each node belongs to a separate set.
-For each set, we also store the highest node in the
-tree that belongs to the set.
+También existe un algoritmo offline para procesar un conjunto de
+consultas del ancestro común más bajo.\footnote{Este algoritmo
+    fue publicado por R. E. Tarjan en 1979 \cite{tar79}.} El algoritmo
+está basado en la estructura de unión--búsqueda (ver Capítulo 15.2),
+y el beneficio del algoritmo es su facilidad de implementación sobre
+los otros algoritmos que vimos hasta ahora.
 
-When the algorithm visits a node $x$,
-it goes through all nodes $y$ such that
-the lowest common ancestor of $x$ and $y$
-has to be found.
-If $y$ has already been visited,
-the algorithm reports that the
-lowest common ancestor of $x$ and $y$
-is the highest node in the set of $y$.
-Then, after processing node $x$,
-the algorithm joins the sets of $x$ and its parent.
+El algoritmo recibe un conjunto de pares de nodos y determina,
+por cada tal par, su ancestro común más bajo. El algoritmo realiza una
+búsqueda en profundidad y mantiene conjuntos disjuntos de nodos.
+Inicialmente, cada nodo pertenece a un conjunto diferente. Por cada
+conjunto, también almacenamos el nodo más alto en el árbol que
+pertenezca al conjunto.
 
-For example, suppose that we want to find the lowest
-common ancestors of node pairs $(5,8)$
-and $(2,7)$ in the following tree:
+Cuando el algoritmo visita un nodo $x$, recorre todos los nodos $y$
+tal que el ancestro común más bajo de $x$ e $y$ deba ser encontrado.
+Si $y$ ya se ha visitado, el algoritmo reporta que el ancestro común
+más bajo de $x$ e $y$ es el nodo más alto en el conjunto de $y$.
+Tras procesar el nodo $x$, se unen los conjuntos de $x$ y su padre.
+
+Por ejemplo, supongamos que queremos encontrar el ancestro común
+más bajo de los pares de nodos $(5,8)$ y $(2,7)$ en el siguiente árbol:
 \begin{center}
-\begin{tikzpicture}[scale=0.85]
-\node[draw, circle] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (2,1) {$4$};
-\node[draw, circle] (3) at (-2,1) {$2$};
-\node[draw, circle] (4) at (0,1) {$3$};
-\node[draw, circle] (5) at (2,-1) {$7$};
-\node[draw, circle] (6) at (-3,-1) {$5$};
-\node[draw, circle] (7) at (-1,-1) {$6$};
-\node[draw, circle] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.85]
+        \node[draw, circle] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (2,1) {$4$};
+        \node[draw, circle] (3) at (-2,1) {$2$};
+        \node[draw, circle] (4) at (0,1) {$3$};
+        \node[draw, circle] (5) at (2,-1) {$7$};
+        \node[draw, circle] (6) at (-3,-1) {$5$};
+        \node[draw, circle] (7) at (-1,-1) {$6$};
+        \node[draw, circle] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
+    \end{tikzpicture}
 \end{center}
 
-In the following trees, gray nodes denote visited nodes
-and dashed groups of nodes belong to the same set.
-When the algorithm visits node 8, it notices that
-node 5 has been visited and the highest node
-in its set is 2. Thus, the lowest common ancestor
-of nodes 5 and 8 is 2:
+En los siguientes árboles, los nodos grises denotan nodos visitados
+y los grupos punteados de nodos pertenecen al mismo conjunto.
+Cuando el algoritmo visita el nodo 8, se da cuenta de que el nodo 5
+se ha visitado y el nodo más alto en su conjunto es 2. Por ende, el
+ancestro común más bajo de los nodos 5 y 8 es 2:
 \begin{center}
-\begin{tikzpicture}[scale=0.85]
-\node[draw, circle, fill=lightgray] (1) at (0,3) {$1$};
-\node[draw, circle] (2) at (2,1) {$4$};
-\node[draw, circle, fill=lightgray] (3) at (-2,1) {$2$};
-\node[draw, circle] (4) at (0,1) {$3$};
-\node[draw, circle] (5) at (2,-1) {$7$};
-\node[draw, circle, fill=lightgray] (6) at (-3,-1) {$5$};
-\node[draw, circle, fill=lightgray] (7) at (-1,-1) {$6$};
-\node[draw, circle, fill=gray] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
+    \begin{tikzpicture}[scale=0.85]
+        \node[draw, circle, fill=lightgray] (1) at (0,3) {$1$};
+        \node[draw, circle] (2) at (2,1) {$4$};
+        \node[draw, circle, fill=lightgray] (3) at (-2,1) {$2$};
+        \node[draw, circle] (4) at (0,1) {$3$};
+        \node[draw, circle] (5) at (2,-1) {$7$};
+        \node[draw, circle, fill=lightgray] (6) at (-3,-1) {$5$};
+        \node[draw, circle, fill=lightgray] (7) at (-1,-1) {$6$};
+        \node[draw, circle, fill=gray] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
 
-\draw [red,thick,dashed,line width=2pt,rotate around={-28:(-2,0)}] (-2.9,1.5) rectangle (-1.9,-2);
+        \draw [red,thick,dashed,line width=2pt,rotate around={-28:(-2,0)}] (-2.9,1.5) rectangle (-1.9,-2);
 
 
-\draw [red,thick,dashed,line width=2pt] (-1.5,-0.5) rectangle (-0.5,-1.5);
-\draw [red,thick,dashed,line width=2pt] (-1.5,-2.5) rectangle (-0.5,-3.5);
+        \draw [red,thick,dashed,line width=2pt] (-1.5,-0.5) rectangle (-0.5,-1.5);
+        \draw [red,thick,dashed,line width=2pt] (-1.5,-2.5) rectangle (-0.5,-3.5);
 
-\draw [red,thick,dashed,line width=2pt] (0.5,3.5) rectangle (-0.5,2.5);
-\draw [red,thick,dashed,line width=2pt] (0.5,1.5) rectangle (-0.5,0.5);
-\draw [red,thick,dashed,line width=2pt] (2.5,1.5) rectangle (1.5,0.5);
-\draw [red,thick,dashed,line width=2pt] (2.5,-0.5) rectangle (1.5,-1.5);
-\end{tikzpicture}
+        \draw [red,thick,dashed,line width=2pt] (0.5,3.5) rectangle (-0.5,2.5);
+        \draw [red,thick,dashed,line width=2pt] (0.5,1.5) rectangle (-0.5,0.5);
+        \draw [red,thick,dashed,line width=2pt] (2.5,1.5) rectangle (1.5,0.5);
+        \draw [red,thick,dashed,line width=2pt] (2.5,-0.5) rectangle (1.5,-1.5);
+    \end{tikzpicture}
 \end{center}
 
-Later, when visiting node 7,
-the algorithm determines that
-the lowest common ancestor of nodes 2 and 7 is 1:
+Más tarde, al visitar el nodo 7, el algoritmo determina que el ancestro
+común más bajo de los nodos 2 y 7 es 1:
 \begin{center}
-\begin{tikzpicture}[scale=0.85]
-\node[draw, circle, fill=lightgray] (1) at (0,3) {$1$};
-\node[draw, circle, fill=lightgray] (2) at (2,1) {$4$};
-\node[draw, circle, fill=lightgray] (3) at (-2,1) {$2$};
-\node[draw, circle, fill=lightgray] (4) at (0,1) {$3$};
-\node[draw, circle, fill=gray] (5) at (2,-1) {$7$};
-\node[draw, circle, fill=lightgray] (6) at (-3,-1) {$5$};
-\node[draw, circle, fill=lightgray] (7) at (-1,-1) {$6$};
-\node[draw, circle, fill=lightgray] (8) at (-1,-3) {$8$};
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (7);
-\path[draw,thick,-] (7) -- (8);
+    \begin{tikzpicture}[scale=0.85]
+        \node[draw, circle, fill=lightgray] (1) at (0,3) {$1$};
+        \node[draw, circle, fill=lightgray] (2) at (2,1) {$4$};
+        \node[draw, circle, fill=lightgray] (3) at (-2,1) {$2$};
+        \node[draw, circle, fill=lightgray] (4) at (0,1) {$3$};
+        \node[draw, circle, fill=gray] (5) at (2,-1) {$7$};
+        \node[draw, circle, fill=lightgray] (6) at (-3,-1) {$5$};
+        \node[draw, circle, fill=lightgray] (7) at (-1,-1) {$6$};
+        \node[draw, circle, fill=lightgray] (8) at (-1,-3) {$8$};
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (7);
+        \path[draw,thick,-] (7) -- (8);
 
-\draw [red,thick,dashed,line width=2pt] (0.5,3.5) rectangle (-3.5,-3.5);
-\draw [red,thick,dashed,line width=2pt] (2.5,1.5) rectangle (1.5,0.5);
-\draw [red,thick,dashed,line width=2pt] (2.5,-0.5) rectangle (1.5,-1.5);
+        \draw [red,thick,dashed,line width=2pt] (0.5,3.5) rectangle (-3.5,-3.5);
+        \draw [red,thick,dashed,line width=2pt] (2.5,1.5) rectangle (1.5,0.5);
+        \draw [red,thick,dashed,line width=2pt] (2.5,-0.5) rectangle (1.5,-1.5);
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
