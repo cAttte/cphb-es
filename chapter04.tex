@@ -133,7 +133,7 @@ cout << c << "\n"; // broli
 \newpage
 \section{Estructuras de conjuntos}
 
-\index{set}
+\index{conjunto}
 
 Un \key{conjunto} es una estructura de datos que
 mantiene una colección de elementos.
@@ -415,8 +415,7 @@ cuyo valor es \emph{mayor que} $x$.
 En ambas funciones, si dicho elemento no existe,
 el valor devuelto es \texttt{end}.
 Estas funciones no son compatibles con la
-estructura \texttt{unordered\_set} que
-no mantiene el orden de los elementos.
+estructura desordenada \texttt{unordered\_set}.
 
 \begin{samepage}
     Por ejemplo, el siguiente código encuentra el elemento
@@ -474,12 +473,10 @@ cout << s[5] << "\n"; // 0
 La ventaja de usar bitsets es que
 requieren menos memoria que los arreglos ordinarios,
 porque cada elemento en un bitset solo
-usa un bit de memoria.
-
-Por ejemplo, si se almacenan $n$ bits en un arreglo de \texttt{int}s,
-se utilizarán $32n$ bits de memoria, pero un bitset correspondiente
-solo requiere $n$ bits de memoria. Además, los valores de un bitset
-pueden manipularse eficientemente usando
+usa un bit de memoria. Por ejemplo, si se almacenan $n$ bits en un
+arreglo de \texttt{int}s, se utilizarán $32n$ bits de memoria, pero
+un bitset correspondiente solo requiere $n$ bits de memoria. Además,
+los valores de un bitset pueden manipularse eficientemente usando
 operadores de bits, lo que hace posible
 optimizar algoritmos que usan conjuntos de bits.
 

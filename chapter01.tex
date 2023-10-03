@@ -350,7 +350,7 @@ resto puede volverse negativo.
 
 \subsubsection{Números de punto flotante}
 
-\index{número de punto flotante}
+\index{n\'umero de punto flotante}
 
 Los tipos de punto flotante habituales en
 programación competitiva son
@@ -544,14 +544,16 @@ serán necesarios más adelante en el libro.
 
 \subsubsection{Fórmulas de sumatoria}
 
+\index{fórmula de Faulhaber}
+
 Cada suma de la forma
 \[\sum_{x=1}^n x^k = 1^k+2^k+3^k+\ldots+n^k,\]
 donde $k$ es un número entero positivo,
 tiene una fórmula cerrada que es un
 polinomio de grado $k+1$.
-Por ejemplo,\footnote{\index{Fórmula de Faulhaber}
-    Existe incluso una fórmula general para tales sumas, llamada \key{Fórmula de Faulhaber},
-    pero es demasiado compleja para presentarla aquí.}
+Por ejemplo,\footnote{Existe incluso una fórmula general para tales
+    sumas, llamada \key{Fórmula de Faulhaber}, pero es demasiado compleja
+    para presentarla aquí.}
 \[\sum_{x=1}^n x = 1+2+3+\ldots+n = \frac{n(n+1)}{2}\]
 y
 \[\sum_{x=1}^n x^2 = 1^2+2^2+3^2+\ldots+n^2 = \frac{n(n+1)(2n+1)}{6}.\]
@@ -608,7 +610,7 @@ Una \key{suma armónica} es una suma de la forma
 
 Un límite superior para una suma armónica es $\log_2(n)+1$.
 Es decir, podemos
-modificar cada término $\sfrac{1}{k}$ de modo que $k$ se convierta
+modificar cada término $1/k$ de modo que $k$ se convierta
 en la potencia de dos más cercana que no exceda $k$.
 Por ejemplo, cuando $n=6$, podemos estimar
 la suma de la siguiente manera:
@@ -801,6 +803,7 @@ o recursivamente
 \]
 
 \index{número de Fibonacci}
+\index{fórmula de Binet}
 
 Los \key{números de Fibonacci}
 %\footnote{Fibonacci (c. 1175--1250) fue un matemático italiano.}
@@ -817,7 +820,7 @@ Los primeros números de Fibonacci son
 \[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \ldots\]
 También existe una fórmula de forma cerrada
 para calcular los números de Fibonacci, que a veces se llama
-\index{fórmula de Binet} \key{fórmula de Binet}:
+\key{fórmula de Binet}:
 \[f(n)=\frac{(1 + \sqrt{5})^n - (1-\sqrt{5})^n}{2^n \sqrt{5}}.\]
 
 \subsubsection{Logaritmos}

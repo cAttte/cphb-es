@@ -220,7 +220,7 @@ de los algoritmos:
           en cierto sentido, en el medio de la entrada.
 
     \item[$O(n)$]
-          % \index{O(n)@$O(n)$}
+          \index{O(n)@$O(n)$}
           \index{lineal (complejidad)}
           Un algoritmo \key{lineal} recorre la entrada
           un número constante de veces.
@@ -230,7 +230,7 @@ de los algoritmos:
           informar la respuesta.
 
     \item[$O(n \log n)$]
-          % \index{O(n log n)@$O(n log n)$}
+          \index{O(n log n)@$O(n log n)$}
           \index{linearítmica (complejidad)}
           Una complejidad \key{linearítmica} a menudo indica que el
           algoritmo ordena la entrada, al ser la complejidad de
@@ -240,7 +240,7 @@ de los algoritmos:
           tarden $O(\log n)$.
 
     \item[$O(n^2)$]
-          % \index{O(n2)@$O(n^2)$}
+          \index{O(n2)@$O(n^2)$}
           \index{cuadrática (complejidad)}
           Un algoritmo \key{cuadrático} a menudo contiene
           dos bucles anidados.
@@ -248,15 +248,15 @@ de los algoritmos:
           los elementos de entrada en tiempo $O(n^2)$.
 
     \item[$O(n^3)$]
-          % \index{O(n3)@$O(n^3)$}
-          \index{cúbica (complejidad)}
+          \index{O(n3)@$O(n^3)$}
+          \index{c\'ubica (complejidad)}
           Un algoritmo \key{cúbico} a menudo contiene
           tres bucles anidados.
           Es posible recorrer todos los tríos de
           los elementos de entrada en tiempo $O(n^3)$.
 
     \item[$O(2^n)$]
-          % \index{O(2n)@$O(2^n)$}
+          \index{O(2n)@$O(2^n)$}
           \index{exponencial (complejidad)}
           La complejidad \key{exponencial} a menudo indica que
           el algoritmo itera a través de todos
@@ -266,7 +266,7 @@ de los algoritmos:
           $\{1,3\}$, $\{2,3\}$ y $\{1,2,3\}$.
 
     \item[$O(n!)$]
-          % \index{O(n!)@$O(n!)$}
+          \index{O(n!)@$O(n!)$}
           \index{factorial (complejidad)}
           La complejidad \key{factorial} a menudo indica que
           el algoritmo itera a través de todas
@@ -466,10 +466,12 @@ Después de este cambio, la complejidad en tiempo es $O(n^2)$.
 
 \subsubsection{Algoritmo 3}
 
+\index{algoritmo de Kadane}
+
 Sorprendentemente, es posible resolver el problema
 en tiempo $O(n)$,\footnote{En \cite{ben86} este algoritmo de tiempo lineal
     se atribuye a J. B. Kadane, y el algoritmo a veces se
-    llama \index{Algoritmo de Kadane} \key{Algoritmo de Kadane}.}, lo que significa
+    llama \key{algoritmo de Kadane}.}, lo que significa
 que solo se necesita un bucle.
 La idea es calcular, para cada posición del arreglo,
 la suma máxima de un subarreglo que termina en esa posición.
