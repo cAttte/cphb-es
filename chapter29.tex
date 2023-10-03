@@ -14,29 +14,29 @@ and our task is to calculate its area.
 For example, a possible input for the problem is as follows:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.45]
+    \begin{tikzpicture}[scale=0.45]
 
-\draw[fill] (6,2) circle [radius=0.1];
-\draw[fill] (5,6) circle [radius=0.1];
-\draw[fill] (2,5) circle [radius=0.1];
-\draw[fill] (1,1) circle [radius=0.1];
-\draw[thick] (6,2) -- (5,6) -- (2,5) -- (1,1) -- (6,2);
-\end{tikzpicture}
+        \draw[fill] (6,2) circle [radius=0.1];
+        \draw[fill] (5,6) circle [radius=0.1];
+        \draw[fill] (2,5) circle [radius=0.1];
+        \draw[fill] (1,1) circle [radius=0.1];
+        \draw[thick] (6,2) -- (5,6) -- (2,5) -- (1,1) -- (6,2);
+    \end{tikzpicture}
 \end{center}
 One way to approach the problem is to divide
 the quadrilateral into two triangles by a straight
 line between two opposite vertices:
 \begin{center}
-\begin{tikzpicture}[scale=0.45]
+    \begin{tikzpicture}[scale=0.45]
 
-\draw[fill] (6,2) circle [radius=0.1];
-\draw[fill] (5,6) circle [radius=0.1];
-\draw[fill] (2,5) circle [radius=0.1];
-\draw[fill] (1,1) circle [radius=0.1];
+        \draw[fill] (6,2) circle [radius=0.1];
+        \draw[fill] (5,6) circle [radius=0.1];
+        \draw[fill] (2,5) circle [radius=0.1];
+        \draw[fill] (1,1) circle [radius=0.1];
 
-\draw[thick] (6,2) -- (5,6) -- (2,5) -- (1,1) -- (6,2);
-\draw[dashed,thick] (2,5) -- (6,2);
-\end{tikzpicture}
+        \draw[thick] (6,2) -- (5,6) -- (2,5) -- (1,1) -- (6,2);
+        \draw[dashed,thick] (2,5) -- (6,2);
+    \end{tikzpicture}
 \end{center}
 After this, it suffices to sum the areas
 of the triangles.
@@ -57,33 +57,33 @@ two arbitrary opposite vertices.
 For example, in the following situation,
 the division line is \emph{outside} the quadrilateral:
 \begin{center}
-\begin{tikzpicture}[scale=0.45]
+    \begin{tikzpicture}[scale=0.45]
 
-\draw[fill] (6,2) circle [radius=0.1];
-\draw[fill] (3,2) circle [radius=0.1];
-\draw[fill] (2,5) circle [radius=0.1];
-\draw[fill] (1,1) circle [radius=0.1];
-\draw[thick] (6,2) -- (3,2) -- (2,5) -- (1,1) -- (6,2);
+        \draw[fill] (6,2) circle [radius=0.1];
+        \draw[fill] (3,2) circle [radius=0.1];
+        \draw[fill] (2,5) circle [radius=0.1];
+        \draw[fill] (1,1) circle [radius=0.1];
+        \draw[thick] (6,2) -- (3,2) -- (2,5) -- (1,1) -- (6,2);
 
-\draw[dashed,thick] (2,5) -- (6,2);
-\end{tikzpicture}
+        \draw[dashed,thick] (2,5) -- (6,2);
+    \end{tikzpicture}
 \end{center}
 However, another way to draw the line works:
 \begin{center}
-\begin{tikzpicture}[scale=0.45]
+    \begin{tikzpicture}[scale=0.45]
 
-\draw[fill] (6,2) circle [radius=0.1];
-\draw[fill] (3,2) circle [radius=0.1];
-\draw[fill] (2,5) circle [radius=0.1];
-\draw[fill] (1,1) circle [radius=0.1];
-\draw[thick] (6,2) -- (3,2) -- (2,5) -- (1,1) -- (6,2);
+        \draw[fill] (6,2) circle [radius=0.1];
+        \draw[fill] (3,2) circle [radius=0.1];
+        \draw[fill] (2,5) circle [radius=0.1];
+        \draw[fill] (1,1) circle [radius=0.1];
+        \draw[thick] (6,2) -- (3,2) -- (2,5) -- (1,1) -- (6,2);
 
-\draw[dashed,thick] (3,2) -- (1,1);
-\end{tikzpicture}
+        \draw[dashed,thick] (3,2) -- (1,1);
+    \end{tikzpicture}
 \end{center}
 It is clear for a human which of the lines is the correct
 choice, but the situation is difficult for a computer.
-                           
+
 However, it turns out that we can solve the problem using
 another method that is more convenient to a programmer.
 Namely, there is a general formula
@@ -114,16 +114,16 @@ For example, $4+2i$ corresponds to the
 following point and vector:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.45]
+    \begin{tikzpicture}[scale=0.45]
 
-\draw[->,thick] (-5,0)--(5,0);
-\draw[->,thick] (0,-5)--(0,5);
+        \draw[->,thick] (-5,0)--(5,0);
+        \draw[->,thick] (0,-5)--(0,5);
 
-\draw[fill] (4,2) circle [radius=0.1];
-\draw[->,thick] (0,0)--(4-0.1,2-0.1);
+        \draw[fill] (4,2) circle [radius=0.1];
+        \draw[->,thick] (0,0)--(4-0.1,2-0.1);
 
-\node at (4,2.8) {$(4,2)$};
-\end{tikzpicture}
+        \node at (4,2.8) {$(4,2)$};
+    \end{tikzpicture}
 \end{center}
 
 \index{complex@\texttt{complex}}
@@ -237,32 +237,32 @@ when it is placed directly after $a$.
 
 The following picture illustrates the above cases:
 \begin{center}
-\begin{tikzpicture}[scale=0.45]
+    \begin{tikzpicture}[scale=0.45]
 
-\draw[->,thick] (0,0)--(4,2);
-\draw[->,thick] (4,2)--(4+1,2+2);
+        \draw[->,thick] (0,0)--(4,2);
+        \draw[->,thick] (4,2)--(4+1,2+2);
 
-\node at (2.5,0.5) {$a$};
-\node at (5,2.5) {$b$};
+        \node at (2.5,0.5) {$a$};
+        \node at (5,2.5) {$b$};
 
-\node at (3,-2) {$a \times b = 6$};
+        \node at (3,-2) {$a \times b = 6$};
 
-\draw[->,thick] (8+0,0)--(8+4,2);
-\draw[->,thick] (8+4,2)--(8+4+2,2+1);
+        \draw[->,thick] (8+0,0)--(8+4,2);
+        \draw[->,thick] (8+4,2)--(8+4+2,2+1);
 
-\node at (8+2.5,0.5) {$a$};
-\node at (8+5,1.5) {$b$};
+        \node at (8+2.5,0.5) {$a$};
+        \node at (8+5,1.5) {$b$};
 
-\node at (8+3,-2) {$a \times b = 0$};
+        \node at (8+3,-2) {$a \times b = 0$};
 
-\draw[->,thick] (16+0,0)--(16+4,2);
-\draw[->,thick] (16+4,2)--(16+4+2,2-1);
+        \draw[->,thick] (16+0,0)--(16+4,2);
+        \draw[->,thick] (16+4,2)--(16+4+2,2-1);
 
-\node at (16+2.5,0.5) {$a$};
-\node at (16+5,2.5) {$b$};
+        \node at (16+2.5,0.5) {$a$};
+        \node at (16+5,2.5) {$b$};
 
-\node at (16+3,-2) {$a \times b = -8$};
-\end{tikzpicture}
+        \node at (16+3,-2) {$a \times b = -8$};
+    \end{tikzpicture}
 \end{center}
 
 \noindent
@@ -296,15 +296,15 @@ to $s_2$ and the point is $p$.
 For example, in the following picture,
 $p$ is on the left side of the line:
 \begin{center}
-\begin{tikzpicture}[scale=0.45]
-\draw[dashed,thick,->] (0,-3)--(12,6);
-\draw[fill] (4,0) circle [radius=0.1];
-\draw[fill] (8,3) circle [radius=0.1];
-\draw[fill] (5,3) circle [radius=0.1];
-\node at (4,-1) {$s_1$};
-\node at (8,2) {$s_2$};
-\node at (5,4) {$p$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.45]
+        \draw[dashed,thick,->] (0,-3)--(12,6);
+        \draw[fill] (4,0) circle [radius=0.1];
+        \draw[fill] (8,3) circle [radius=0.1];
+        \draw[fill] (5,3) circle [radius=0.1];
+        \node at (4,-1) {$s_1$};
+        \node at (8,2) {$s_2$};
+        \node at (5,4) {$p$};
+    \end{tikzpicture}
 \end{center}
 
 The cross product $(p-s_1) \times (p-s_2)$
@@ -333,18 +333,18 @@ For example, in the following picture,
 all points between $c$ and $b$ are
 intersection points:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\draw (1.5,1.5)--(6,3);
-\draw (0,1)--(4.5,2.5);
-\draw[fill] (0,1) circle [radius=0.05];
-\node at (0,0.5) {$a$};
-\draw[fill] (1.5,1.5) circle [radius=0.05];
-\node at (6,2.5) {$d$};
-\draw[fill] (4.5,2.5) circle [radius=0.05];
-\node at (1.5,1) {$c$};
-\draw[fill] (6,3) circle [radius=0.05];
-\node at (4.5,2) {$b$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.9]
+        \draw (1.5,1.5)--(6,3);
+        \draw (0,1)--(4.5,2.5);
+        \draw[fill] (0,1) circle [radius=0.05];
+        \node at (0,0.5) {$a$};
+        \draw[fill] (1.5,1.5) circle [radius=0.05];
+        \node at (6,2.5) {$d$};
+        \draw[fill] (4.5,2.5) circle [radius=0.05];
+        \node at (1.5,1) {$c$};
+        \draw[fill] (6,3) circle [radius=0.05];
+        \node at (4.5,2) {$b$};
+    \end{tikzpicture}
 \end{center}
 
 In this case, we can use cross products to
@@ -359,17 +359,17 @@ For example, in the following picture the
 intersection point is $b=c$:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\draw (0,0)--(4,2);
-\draw (4,2)--(6,1);
-\draw[fill] (0,0) circle [radius=0.05];
-\draw[fill] (4,2) circle [radius=0.05];
-\draw[fill] (6,1) circle [radius=0.05];
+    \begin{tikzpicture}[scale=0.9]
+        \draw (0,0)--(4,2);
+        \draw (4,2)--(6,1);
+        \draw[fill] (0,0) circle [radius=0.05];
+        \draw[fill] (4,2) circle [radius=0.05];
+        \draw[fill] (6,1) circle [radius=0.05];
 
-\node at (0,0.5) {$a$};
-\node at (4,2.5) {$b=c$};
-\node at (6,1.5) {$d$};
-\end{tikzpicture}
+        \node at (0,0.5) {$a$};
+        \node at (4,2.5) {$b=c$};
+        \node at (6,1.5) {$d$};
+    \end{tikzpicture}
 \end{center}
 
 This case is easy to check, because
@@ -383,20 +383,20 @@ that is not a vertex of any line segment.
 In the following picture, the point $p$
 is the intersection point:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\draw (0,1)--(6,3);
-\draw (2,4)--(4,0);
-\draw[fill] (0,1) circle [radius=0.05];
-\node at (0,0.5) {$c$};
-\draw[fill] (6,3) circle [radius=0.05];
-\node at (6,2.5) {$d$};
-\draw[fill] (2,4) circle [radius=0.05];
-\node at (1.5,3.5) {$a$};
-\draw[fill] (4,0) circle [radius=0.05];
-\node at (4,-0.4) {$b$};
-\draw[fill] (3,2) circle [radius=0.05];
-\node at (3,1.5) {$p$};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.9]
+        \draw (0,1)--(6,3);
+        \draw (2,4)--(4,0);
+        \draw[fill] (0,1) circle [radius=0.05];
+        \node at (0,0.5) {$c$};
+        \draw[fill] (6,3) circle [radius=0.05];
+        \node at (6,2.5) {$d$};
+        \draw[fill] (2,4) circle [radius=0.05];
+        \node at (1.5,3.5) {$a$};
+        \draw[fill] (4,0) circle [radius=0.05];
+        \node at (4,-0.4) {$b$};
+        \draw[fill] (3,2) circle [radius=0.05];
+        \node at (3,1.5) {$p$};
+    \end{tikzpicture}
 \end{center}
 
 In this case, the line segments intersect
@@ -419,17 +419,17 @@ For example, in the following picture $d$ is the
 shortest distance between the point $p$ and the line
 that is defined by the points $s_1$ and $s_2$:
 \begin{center}
-\begin{tikzpicture}[scale=0.75]
-\draw (-2,-1)--(6,3);
-\draw[dashed] (1,4)--(2.40,1.2);
-\node at (0,-0.5) {$s_1$};
-\node at (4,1.5) {$s_2$};
-\node at (0.5,4) {$p$};
-\node at (2,2.7) {$d$};
-\draw[fill] (0,0) circle [radius=0.05];
-\draw[fill] (4,2) circle [radius=0.05];
-\draw[fill] (1,4) circle [radius=0.05];
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.75]
+        \draw (-2,-1)--(6,3);
+        \draw[dashed] (1,4)--(2.40,1.2);
+        \node at (0,-0.5) {$s_1$};
+        \node at (4,1.5) {$s_2$};
+        \node at (0.5,4) {$p$};
+        \node at (2,2.7) {$d$};
+        \draw[fill] (0,0) circle [radius=0.05];
+        \draw[fill] (4,2) circle [radius=0.05];
+        \draw[fill] (1,4) circle [radius=0.05];
+    \end{tikzpicture}
 \end{center}
 
 The area of the triangle whose vertices are
@@ -450,15 +450,15 @@ is inside the polygon and point $b$ is outside
 the polygon.
 
 \begin{center}
-\begin{tikzpicture}[scale=0.75]
-%\draw (0,0)--(2,-2)--(3,1)--(5,1)--(2,3)--(1,2)--(-1,2)--(1,4)--(-2,4)--(-2,1)--(-3,3)--(-4,0)--(0,0);
-\draw (0,0)--(2,2)--(5,1)--(2,3)--(1,2)--(-1,2)--(1,4)--(-2,4)--(-2,1)--(-3,3)--(-4,0)--(0,0);
+    \begin{tikzpicture}[scale=0.75]
+        %\draw (0,0)--(2,-2)--(3,1)--(5,1)--(2,3)--(1,2)--(-1,2)--(1,4)--(-2,4)--(-2,1)--(-3,3)--(-4,0)--(0,0);
+        \draw (0,0)--(2,2)--(5,1)--(2,3)--(1,2)--(-1,2)--(1,4)--(-2,4)--(-2,1)--(-3,3)--(-4,0)--(0,0);
 
-\draw[fill] (-3,1) circle [radius=0.05];
-\node at (-3,0.5) {$a$};
-\draw[fill] (1,3) circle [radius=0.05];
-\node at (1,2.5) {$b$};
-\end{tikzpicture}
+        \draw[fill] (-3,1) circle [radius=0.05];
+        \node at (-3,0.5) {$a$};
+        \draw[fill] (1,3) circle [radius=0.05];
+        \node at (1,2.5) {$b$};
+    \end{tikzpicture}
 \end{center}
 
 A convenient way to solve the problem is to
@@ -471,23 +471,23 @@ and if the number is even,
 the point is outside the polygon.
 
 \begin{samepage}
-For example, we could send the following rays:
-\begin{center}
-\begin{tikzpicture}[scale=0.75]
-\draw (0,0)--(2,2)--(5,1)--(2,3)--(1,2)--(-1,2)--(1,4)--(-2,4)--(-2,1)--(-3,3)--(-4,0)--(0,0);
+    For example, we could send the following rays:
+    \begin{center}
+        \begin{tikzpicture}[scale=0.75]
+            \draw (0,0)--(2,2)--(5,1)--(2,3)--(1,2)--(-1,2)--(1,4)--(-2,4)--(-2,1)--(-3,3)--(-4,0)--(0,0);
 
-\draw[fill] (-3,1) circle [radius=0.05];
-\node at (-3,0.5) {$a$};
-\draw[fill] (1,3) circle [radius=0.05];
-\node at (1,2.5) {$b$};
+            \draw[fill] (-3,1) circle [radius=0.05];
+            \node at (-3,0.5) {$a$};
+            \draw[fill] (1,3) circle [radius=0.05];
+            \node at (1,2.5) {$b$};
 
-\draw[dashed,->] (-3,1)--(-6,0);
-\draw[dashed,->] (-3,1)--(0,5);
+            \draw[dashed,->] (-3,1)--(-6,0);
+            \draw[dashed,->] (-3,1)--(0,5);
 
-\draw[dashed,->] (1,3)--(3.5,0);
-\draw[dashed,->] (1,3)--(3,4);
-\end{tikzpicture}
-\end{center}
+            \draw[dashed,->] (1,3)--(3.5,0);
+            \draw[dashed,->] (1,3)--(3,4);
+        \end{tikzpicture}
+    \end{center}
 \end{samepage}
 
 The rays from $a$ touch 1 and 3 times
@@ -503,7 +503,7 @@ A general formula for calculating the area
 of a polygon, sometimes called the \key{shoelace formula},
 is as follows: \index{shoelace formula}
 \[\frac{1}{2} |\sum_{i=1}^{n-1} (p_i \times p_{i+1})| =
-\frac{1}{2} |\sum_{i=1}^{n-1} (x_i y_{i+1} - x_{i+1} y_i)|, \]
+    \frac{1}{2} |\sum_{i=1}^{n-1} (x_i y_{i+1} - x_{i+1} y_i)|, \]
 Here the vertices are
 $p_1=(x_1,y_1)$, $p_2=(x_2,y_2)$, $\ldots$, $p_n=(x_n,y_n)$
 in such an order that
@@ -513,19 +513,19 @@ and the first and last vertex is the same, i.e., $p_1=p_n$.
 
 For example, the area of the polygon
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\filldraw (4,1.4) circle (2pt);
-\filldraw (7,3.4) circle (2pt);
-\filldraw (5,5.4) circle (2pt);
-\filldraw (2,4.4) circle (2pt);
-\filldraw (4,3.4) circle (2pt);
-\node (1) at (4,1) {(4,1)};
-\node (2) at (7.2,3) {(7,3)};
-\node (3) at (5,5.8) {(5,5)};
-\node (4) at (2,4) {(2,4)};
-\node (5) at (3.5,3) {(4,3)};
-\path[draw] (4,1.4) -- (7,3.4) -- (5,5.4) -- (2,4.4) -- (4,3.4) -- (4,1.4);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \filldraw (4,1.4) circle (2pt);
+        \filldraw (7,3.4) circle (2pt);
+        \filldraw (5,5.4) circle (2pt);
+        \filldraw (2,4.4) circle (2pt);
+        \filldraw (4,3.4) circle (2pt);
+        \node (1) at (4,1) {(4,1)};
+        \node (2) at (7.2,3) {(7,3)};
+        \node (3) at (5,5.8) {(5,5)};
+        \node (4) at (2,4) {(2,4)};
+        \node (5) at (3.5,3) {(4,3)};
+        \path[draw] (4,1.4) -- (7,3.4) -- (5,5.4) -- (2,4.4) -- (4,3.4) -- (4,1.4);
+    \end{tikzpicture}
 \end{center}
 is
 \[\frac{|(2\cdot5-5\cdot4)+(5\cdot3-7\cdot5)+(7\cdot1-4\cdot3)+(4\cdot3-4\cdot1)+(4\cdot4-2\cdot3)|}{2} = 17/2.\]
@@ -535,21 +535,21 @@ whose one side is a side of the polygon,
 and another side lies on the horizontal line $y=0$.
 For example:
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\path[draw,fill=lightgray] (5,5.4) -- (7,3.4) -- (7,0) -- (5,0) -- (5,5.4);
-\filldraw (4,1.4) circle (2pt);
-\filldraw (7,3.4) circle (2pt);
-\filldraw (5,5.4) circle (2pt);
-\filldraw (2,4.4) circle (2pt);
-\filldraw (4,3.4) circle (2pt);
-\node (1) at (4,1) {(4,1)};
-\node (2) at (7.2,3) {(7,3)};
-\node (3) at (5,5.8) {(5,5)};
-\node (4) at (2,4) {(2,4)};
-\node (5) at (3.5,3) {(4,3)};
-\path[draw] (4,1.4) -- (7,3.4) -- (5,5.4) -- (2,4.4) -- (4,3.4) -- (4,1.4);
-\draw (0,0) -- (10,0);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \path[draw,fill=lightgray] (5,5.4) -- (7,3.4) -- (7,0) -- (5,0) -- (5,5.4);
+        \filldraw (4,1.4) circle (2pt);
+        \filldraw (7,3.4) circle (2pt);
+        \filldraw (5,5.4) circle (2pt);
+        \filldraw (2,4.4) circle (2pt);
+        \filldraw (4,3.4) circle (2pt);
+        \node (1) at (4,1) {(4,1)};
+        \node (2) at (7.2,3) {(7,3)};
+        \node (3) at (5,5.8) {(5,5)};
+        \node (4) at (2,4) {(2,4)};
+        \node (5) at (3.5,3) {(4,3)};
+        \path[draw] (4,1.4) -- (7,3.4) -- (5,5.4) -- (2,4.4) -- (4,3.4) -- (4,1.4);
+        \draw (0,0) -- (10,0);
+    \end{tikzpicture}
 \end{center}
 The area of such a trapezoid is
 \[(x_{i+1}-x_{i}) \frac{y_i+y_{i+1}}{2},\]
@@ -560,7 +560,7 @@ and if $x_{i+1}<x_{i}$, the area is negative.
 The area of the polygon is the sum of areas of
 all such trapezoids, which yields the formula
 \[|\sum_{i=1}^{n-1} (x_{i+1}-x_{i}) \frac{y_i+y_{i+1}}{2}| =
-\frac{1}{2} |\sum_{i=1}^{n-1} (x_i y_{i+1} - x_{i+1} y_i)|.\]
+    \frac{1}{2} |\sum_{i=1}^{n-1} (x_i y_{i+1} - x_{i+1} y_i)|.\]
 
 Note that the absolute value of the sum is taken,
 because the value of the sum may be positive or negative,
@@ -572,7 +572,7 @@ along the boundary of the polygon.
 \index{Pick's theorem}
 
 \key{Pick's theorem} provides another way to calculate
-the area of a polygon provided that all vertices 
+the area of a polygon provided that all vertices
 of the polygon have integer coordinates.
 According to Pick's theorem, the area of the polygon is
 \[ a + b/2 -1,\]
@@ -581,33 +581,33 @@ and $b$ is the number of integer points on the boundary of the polygon.
 
 For example, the area of the polygon
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\filldraw (4,1.4) circle (2pt);
-\filldraw (7,3.4) circle (2pt);
-\filldraw (5,5.4) circle (2pt);
-\filldraw (2,4.4) circle (2pt);
-\filldraw (4,3.4) circle (2pt);
-\node (1) at (4,1) {(4,1)};
-\node (2) at (7.2,3) {(7,3)};
-\node (3) at (5,5.8) {(5,5)};
-\node (4) at (2,4) {(2,4)};
-\node (5) at (3.5,3) {(4,3)};
-\path[draw] (4,1.4) -- (7,3.4) -- (5,5.4) -- (2,4.4) -- (4,3.4) -- (4,1.4);
+    \begin{tikzpicture}[scale=0.7]
+        \filldraw (4,1.4) circle (2pt);
+        \filldraw (7,3.4) circle (2pt);
+        \filldraw (5,5.4) circle (2pt);
+        \filldraw (2,4.4) circle (2pt);
+        \filldraw (4,3.4) circle (2pt);
+        \node (1) at (4,1) {(4,1)};
+        \node (2) at (7.2,3) {(7,3)};
+        \node (3) at (5,5.8) {(5,5)};
+        \node (4) at (2,4) {(2,4)};
+        \node (5) at (3.5,3) {(4,3)};
+        \path[draw] (4,1.4) -- (7,3.4) -- (5,5.4) -- (2,4.4) -- (4,3.4) -- (4,1.4);
 
-\filldraw (2,4.4) circle (2pt);
-\filldraw (3,4.4) circle (2pt);
-\filldraw (4,4.4) circle (2pt);
-\filldraw (5,4.4) circle (2pt);
-\filldraw (6,4.4) circle (2pt);
+        \filldraw (2,4.4) circle (2pt);
+        \filldraw (3,4.4) circle (2pt);
+        \filldraw (4,4.4) circle (2pt);
+        \filldraw (5,4.4) circle (2pt);
+        \filldraw (6,4.4) circle (2pt);
 
-\filldraw (4,3.4) circle (2pt);
-\filldraw (5,3.4) circle (2pt);
-\filldraw (6,3.4) circle (2pt);
-\filldraw (7,3.4) circle (2pt);
+        \filldraw (4,3.4) circle (2pt);
+        \filldraw (5,3.4) circle (2pt);
+        \filldraw (6,3.4) circle (2pt);
+        \filldraw (7,3.4) circle (2pt);
 
-\filldraw (4,2.4) circle (2pt);
-\filldraw (5,2.4) circle (2pt);
-\end{tikzpicture}
+        \filldraw (4,2.4) circle (2pt);
+        \filldraw (5,2.4) circle (2pt);
+    \end{tikzpicture}
 \end{center}
 is $6+7/2-1=17/2$.
 
@@ -629,31 +629,31 @@ where the distance between points
 $(x_1,y_1)$ and $(x_2,y_2)$ is
 \[|x_1-x_2|+|y_1-y_2|.\]
 \begin{samepage}
-For example, consider the following picture:
-\begin{center}
-\begin{tikzpicture}
+    For example, consider the following picture:
+    \begin{center}
+        \begin{tikzpicture}
 
-\draw[fill] (2,1) circle [radius=0.05];
-\draw[fill] (5,2) circle [radius=0.05];
+            \draw[fill] (2,1) circle [radius=0.05];
+            \draw[fill] (5,2) circle [radius=0.05];
 
-\node at (2,0.5) {$(2,1)$};
-\node at (5,1.5) {$(5,2)$};
+            \node at (2,0.5) {$(2,1)$};
+            \node at (5,1.5) {$(5,2)$};
 
-\draw[dashed] (2,1) -- (5,2);
+            \draw[dashed] (2,1) -- (5,2);
 
-\draw[fill] (5+2,1) circle [radius=0.05];
-\draw[fill] (5+5,2) circle [radius=0.05];
+            \draw[fill] (5+2,1) circle [radius=0.05];
+            \draw[fill] (5+5,2) circle [radius=0.05];
 
-\node at (5+2,0.5) {$(2,1)$};
-\node at (5+5,1.5) {$(5,2)$};
+            \node at (5+2,0.5) {$(2,1)$};
+            \node at (5+5,1.5) {$(5,2)$};
 
-\draw[dashed] (5+2,1) -- (5+2,2);
-\draw[dashed] (5+2,2) -- (5+5,2);
+            \draw[dashed] (5+2,1) -- (5+2,2);
+            \draw[dashed] (5+2,2) -- (5+5,2);
 
-\node at (3.5,-0.5) {Euclidean distance};
-\node at (5+3.5,-0.5) {Manhattan distance};
-\end{tikzpicture}
-\end{center}
+            \node at (3.5,-0.5) {Euclidean distance};
+            \node at (5+3.5,-0.5) {Manhattan distance};
+        \end{tikzpicture}
+    \end{center}
 \end{samepage}
 The Euclidean distance between the points is
 \[\sqrt{(5-2)^2+(2-1)^2}=\sqrt{10}\]
@@ -662,17 +662,17 @@ and the Manhattan distance is
 The following picture shows regions that are within a distance of 1
 from the center point, using the Euclidean and Manhattan distances:
 \begin{center}
-\begin{tikzpicture}
+    \begin{tikzpicture}
 
-\draw[fill=gray!20] (0,0) circle [radius=1];
-\draw[fill] (0,0) circle [radius=0.05];
+        \draw[fill=gray!20] (0,0) circle [radius=1];
+        \draw[fill] (0,0) circle [radius=0.05];
 
-\node at (0,-1.5) {Euclidean distance};
+        \node at (0,-1.5) {Euclidean distance};
 
-\draw[fill=gray!20] (5+0,1) -- (5-1,0) -- (5+0,-1) -- (5+1,0) -- (5+0,1);
-\draw[fill] (5,0) circle [radius=0.05];
-\node at (5,-1.5) {Manhattan distance};
-\end{tikzpicture}
+        \draw[fill=gray!20] (5+0,1) -- (5-1,0) -- (5+0,-1) -- (5+1,0) -- (5+0,1);
+        \draw[fill] (5,0) circle [radius=0.05];
+        \node at (5,-1.5) {Manhattan distance};
+    \end{tikzpicture}
 \end{center}
 
 \subsubsection{Rotating coordinates}
@@ -686,38 +686,38 @@ distance between any two points.
 
 For example, consider the following set of points:
 \begin{center}
-\begin{tikzpicture}[scale=0.65]
-\draw[color=gray] (-1,-1) grid (4,4);
+    \begin{tikzpicture}[scale=0.65]
+        \draw[color=gray] (-1,-1) grid (4,4);
 
-\filldraw (0,2) circle (2.5pt);
-\filldraw (3,3) circle (2.5pt);
-\filldraw (1,0) circle (2.5pt);
-\filldraw (3,1) circle (2.5pt);
+        \filldraw (0,2) circle (2.5pt);
+        \filldraw (3,3) circle (2.5pt);
+        \filldraw (1,0) circle (2.5pt);
+        \filldraw (3,1) circle (2.5pt);
 
-\node at (0,1.5) {$A$};
-\node at (3,2.5) {$C$};
-\node at (1,-0.5) {$B$};
-\node at (3,0.5) {$D$};
-\end{tikzpicture}
+        \node at (0,1.5) {$A$};
+        \node at (3,2.5) {$C$};
+        \node at (1,-0.5) {$B$};
+        \node at (3,0.5) {$D$};
+    \end{tikzpicture}
 \end{center}
 The maximum Manhattan distance is 5
 between points $B$ and $C$:
 \begin{center}
-\begin{tikzpicture}[scale=0.65]
-\draw[color=gray] (-1,-1) grid (4,4);
+    \begin{tikzpicture}[scale=0.65]
+        \draw[color=gray] (-1,-1) grid (4,4);
 
-\filldraw (0,2) circle (2.5pt);
-\filldraw (3,3) circle (2.5pt);
-\filldraw (1,0) circle (2.5pt);
-\filldraw (3,1) circle (2.5pt);
+        \filldraw (0,2) circle (2.5pt);
+        \filldraw (3,3) circle (2.5pt);
+        \filldraw (1,0) circle (2.5pt);
+        \filldraw (3,1) circle (2.5pt);
 
-\node at (0,1.5) {$A$};
-\node at (3,2.5) {$C$};
-\node at (1,-0.5) {$B$};
-\node at (3,0.5) {$D$};
+        \node at (0,1.5) {$A$};
+        \node at (3,2.5) {$C$};
+        \node at (1,-0.5) {$B$};
+        \node at (3,0.5) {$D$};
 
-\path[draw=red,thick,line width=2pt] (1,0) -- (1,3) -- (3,3);
-\end{tikzpicture}
+        \path[draw=red,thick,line width=2pt] (1,0) -- (1,3) -- (3,3);
+    \end{tikzpicture}
 \end{center}
 
 A useful technique related to Manhattan distances
@@ -727,37 +727,37 @@ For example, after rotating the above points,
 the result is:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.6]
-\draw[color=gray] (0,-3) grid (7,3);
+    \begin{tikzpicture}[scale=0.6]
+        \draw[color=gray] (0,-3) grid (7,3);
 
-\filldraw (2,2) circle (2.5pt);
-\filldraw (6,0) circle (2.5pt);
-\filldraw (1,-1) circle (2.5pt);
-\filldraw (4,-2) circle (2.5pt);
+        \filldraw (2,2) circle (2.5pt);
+        \filldraw (6,0) circle (2.5pt);
+        \filldraw (1,-1) circle (2.5pt);
+        \filldraw (4,-2) circle (2.5pt);
 
-\node at (2,1.5) {$A$};
-\node at (6,-0.5) {$C$};
-\node at (1,-1.5) {$B$};
-\node at (4,-2.5) {$D$};
-\end{tikzpicture}
+        \node at (2,1.5) {$A$};
+        \node at (6,-0.5) {$C$};
+        \node at (1,-1.5) {$B$};
+        \node at (4,-2.5) {$D$};
+    \end{tikzpicture}
 \end{center}
 And the maximum distance is as follows:
 \begin{center}
-\begin{tikzpicture}[scale=0.6]
-\draw[color=gray] (0,-3) grid (7,3);
+    \begin{tikzpicture}[scale=0.6]
+        \draw[color=gray] (0,-3) grid (7,3);
 
-\filldraw (2,2) circle (2.5pt);
-\filldraw (6,0) circle (2.5pt);
-\filldraw (1,-1) circle (2.5pt);
-\filldraw (4,-2) circle (2.5pt);
+        \filldraw (2,2) circle (2.5pt);
+        \filldraw (6,0) circle (2.5pt);
+        \filldraw (1,-1) circle (2.5pt);
+        \filldraw (4,-2) circle (2.5pt);
 
-\node at (2,1.5) {$A$};
-\node at (6,-0.5) {$C$};
-\node at (1,-1.5) {$B$};
-\node at (4,-2.5) {$D$};
+        \node at (2,1.5) {$A$};
+        \node at (6,-0.5) {$C$};
+        \node at (1,-1.5) {$B$};
+        \node at (4,-2.5) {$D$};
 
-\path[draw=red,thick,line width=2pt] (1,-1) -- (4,2) -- (6,0);
-\end{tikzpicture}
+        \path[draw=red,thick,line width=2pt] (1,-1) -- (4,2) -- (6,0);
+    \end{tikzpicture}
 \end{center}
 
 Consider two points $p_1=(x_1,y_1)$ and $p_2=(x_2,y_2)$ whose rotated

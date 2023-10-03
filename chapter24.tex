@@ -17,9 +17,9 @@ and the probability of each outcome is $1/6$.
 For example, we can calculate the following probabilities:
 
 \begin{itemize}[noitemsep]
-\item $P(\textrm{''the outcome is 4''})=1/6$
-\item $P(\textrm{''the outcome is not 6''})=5/6$
-\item $P(\textrm{''the outcome is even''})=1/2$
+    \item $P(\textrm{``the outcome is 4''})=1/6$
+    \item $P(\textrm{``the outcome is not 6''})=5/6$
+    \item $P(\textrm{``the outcome is even''})=1/2$
 \end{itemize}
 
 \section{Calculation}
@@ -30,7 +30,7 @@ or simulate the process that generates the event.
 As an example, let us calculate the probability
 of drawing three cards with the same value
 from a shuffled deck of cards
-(for example, $\spadesuit 8$, $\clubsuit 8$ and $\diamondsuit 8$).
+(for example, $\spadesuit\,8$, $\clubsuit\,8$, and $\diamondsuit\,8$).
 
 \subsubsection*{Method 1}
 
@@ -40,16 +40,16 @@ We can calculate the probability using the formula
 
 In this problem, the desired outcomes are those
 in which the value of each card is the same.
-There are $13 {4 \choose 3}$ such outcomes,
+There are $13 \binom{4}{3}$ such outcomes,
 because there are $13$ possibilities for the
-value of the cards and ${4 \choose 3}$ ways to
+value of the cards and $\binom{4}{3}$ ways to
 choose $3$ suits from $4$ possible suits.
 
-There are a total of ${52 \choose 3}$ outcomes,
+There are a total of $\binom{52}{3}$ outcomes,
 because we choose 3 cards from 52 cards.
 Thus, the probability of the event is
 
-\[\frac{13 {4 \choose 3}}{{52 \choose 3}} = \frac{1}{425}.\]
+\[\frac{13 \binom{4}{3}}{\binom{52}{3}} = \frac{1}{425}.\]
 
 \subsubsection*{Method 2}
 
@@ -100,22 +100,22 @@ Since the events in probability theory are sets,
 we can manipulate them using standard set operations:
 
 \begin{itemize}
-\item The \key{complement} $\bar A$ means
-''$A$ does not happen''.
-For example, when throwing a dice, 
-the complement of $A=\{2,4,6\}$ is
-$\bar A = \{1,3,5\}$.
-\item The \key{union} $A \cup B$ means
-''$A$ or $B$ happen''.
-For example, the union of
-$A=\{2,5\}$
-and $B=\{4,5,6\}$ is
-$A \cup B = \{2,4,5,6\}$.
-\item The \key{intersection} $A \cap B$ means
-''$A$ and $B$ happen''.
-For example, the intersection of
-$A=\{2,5\}$ and $B=\{4,5,6\}$ is
-$A \cap B = \{5\}$.
+    \item The \key{complement} $\bar A$ means
+          ''$A$ does not happen''.
+          For example, when throwing a dice,
+          the complement of $A=\{2,4,6\}$ is
+          $\bar A = \{1,3,5\}$.
+    \item The \key{union} $A \cup B$ means
+          ''$A$ or $B$ happen''.
+          For example, the union of
+          $A=\{2,5\}$
+          and $B=\{4,5,6\}$ is
+          $A \cup B = \{2,4,5,6\}$.
+    \item The \key{intersection} $A \cap B$ means
+          ''$A$ and $B$ happen''.
+          For example, the intersection of
+          $A=\{2,5\}$ and $B=\{4,5,6\}$ is
+          $A \cap B = \{5\}$.
 \end{itemize}
 
 \subsubsection{Complement}
@@ -255,25 +255,25 @@ be placed in any of the boxes.
 For example, if $n=2$, the possibilities
 are as follows:
 \begin{center}
-\begin{tikzpicture}
-\draw (0,0) rectangle (1,1);
-\draw (1.2,0) rectangle (2.2,1);
-\draw (3,0) rectangle (4,1);
-\draw (4.2,0) rectangle (5.2,1);
-\draw (6,0) rectangle (7,1);
-\draw (7.2,0) rectangle (8.2,1);
-\draw (9,0) rectangle (10,1);
-\draw (10.2,0) rectangle (11.2,1);
+    \begin{tikzpicture}
+        \draw (0,0) rectangle (1,1);
+        \draw (1.2,0) rectangle (2.2,1);
+        \draw (3,0) rectangle (4,1);
+        \draw (4.2,0) rectangle (5.2,1);
+        \draw (6,0) rectangle (7,1);
+        \draw (7.2,0) rectangle (8.2,1);
+        \draw (9,0) rectangle (10,1);
+        \draw (10.2,0) rectangle (11.2,1);
 
-\draw[fill=blue] (0.5,0.2) circle (0.1);
-\draw[fill=red] (1.7,0.2) circle (0.1);
-\draw[fill=red] (3.5,0.2) circle (0.1);
-\draw[fill=blue] (4.7,0.2) circle (0.1);
-\draw[fill=blue] (6.25,0.2) circle (0.1);
-\draw[fill=red] (6.75,0.2) circle (0.1);
-\draw[fill=blue] (10.45,0.2) circle (0.1);
-\draw[fill=red] (10.95,0.2) circle (0.1);
-\end{tikzpicture}
+        \draw[fill=blue] (0.5,0.2) circle (0.1);
+        \draw[fill=red] (1.7,0.2) circle (0.1);
+        \draw[fill=red] (3.5,0.2) circle (0.1);
+        \draw[fill=blue] (4.7,0.2) circle (0.1);
+        \draw[fill=blue] (6.25,0.2) circle (0.1);
+        \draw[fill=red] (6.75,0.2) circle (0.1);
+        \draw[fill=blue] (10.45,0.2) circle (0.1);
+        \draw[fill=red] (10.95,0.2) circle (0.1);
+    \end{tikzpicture}
 \end{center}
 In this case, the expected number of
 empty boxes is
@@ -297,12 +297,12 @@ The distribution consists of values $P(X=x)$.
 For example, when throwing two dice,
 the distribution for their sum is:
 \begin{center}
-\small {
-\begin{tabular}{r|rrrrrrrrrrrrr}
-$x$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
-$P(X=x)$ & $1/36$ & $2/36$ & $3/36$ & $4/36$ & $5/36$ & $6/36$ & $5/36$ & $4/36$ & $3/36$ & $2/36$ & $1/36$ \\
-\end{tabular}
-}
+    \small {
+        \begin{tabular}{r|rrrrrrrrrrrrr}
+            $x$      & 2      & 3      & 4      & 5      & 6      & 7      & 8      & 9      & 10     & 11     & 12     \\
+            $P(X=x)$ & $1/36$ & $2/36$ & $3/36$ & $4/36$ & $5/36$ & $6/36$ & $5/36$ & $4/36$ & $3/36$ & $2/36$ & $1/36$ \\
+        \end{tabular}
+    }
 \end{center}
 
 \index{uniform distribution}
@@ -323,15 +323,15 @@ is $p$.
 The random variable $X$ counts the number of
 successful attempts,
 and the probability of a value $x$ is
-\[P(X=x)=p^x (1-p)^{n-x} {n \choose x},\]
+\[P(X=x)=p^x (1-p)^{n-x} \binom{n}{x},\]
 where $p^x$ and $(1-p)^{n-x}$ correspond to
 successful and unsuccessful attemps,
-and ${n \choose x}$ is the number of ways
+and $\binom{n}{x}$ is the number of ways
 we can choose the order of the attempts.
 
 For example, when throwing a dice ten times,
 the probability of throwing a six exactly
-three times is $(1/6)^3 (5/6)^7 {10 \choose 3}$.
+three times is $(1/6)^3 (5/6)^7 \binom{10}{3}$.
 
 The expected value of $X$ in a binomial distribution is
 \[E[X] = pn.\]
@@ -382,25 +382,25 @@ corresponds to a state in a Markov chain.
 For example, if $n=5$, the graph is as follows:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {$1$};
-\node[draw, circle] (2) at (2,0) {$2$};
-\node[draw, circle] (3) at (4,0) {$3$};
-\node[draw, circle] (4) at (6,0) {$4$};
-\node[draw, circle] (5) at (8,0) {$5$};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {$1$};
+        \node[draw, circle] (2) at (2,0) {$2$};
+        \node[draw, circle] (3) at (4,0) {$3$};
+        \node[draw, circle] (4) at (6,0) {$4$};
+        \node[draw, circle] (5) at (8,0) {$5$};
 
-\path[draw,thick,->] (1) edge [bend left=40] node[font=\small,label=$1$] {} (2);
-\path[draw,thick,->] (2) edge [bend left=40] node[font=\small,label=$1/2$] {} (3);
-\path[draw,thick,->] (3) edge [bend left=40] node[font=\small,label=$1/2$] {} (4);
-\path[draw,thick,->] (4) edge [bend left=40] node[font=\small,label=$1/2$] {} (5);
+        \path[draw,thick,->] (1) edge [bend left=40] node[font=\small,label=$1$] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=40] node[font=\small,label=$1/2$] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=40] node[font=\small,label=$1/2$] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=40] node[font=\small,label=$1/2$] {} (5);
 
-\path[draw,thick,->] (5) edge [bend left=40] node[font=\small,label=below:$1$] {} (4);
-\path[draw,thick,->] (4) edge [bend left=40] node[font=\small,label=below:$1/2$] {} (3);
-\path[draw,thick,->] (3) edge [bend left=40] node[font=\small,label=below:$1/2$] {} (2);
-\path[draw,thick,->] (2) edge [bend left=40] node[font=\small,label=below:$1/2$] {} (1);
+        \path[draw,thick,->] (5) edge [bend left=40] node[font=\small,label=below:$1$] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=40] node[font=\small,label=below:$1/2$] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=40] node[font=\small,label=below:$1/2$] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=40] node[font=\small,label=below:$1/2$] {} (1);
 
-%\path[draw,thick,->] (1) edge [bend left=40] node[font=\small,label=below:$1$] {} (2);
-\end{tikzpicture}
+        %\path[draw,thick,->] (1) edge [bend left=40] node[font=\small,label=below:$1$] {} (2);
+    \end{tikzpicture}
 \end{center}
 
 The probability distribution
@@ -430,14 +430,14 @@ represented as a matrix that updates the
 probability distribution.
 In the above scenario, the matrix is
 
-\[ 
- \begin{bmatrix}
-  0 & 1/2 & 0 & 0 & 0 \\
-  1 & 0 & 1/2 & 0 & 0 \\
-  0 & 1/2 & 0 & 1/2 & 0 \\
-  0 & 0 & 1/2 & 0 & 1 \\
-  0 & 0 & 0 & 1/2 & 0 \\
- \end{bmatrix}.
+\[
+    \begin{bmatrix}
+        0 & 1/2 & 0   & 0   & 0 \\
+        1 & 0   & 1/2 & 0   & 0 \\
+        0 & 1/2 & 0   & 1/2 & 0 \\
+        0 & 0   & 1/2 & 0   & 1 \\
+        0 & 0   & 0   & 1/2 & 0 \\
+    \end{bmatrix}.
 \]
 
 When we multiply a probability distribution by this matrix,
@@ -446,29 +446,29 @@ For example, we can move from the distribution
 $[1,0,0,0,0]$ to the distribution
 $[0,1,0,0,0]$ as follows:
 
-\[ 
- \begin{bmatrix}
-  0 & 1/2 & 0 & 0 & 0 \\
-  1 & 0 & 1/2 & 0 & 0 \\
-  0 & 1/2 & 0 & 1/2 & 0 \\
-  0 & 0 & 1/2 & 0 & 1 \\
-  0 & 0 & 0 & 1/2 & 0 \\
- \end{bmatrix}
- \begin{bmatrix}
-  1 \\
-  0 \\
-  0 \\
-  0 \\
-  0 \\
- \end{bmatrix}
-=
- \begin{bmatrix}
-  0 \\
-  1 \\
-  0 \\
-  0 \\
-  0 \\
- \end{bmatrix}.
+\[
+    \begin{bmatrix}
+        0 & 1/2 & 0   & 0   & 0 \\
+        1 & 0   & 1/2 & 0   & 0 \\
+        0 & 1/2 & 0   & 1/2 & 0 \\
+        0 & 0   & 1/2 & 0   & 1 \\
+        0 & 0   & 0   & 1/2 & 0 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        0 \\
+        1 \\
+        0 \\
+        0 \\
+        0 \\
+    \end{bmatrix}.
 \]
 
 By calculating matrix powers efficiently,
@@ -517,10 +517,10 @@ just to find one element?
 It turns out that we can find order statistics
 using a randomized algorithm without sorting the array.
 The algorithm, called \key{quickselect}\footnote{In 1961,
-C. A. R. Hoare published two algorithms that
-are efficient on average: \index{quicksort} \index{quickselect}
-\key{quicksort} \cite{hoa61a} for sorting arrays and
-\key{quickselect} \cite{hoa61b} for finding order statistics.}, is a Las Vegas algorithm:
+    C. A. R. Hoare published two algorithms that
+    are efficient on average: \index{quicksort} \index{quickselect}
+    \key{quicksort} \cite{hoa61a} for sorting arrays and
+    \key{quickselect} \cite{hoa61b} for finding order statistics.}, is a Las Vegas algorithm:
 its running time is usually $O(n)$
 but $O(n^2)$ in the worst case.
 
@@ -567,8 +567,8 @@ answer would by easier than to calculate it from scratch.
 
 It turns out that we can solve the problem
 using a Monte Carlo algorithm\footnote{R. M. Freivalds published
-this algorithm in 1977 \cite{fre77}, and it is sometimes
-called \index{Freivalds' algoritm} \key{Freivalds' algorithm}.} whose
+    this algorithm in 1977 \cite{fre77}, and it is sometimes
+    called \index{Freivalds' algoritm} \key{Freivalds' algorithm}.} whose
 time complexity is only $O(n^2)$.
 The idea is simple: we choose a random vector
 $X$ of $n$ elements, and calculate the matrices
@@ -586,37 +586,37 @@ size matrices are needed.
 The drawback of the algorithm is
 that there is a small chance that the algorithm
 makes a mistake when it reports that $AB=C$.
-For example, 
+For example,
 \[
- \begin{bmatrix}
-  6 & 8 \\
-  1 & 3 \\
- \end{bmatrix}
-\neq
- \begin{bmatrix}
-  8 & 7 \\
-  3 & 2 \\
- \end{bmatrix},
+    \begin{bmatrix}
+        6 & 8 \\
+        1 & 3 \\
+    \end{bmatrix}
+    \neq
+    \begin{bmatrix}
+        8 & 7 \\
+        3 & 2 \\
+    \end{bmatrix},
 \]
 but
 \[
- \begin{bmatrix}
-  6 & 8 \\
-  1 & 3 \\
- \end{bmatrix}
- \begin{bmatrix}
-  3 \\
-  6 \\
- \end{bmatrix}
-=
- \begin{bmatrix}
-  8 & 7 \\
-  3 & 2 \\
- \end{bmatrix}
- \begin{bmatrix}
-  3 \\
-  6 \\
- \end{bmatrix}.
+    \begin{bmatrix}
+        6 & 8 \\
+        1 & 3 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        3 \\
+        6 \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        8 & 7 \\
+        3 & 2 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        3 \\
+        6 \\
+    \end{bmatrix}.
 \]
 However, in practice, the probability that the
 algorithm makes a mistake is small,
@@ -631,43 +631,43 @@ before reporting that $AB=C$.
 Given a graph that contains $n$ nodes and $m$ edges,
 our task is to find a way to color the nodes
 of the graph using two colors so that
-for at least $m/2$ edges, the endpoints 
+for at least $m/2$ edges, the endpoints
 have different colors.
 For example, in the graph
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (1,3) {$1$};
-\node[draw, circle] (2) at (4,3) {$2$};
-\node[draw, circle] (3) at (1,1) {$3$};
-\node[draw, circle] (4) at (4,1) {$4$};
-\node[draw, circle] (5) at (6,2) {$5$};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (1,3) {$1$};
+        \node[draw, circle] (2) at (4,3) {$2$};
+        \node[draw, circle] (3) at (1,1) {$3$};
+        \node[draw, circle] (4) at (4,1) {$4$};
+        \node[draw, circle] (5) at (6,2) {$5$};
 
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (3) -- (4);
-\path[draw,thick,-] (2) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (4) -- (5);
-\end{tikzpicture}
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (3) -- (4);
+        \path[draw,thick,-] (2) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (4) -- (5);
+    \end{tikzpicture}
 \end{center}
 a valid coloring is as follows:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle, fill=blue!40] (1) at (1,3) {$1$};
-\node[draw, circle, fill=red!40] (2) at (4,3) {$2$};
-\node[draw, circle, fill=red!40] (3) at (1,1) {$3$};
-\node[draw, circle, fill=blue!40] (4) at (4,1) {$4$};
-\node[draw, circle, fill=blue!40] (5) at (6,2) {$5$};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle, fill=blue!40] (1) at (1,3) {$1$};
+        \node[draw, circle, fill=red!40] (2) at (4,3) {$2$};
+        \node[draw, circle, fill=red!40] (3) at (1,1) {$3$};
+        \node[draw, circle, fill=blue!40] (4) at (4,1) {$4$};
+        \node[draw, circle, fill=blue!40] (5) at (6,2) {$5$};
 
-\path[draw,thick,-] (1) -- (2);
-\path[draw,thick,-] (1) -- (3);
-\path[draw,thick,-] (1) -- (4);
-\path[draw,thick,-] (3) -- (4);
-\path[draw,thick,-] (2) -- (4);
-\path[draw,thick,-] (2) -- (5);
-\path[draw,thick,-] (4) -- (5);
-\end{tikzpicture}
+        \path[draw,thick,-] (1) -- (2);
+        \path[draw,thick,-] (1) -- (3);
+        \path[draw,thick,-] (1) -- (4);
+        \path[draw,thick,-] (3) -- (4);
+        \path[draw,thick,-] (2) -- (4);
+        \path[draw,thick,-] (2) -- (5);
+        \path[draw,thick,-] (4) -- (5);
+    \end{tikzpicture}
 \end{center}
 The above graph contains 7 edges, and for 5 of them,
 the endpoints have different colors,

@@ -29,37 +29,37 @@ For example, an array of 16 elements will be
 divided into blocks of 4 elements as follows:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (16,1);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (16,1);
 
-\draw (0,1) rectangle (4,2);
-\draw (4,1) rectangle (8,2);
-\draw (8,1) rectangle (12,2);
-\draw (12,1) rectangle (16,2);
+        \draw (0,1) rectangle (4,2);
+        \draw (4,1) rectangle (8,2);
+        \draw (8,1) rectangle (12,2);
+        \draw (12,1) rectangle (16,2);
 
-\node at (0.5, 0.5) {5};
-\node at (1.5, 0.5) {8};
-\node at (2.5, 0.5) {6};
-\node at (3.5, 0.5) {3};
-\node at (4.5, 0.5) {2};
-\node at (5.5, 0.5) {7};
-\node at (6.5, 0.5) {2};
-\node at (7.5, 0.5) {6};
-\node at (8.5, 0.5) {7};
-\node at (9.5, 0.5) {1};
-\node at (10.5, 0.5) {7};
-\node at (11.5, 0.5) {5};
-\node at (12.5, 0.5) {6};
-\node at (13.5, 0.5) {2};
-\node at (14.5, 0.5) {3};
-\node at (15.5, 0.5) {2};
+        \node at (0.5, 0.5) {5};
+        \node at (1.5, 0.5) {8};
+        \node at (2.5, 0.5) {6};
+        \node at (3.5, 0.5) {3};
+        \node at (4.5, 0.5) {2};
+        \node at (5.5, 0.5) {7};
+        \node at (6.5, 0.5) {2};
+        \node at (7.5, 0.5) {6};
+        \node at (8.5, 0.5) {7};
+        \node at (9.5, 0.5) {1};
+        \node at (10.5, 0.5) {7};
+        \node at (11.5, 0.5) {5};
+        \node at (12.5, 0.5) {6};
+        \node at (13.5, 0.5) {2};
+        \node at (14.5, 0.5) {3};
+        \node at (15.5, 0.5) {2};
 
-\node at (2, 1.5) {21};
-\node at (6, 1.5) {17};
-\node at (10, 1.5) {20};
-\node at (14, 1.5) {13};
+        \node at (2, 1.5) {21};
+        \node at (6, 1.5) {17};
+        \node at (10, 1.5) {20};
+        \node at (14, 1.5) {13};
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
 
 In this structure,
@@ -73,85 +73,85 @@ how the value of an element and
 the sum of the corresponding block change:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=lightgray] (5,0) rectangle (6,1);
-\draw (0,0) grid (16,1);
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=lightgray] (5,0) rectangle (6,1);
+        \draw (0,0) grid (16,1);
 
-\fill[color=lightgray] (4,1) rectangle (8,2);
-\draw (0,1) rectangle (4,2);
-\draw (4,1) rectangle (8,2);
-\draw (8,1) rectangle (12,2);
-\draw (12,1) rectangle (16,2);
+        \fill[color=lightgray] (4,1) rectangle (8,2);
+        \draw (0,1) rectangle (4,2);
+        \draw (4,1) rectangle (8,2);
+        \draw (8,1) rectangle (12,2);
+        \draw (12,1) rectangle (16,2);
 
-\node at (0.5, 0.5) {5};
-\node at (1.5, 0.5) {8};
-\node at (2.5, 0.5) {6};
-\node at (3.5, 0.5) {3};
-\node at (4.5, 0.5) {2};
-\node at (5.5, 0.5) {5};
-\node at (6.5, 0.5) {2};
-\node at (7.5, 0.5) {6};
-\node at (8.5, 0.5) {7};
-\node at (9.5, 0.5) {1};
-\node at (10.5, 0.5) {7};
-\node at (11.5, 0.5) {5};
-\node at (12.5, 0.5) {6};
-\node at (13.5, 0.5) {2};
-\node at (14.5, 0.5) {3};
-\node at (15.5, 0.5) {2};
+        \node at (0.5, 0.5) {5};
+        \node at (1.5, 0.5) {8};
+        \node at (2.5, 0.5) {6};
+        \node at (3.5, 0.5) {3};
+        \node at (4.5, 0.5) {2};
+        \node at (5.5, 0.5) {5};
+        \node at (6.5, 0.5) {2};
+        \node at (7.5, 0.5) {6};
+        \node at (8.5, 0.5) {7};
+        \node at (9.5, 0.5) {1};
+        \node at (10.5, 0.5) {7};
+        \node at (11.5, 0.5) {5};
+        \node at (12.5, 0.5) {6};
+        \node at (13.5, 0.5) {2};
+        \node at (14.5, 0.5) {3};
+        \node at (15.5, 0.5) {2};
 
-\node at (2, 1.5) {21};
-\node at (6, 1.5) {15};
-\node at (10, 1.5) {20};
-\node at (14, 1.5) {13};
+        \node at (2, 1.5) {21};
+        \node at (6, 1.5) {15};
+        \node at (10, 1.5) {20};
+        \node at (14, 1.5) {13};
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
 
 Then, to calculate the sum of elements in a range,
-we divide the range into three parts such that 
+we divide the range into three parts such that
 the sum consists of values of single elements
 and sums of blocks between them:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=lightgray] (3,0) rectangle (4,1);
-\fill[color=lightgray] (12,0) rectangle (13,1);
-\fill[color=lightgray] (13,0) rectangle (14,1);
-\draw (0,0) grid (16,1);
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=lightgray] (3,0) rectangle (4,1);
+        \fill[color=lightgray] (12,0) rectangle (13,1);
+        \fill[color=lightgray] (13,0) rectangle (14,1);
+        \draw (0,0) grid (16,1);
 
-\fill[color=lightgray] (4,1) rectangle (8,2);
-\fill[color=lightgray] (8,1) rectangle (12,2);
-\draw (0,1) rectangle (4,2);
-\draw (4,1) rectangle (8,2);
-\draw (8,1) rectangle (12,2);
-\draw (12,1) rectangle (16,2);
+        \fill[color=lightgray] (4,1) rectangle (8,2);
+        \fill[color=lightgray] (8,1) rectangle (12,2);
+        \draw (0,1) rectangle (4,2);
+        \draw (4,1) rectangle (8,2);
+        \draw (8,1) rectangle (12,2);
+        \draw (12,1) rectangle (16,2);
 
-\node at (0.5, 0.5) {5};
-\node at (1.5, 0.5) {8};
-\node at (2.5, 0.5) {6};
-\node at (3.5, 0.5) {3};
-\node at (4.5, 0.5) {2};
-\node at (5.5, 0.5) {5};
-\node at (6.5, 0.5) {2};
-\node at (7.5, 0.5) {6};
-\node at (8.5, 0.5) {7};
-\node at (9.5, 0.5) {1};
-\node at (10.5, 0.5) {7};
-\node at (11.5, 0.5) {5};
-\node at (12.5, 0.5) {6};
-\node at (13.5, 0.5) {2};
-\node at (14.5, 0.5) {3};
-\node at (15.5, 0.5) {2};
+        \node at (0.5, 0.5) {5};
+        \node at (1.5, 0.5) {8};
+        \node at (2.5, 0.5) {6};
+        \node at (3.5, 0.5) {3};
+        \node at (4.5, 0.5) {2};
+        \node at (5.5, 0.5) {5};
+        \node at (6.5, 0.5) {2};
+        \node at (7.5, 0.5) {6};
+        \node at (8.5, 0.5) {7};
+        \node at (9.5, 0.5) {1};
+        \node at (10.5, 0.5) {7};
+        \node at (11.5, 0.5) {5};
+        \node at (12.5, 0.5) {6};
+        \node at (13.5, 0.5) {2};
+        \node at (14.5, 0.5) {3};
+        \node at (15.5, 0.5) {2};
 
-\node at (2, 1.5) {21};
-\node at (6, 1.5) {15};
-\node at (10, 1.5) {20};
-\node at (14, 1.5) {13};
+        \node at (2, 1.5) {21};
+        \node at (6, 1.5) {15};
+        \node at (10, 1.5) {20};
+        \node at (14, 1.5) {13};
 
-\draw [decoration={brace}, decorate, line width=0.5mm] (14,-0.25) -- (3,-0.25);
+        \draw [decoration={brace}, decorate, line width=0.5mm] (14,-0.25) -- (3,-0.25);
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
 
 Since the number of single elements is $O(\sqrt n)$
@@ -196,25 +196,25 @@ $(x_1,y_1)$ and $(x_2,y_2)$ is $|x_1-x_2|+|y_1-y_2|$.
 For example, consider the following grid:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\node at (0.5,0.5) {A};
-\node at (0.5,1.5) {B};
-\node at (0.5,2.5) {C};
-\node at (0.5,3.5) {A};
-\node at (1.5,0.5) {C};
-\node at (1.5,1.5) {D};
-\node at (1.5,2.5) {E};
-\node at (1.5,3.5) {F};
-\node at (2.5,0.5) {B};
-\node at (2.5,1.5) {A};
-\node at (2.5,2.5) {G};
-\node at (2.5,3.5) {B};
-\node at (3.5,0.5) {D};
-\node at (3.5,1.5) {F};
-\node at (3.5,2.5) {E};
-\node at (3.5,3.5) {A};
-\draw (0,0) grid (4,4);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \node at (0.5,0.5) {A};
+        \node at (0.5,1.5) {B};
+        \node at (0.5,2.5) {C};
+        \node at (0.5,3.5) {A};
+        \node at (1.5,0.5) {C};
+        \node at (1.5,1.5) {D};
+        \node at (1.5,2.5) {E};
+        \node at (1.5,3.5) {F};
+        \node at (2.5,0.5) {B};
+        \node at (2.5,1.5) {A};
+        \node at (2.5,2.5) {G};
+        \node at (2.5,3.5) {B};
+        \node at (3.5,0.5) {D};
+        \node at (3.5,1.5) {F};
+        \node at (3.5,2.5) {E};
+        \node at (3.5,3.5) {A};
+        \draw (0,0) grid (4,4);
+    \end{tikzpicture}
 \end{center}
 In this case, the minimum distance is 2 between the two 'E' letters.
 
@@ -271,13 +271,13 @@ to a black cell, and then paints the white cell black.
 For example, consider the following operation:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=black] (1,1) rectangle (2,2);
-\fill[color=black] (3,1) rectangle (4,2);
-\fill[color=black] (0,3) rectangle (1,4);
-\node at (2.5,3.5) {*};
-\draw (0,0) grid (4,4);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=black] (1,1) rectangle (2,2);
+        \fill[color=black] (3,1) rectangle (4,2);
+        \fill[color=black] (0,3) rectangle (1,4);
+        \node at (2.5,3.5) {*};
+        \draw (0,0) grid (4,4);
+    \end{tikzpicture}
 \end{center}
 
 First, we calculate the minimum distance
@@ -287,13 +287,13 @@ two steps left to a black cell.
 Then, we paint the white cell black:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=black] (1,1) rectangle (2,2);
-\fill[color=black] (3,1) rectangle (4,2);
-\fill[color=black] (0,3) rectangle (1,4);
-\fill[color=black] (2,3) rectangle (3,4);
-\draw (0,0) grid (4,4);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=black] (1,1) rectangle (2,2);
+        \fill[color=black] (3,1) rectangle (4,2);
+        \fill[color=black] (0,3) rectangle (1,4);
+        \fill[color=black] (2,3) rectangle (3,4);
+        \draw (0,0) grid (4,4);
+    \end{tikzpicture}
 \end{center}
 
 Consider the following two algorithms:
@@ -361,12 +361,12 @@ a subset of the weights. For example, if the weights are
 $\{1,3,3\}$, the possible sums are as follows:
 
 \begin{itemize}[noitemsep]
-\item $0$ (empty set)
-\item $1$
-\item $3$
-\item $1+3=4$
-\item $3+3=6$
-\item $1+3+3=7$
+    \item $0$ (empty set)
+    \item $1$
+    \item $3$
+    \item $1+3=4$
+    \item $3+3=6$
+    \item $1+3+3=7$
 \end{itemize}
 
 Using the standard knapsack approach (see Chapter 7.4),
@@ -407,10 +407,10 @@ $D=\{\texttt{A},\texttt{B},\texttt{AB}\}$,
 there are 4 ways:
 
 \begin{itemize}[noitemsep]
-\item $\texttt{A}+\texttt{B}+\texttt{A}+\texttt{B}$
-\item $\texttt{AB}+\texttt{A}+\texttt{B}$
-\item $\texttt{A}+\texttt{B}+\texttt{AB}$
-\item $\texttt{AB}+\texttt{AB}$
+    \item $\texttt{A}+\texttt{B}+\texttt{A}+\texttt{B}$
+    \item $\texttt{AB}+\texttt{A}+\texttt{B}$
+    \item $\texttt{A}+\texttt{B}+\texttt{AB}$
+    \item $\texttt{AB}+\texttt{AB}$
 \end{itemize}
 
 We can solve the problem using dynamic programming:
@@ -438,10 +438,10 @@ this results in an algorithm whose running time is $O(n \sqrt m)$.
 \index{Mo's algorithm}
 
 \key{Mo's algorithm}\footnote{According to \cite{cod15}, this algorithm
-is named after Mo Tao, a Chinese competitive programmer, but
-the technique has appeared earlier in the literature \cite{ken06}.}
+    is named after Mo Tao, a Chinese competitive programmer, but
+    the technique has appeared earlier in the literature \cite{ken06}.}
 can be used in many problems
-that require processing range queries in 
+that require processing range queries in
 a \emph{static} array, i.e., the array values
 do not change between the queries.
 In each query, we are given a range $[a,b]$,
@@ -470,10 +470,10 @@ in which the queries are processed:
 The array is divided into blocks of $k=O(\sqrt n)$
 elements, and a query $[a_1,b_1]$
 is processed before a query $[a_2,b_2]$
-if either 
+if either
 \begin{itemize}
-\item $\lfloor a_1/k \rfloor < \lfloor a_2/k \rfloor$ or
-\item $\lfloor a_1/k \rfloor = \lfloor a_2/k \rfloor$ and $b_1 < b_2$.
+    \item $\lfloor a_1/k \rfloor < \lfloor a_2/k \rfloor$ or
+    \item $\lfloor a_1/k \rfloor = \lfloor a_2/k \rfloor$ and $b_1 < b_2$.
 \end{itemize}
 
 Thus, all queries whose left endpoints are
@@ -498,7 +498,7 @@ the number of \emph{distinct} elements in the range.
 In Mo's algorithm, the queries are always sorted
 in the same way, but it depends on the problem
 how the answer to the query is maintained.
-In this problem, we can maintain an array 
+In this problem, we can maintain an array
 \texttt{count} where $\texttt{count}[x]$
 indicates the number of times an element $x$
 occurs in the active range.
@@ -507,35 +507,35 @@ When we move from one query to another query,
 the active range changes.
 For example, if the current range is
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=lightgray] (1,0) rectangle (5,1);
-\draw (0,0) grid (9,1);
-\node at (0.5, 0.5) {4};
-\node at (1.5, 0.5) {2};
-\node at (2.5, 0.5) {5};
-\node at (3.5, 0.5) {4};
-\node at (4.5, 0.5) {2};
-\node at (5.5, 0.5) {4};
-\node at (6.5, 0.5) {3};
-\node at (7.5, 0.5) {3};
-\node at (8.5, 0.5) {4};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=lightgray] (1,0) rectangle (5,1);
+        \draw (0,0) grid (9,1);
+        \node at (0.5, 0.5) {4};
+        \node at (1.5, 0.5) {2};
+        \node at (2.5, 0.5) {5};
+        \node at (3.5, 0.5) {4};
+        \node at (4.5, 0.5) {2};
+        \node at (5.5, 0.5) {4};
+        \node at (6.5, 0.5) {3};
+        \node at (7.5, 0.5) {3};
+        \node at (8.5, 0.5) {4};
+    \end{tikzpicture}
 \end{center}
 and the next range is
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\fill[color=lightgray] (2,0) rectangle (7,1);
-\draw (0,0) grid (9,1);
-\node at (0.5, 0.5) {4};
-\node at (1.5, 0.5) {2};
-\node at (2.5, 0.5) {5};
-\node at (3.5, 0.5) {4};
-\node at (4.5, 0.5) {2};
-\node at (5.5, 0.5) {4};
-\node at (6.5, 0.5) {3};
-\node at (7.5, 0.5) {3};
-\node at (8.5, 0.5) {4};
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.7]
+        \fill[color=lightgray] (2,0) rectangle (7,1);
+        \draw (0,0) grid (9,1);
+        \node at (0.5, 0.5) {4};
+        \node at (1.5, 0.5) {2};
+        \node at (2.5, 0.5) {5};
+        \node at (3.5, 0.5) {4};
+        \node at (4.5, 0.5) {2};
+        \node at (5.5, 0.5) {4};
+        \node at (6.5, 0.5) {3};
+        \node at (7.5, 0.5) {3};
+        \node at (8.5, 0.5) {4};
+    \end{tikzpicture}
 \end{center}
 there will be three steps:
 the left endpoint moves one step to the right,
@@ -544,12 +544,12 @@ and the right endpoint moves two steps to the right.
 After each step, the array \texttt{count}
 needs to be updated.
 After adding an element $x$,
-we increase the value of 
+we increase the value of
 $\texttt{count}[x]$ by 1,
 and if $\texttt{count}[x]=1$ after this,
 we also increase the answer to the query by 1.
 Similarly, after removing an element $x$,
-we decrease the value of 
+we decrease the value of
 $\texttt{count}[x]$ by 1,
 and if $\texttt{count}[x]=0$ after this,
 we also decrease the answer to the query by 1.

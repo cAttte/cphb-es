@@ -27,11 +27,11 @@ and the player who removes the last stick wins the game.
 
 For example, if $n=10$, the game may proceed as follows:
 \begin{itemize}[noitemsep]
-\item Player $A$ removes 2 sticks (8 sticks left).
-\item Player $B$ removes 3 sticks (5 sticks left).
-\item Player $A$ removes 1 stick (4 sticks left).
-\item Player $B$ removes 2 sticks (2 sticks left).
-\item Player $A$ removes 2 sticks and wins.
+    \item Player $A$ removes 2 sticks (8 sticks left).
+    \item Player $B$ removes 3 sticks (5 sticks left).
+    \item Player $A$ removes 1 stick (4 sticks left).
+    \item Player $B$ removes 2 sticks (2 sticks left).
+    \item Player $A$ removes 2 sticks and wins.
 \end{itemize}
 
 This game consists of states $0,1,2,\ldots,n$,
@@ -75,44 +75,44 @@ The states $0 \ldots 15$ of the above game
 can be classified as follows
 ($W$ denotes a winning state and $L$ denotes a losing state):
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (16,1);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (16,1);
 
-\node at (0.5,0.5) {$L$};
-\node at (1.5,0.5) {$W$};
-\node at (2.5,0.5) {$W$};
-\node at (3.5,0.5) {$W$};
-\node at (4.5,0.5) {$L$};
-\node at (5.5,0.5) {$W$};
-\node at (6.5,0.5) {$W$};
-\node at (7.5,0.5) {$W$};
-\node at (8.5,0.5) {$L$};
-\node at (9.5,0.5) {$W$};
-\node at (10.5,0.5) {$W$};
-\node at (11.5,0.5) {$W$};
-\node at (12.5,0.5) {$L$};
-\node at (13.5,0.5) {$W$};
-\node at (14.5,0.5) {$W$};
-\node at (15.5,0.5) {$W$};
+        \node at (0.5,0.5) {$L$};
+        \node at (1.5,0.5) {$W$};
+        \node at (2.5,0.5) {$W$};
+        \node at (3.5,0.5) {$W$};
+        \node at (4.5,0.5) {$L$};
+        \node at (5.5,0.5) {$W$};
+        \node at (6.5,0.5) {$W$};
+        \node at (7.5,0.5) {$W$};
+        \node at (8.5,0.5) {$L$};
+        \node at (9.5,0.5) {$W$};
+        \node at (10.5,0.5) {$W$};
+        \node at (11.5,0.5) {$W$};
+        \node at (12.5,0.5) {$L$};
+        \node at (13.5,0.5) {$W$};
+        \node at (14.5,0.5) {$W$};
+        \node at (15.5,0.5) {$W$};
 
-\footnotesize
-\node at (0.5,1.4) {$0$};
-\node at (1.5,1.4) {$1$};
-\node at (2.5,1.4) {$2$};
-\node at (3.5,1.4) {$3$};
-\node at (4.5,1.4) {$4$};
-\node at (5.5,1.4) {$5$};
-\node at (6.5,1.4) {$6$};
-\node at (7.5,1.4) {$7$};
-\node at (8.5,1.4) {$8$};
-\node at (9.5,1.4) {$9$};
-\node at (10.5,1.4) {$10$};
-\node at (11.5,1.4) {$11$};
-\node at (12.5,1.4) {$12$};
-\node at (13.5,1.4) {$13$};
-\node at (14.5,1.4) {$14$};
-\node at (15.5,1.4) {$15$};
-\end{tikzpicture}
+        \footnotesize
+        \node at (0.5,1.4) {$0$};
+        \node at (1.5,1.4) {$1$};
+        \node at (2.5,1.4) {$2$};
+        \node at (3.5,1.4) {$3$};
+        \node at (4.5,1.4) {$4$};
+        \node at (5.5,1.4) {$5$};
+        \node at (6.5,1.4) {$6$};
+        \node at (7.5,1.4) {$7$};
+        \node at (8.5,1.4) {$8$};
+        \node at (9.5,1.4) {$9$};
+        \node at (10.5,1.4) {$10$};
+        \node at (11.5,1.4) {$11$};
+        \node at (12.5,1.4) {$12$};
+        \node at (13.5,1.4) {$13$};
+        \node at (14.5,1.4) {$14$};
+        \node at (15.5,1.4) {$15$};
+    \end{tikzpicture}
 \end{center}
 
 It is easy to analyze this game:
@@ -148,32 +148,32 @@ $1 \ldots 9$ of the game as a \key{state graph},
 whose nodes are the states and edges are the moves between them:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {$1$};
-\node[draw, circle] (2) at (2,0) {$2$};
-\node[draw, circle] (3) at (3.5,-1) {$3$};
-\node[draw, circle] (4) at (1.5,-2) {$4$};
-\node[draw, circle] (5) at (3,-2.75) {$5$};
-\node[draw, circle] (6) at (2.5,-4.5) {$6$};
-\node[draw, circle] (7) at (0.5,-3.25) {$7$};
-\node[draw, circle] (8) at (-1,-4) {$8$};
-\node[draw, circle] (9) at (1,-5.5) {$9$};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {$1$};
+        \node[draw, circle] (2) at (2,0) {$2$};
+        \node[draw, circle] (3) at (3.5,-1) {$3$};
+        \node[draw, circle] (4) at (1.5,-2) {$4$};
+        \node[draw, circle] (5) at (3,-2.75) {$5$};
+        \node[draw, circle] (6) at (2.5,-4.5) {$6$};
+        \node[draw, circle] (7) at (0.5,-3.25) {$7$};
+        \node[draw, circle] (8) at (-1,-4) {$8$};
+        \node[draw, circle] (9) at (1,-5.5) {$9$};
 
-\path[draw,thick,->,>=latex] (2) -- (1);
-\path[draw,thick,->,>=latex] (3) edge [bend right=20] (2);
-\path[draw,thick,->,>=latex] (4) edge [bend left=20] (2);
-\path[draw,thick,->,>=latex] (4) edge [bend left=20] (3);
-\path[draw,thick,->,>=latex] (5) edge [bend right=20] (4);
-\path[draw,thick,->,>=latex] (6) edge [bend left=20] (5);
-\path[draw,thick,->,>=latex] (6) edge [bend left=20] (4);
-\path[draw,thick,->,>=latex] (6) edge [bend right=40] (3);
-\path[draw,thick,->,>=latex] (7) edge [bend right=20] (6);
-\path[draw,thick,->,>=latex] (8) edge [bend right=20] (7);
-\path[draw,thick,->,>=latex] (8) edge [bend right=20] (6);
-\path[draw,thick,->,>=latex] (8) edge [bend left=20] (4);
-\path[draw,thick,->,>=latex] (9) edge [bend left=20] (8);
-\path[draw,thick,->,>=latex] (9) edge [bend right=20] (6);
-\end{tikzpicture}
+        \path[draw,thick,->,>=latex] (2) -- (1);
+        \path[draw,thick,->,>=latex] (3) edge [bend right=20] (2);
+        \path[draw,thick,->,>=latex] (4) edge [bend left=20] (2);
+        \path[draw,thick,->,>=latex] (4) edge [bend left=20] (3);
+        \path[draw,thick,->,>=latex] (5) edge [bend right=20] (4);
+        \path[draw,thick,->,>=latex] (6) edge [bend left=20] (5);
+        \path[draw,thick,->,>=latex] (6) edge [bend left=20] (4);
+        \path[draw,thick,->,>=latex] (6) edge [bend right=40] (3);
+        \path[draw,thick,->,>=latex] (7) edge [bend right=20] (6);
+        \path[draw,thick,->,>=latex] (8) edge [bend right=20] (7);
+        \path[draw,thick,->,>=latex] (8) edge [bend right=20] (6);
+        \path[draw,thick,->,>=latex] (8) edge [bend left=20] (4);
+        \path[draw,thick,->,>=latex] (9) edge [bend left=20] (8);
+        \path[draw,thick,->,>=latex] (9) edge [bend right=20] (6);
+    \end{tikzpicture}
 \end{center}
 
 The final state in this game is always state 1,
@@ -183,30 +183,30 @@ The classification of states $1 \ldots 9$
 is as follows:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (1,0) grid (10,1);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (1,0) grid (10,1);
 
-\node at (1.5,0.5) {$L$};
-\node at (2.5,0.5) {$W$};
-\node at (3.5,0.5) {$L$};
-\node at (4.5,0.5) {$W$};
-\node at (5.5,0.5) {$L$};
-\node at (6.5,0.5) {$W$};
-\node at (7.5,0.5) {$L$};
-\node at (8.5,0.5) {$W$};
-\node at (9.5,0.5) {$L$};
+        \node at (1.5,0.5) {$L$};
+        \node at (2.5,0.5) {$W$};
+        \node at (3.5,0.5) {$L$};
+        \node at (4.5,0.5) {$W$};
+        \node at (5.5,0.5) {$L$};
+        \node at (6.5,0.5) {$W$};
+        \node at (7.5,0.5) {$L$};
+        \node at (8.5,0.5) {$W$};
+        \node at (9.5,0.5) {$L$};
 
-\footnotesize
-\node at (1.5,1.4) {$1$};
-\node at (2.5,1.4) {$2$};
-\node at (3.5,1.4) {$3$};
-\node at (4.5,1.4) {$4$};
-\node at (5.5,1.4) {$5$};
-\node at (6.5,1.4) {$6$};
-\node at (7.5,1.4) {$7$};
-\node at (8.5,1.4) {$8$};
-\node at (9.5,1.4) {$9$};
-\end{tikzpicture}
+        \footnotesize
+        \node at (1.5,1.4) {$1$};
+        \node at (2.5,1.4) {$2$};
+        \node at (3.5,1.4) {$3$};
+        \node at (4.5,1.4) {$4$};
+        \node at (5.5,1.4) {$5$};
+        \node at (6.5,1.4) {$6$};
+        \node at (7.5,1.4) {$7$};
+        \node at (8.5,1.4) {$8$};
+        \node at (9.5,1.4) {$9$};
+    \end{tikzpicture}
 \end{center}
 
 Surprisingly, in this game,
@@ -248,8 +248,8 @@ and this is always the final state.
 It turns out that we can easily classify
 any nim state by calculating
 the \key{nim sum} $s = x_1 \oplus x_2 \oplus \cdots \oplus x_n$,
-where $\oplus$ is the xor operation\footnote{The optimal strategy
-for nim was published in 1901 by C. L. Bouton \cite{bou01}.}.
+where $\oplus$ is the xor operation.\footnote{The optimal strategy
+    for nim was published in 1901 by C. L. Bouton \cite{bou01}.}
 The states whose nim sum is 0 are losing states,
 and all other states are winning states.
 For example, the nim sum of
@@ -288,13 +288,13 @@ Next we will find out such a move.
 The nim sum of the state is as follows:
 
 \begin{center}
-\begin{tabular}{r|r}
-10 & \texttt{1010} \\
-12 & \texttt{1100} \\
-5 & \texttt{0101} \\
-\hline
-3 & \texttt{0011} \\
-\end{tabular}
+    \begin{tabular}{r|r}
+        10 & \texttt{1010} \\
+        12 & \texttt{1100} \\
+        5  & \texttt{0101} \\
+        \hline
+        3  & \texttt{0011} \\
+    \end{tabular}
 \end{center}
 
 In this case, the heap with 10 sticks
@@ -303,13 +303,13 @@ at the position of the leftmost
 one bit of the nim sum:
 
 \begin{center}
-\begin{tabular}{r|r}
-10 & \texttt{10\underline{1}0} \\
-12 & \texttt{1100} \\
-5 & \texttt{0101} \\
-\hline
-3 & \texttt{00\underline{1}1} \\
-\end{tabular}
+    \begin{tabular}{r|r}
+        10 & \texttt{10\underline{1}0} \\
+        12 & \texttt{1100}             \\
+        5  & \texttt{0101}             \\
+        \hline
+        3  & \texttt{00\underline{1}1} \\
+    \end{tabular}
 \end{center}
 
 The new size of the heap has to be
@@ -319,13 +319,13 @@ After this, the state will be $[9,12,5]$,
 which is a losing state:
 
 \begin{center}
-\begin{tabular}{r|r}
-9 & \texttt{1001} \\
-12 & \texttt{1100} \\
-5 & \texttt{0101} \\
-\hline
-0 & \texttt{0000} \\
-\end{tabular}
+    \begin{tabular}{r|r}
+        9  & \texttt{1001} \\
+        12 & \texttt{1100} \\
+        5  & \texttt{0101} \\
+        \hline
+        0  & \texttt{0000} \\
+    \end{tabular}
 \end{center}
 
 \subsubsection{Misère game}
@@ -362,18 +362,18 @@ so the nim sum is not 0.
 \index{Sprague–Grundy theorem}
 
 The \key{Sprague–Grundy theorem}\footnote{The theorem was
-independently discovered by R. Sprague \cite{spr35} and P. M. Grundy \cite{gru39}.} generalizes the
+    independently discovered by R. Sprague \cite{spr35} and P. M. Grundy \cite{gru39}.} generalizes the
 strategy used in nim to all games that fulfil
 the following requirements:
 
 \begin{itemize}[noitemsep]
-\item There are two players who move alternately.
-\item The game consists of states, and the possible moves
-in a state do not depend on whose turn it is.
-\item The game ends when a player cannot make a move.
-\item The game surely ends sooner or later.
-\item The players have complete information about
-the states and allowed moves, and there is no randomness in the game.
+    \item There are two players who move alternately.
+    \item The game consists of states, and the possible moves
+          in a state do not depend on whose turn it is.
+    \item The game ends when a player cannot make a move.
+    \item The game surely ends sooner or later.
+    \item The players have complete information about
+          the states and allowed moves, and there is no randomness in the game.
 \end{itemize}
 The idea is to calculate for each game state
 a Grundy number that corresponds to the number of
@@ -399,43 +399,43 @@ $\textrm{mex}(\emptyset)=0$.
 
 For example, in the state graph
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {\phantom{0}};
-\node[draw, circle] (2) at (2,0) {\phantom{0}};
-\node[draw, circle] (3) at (4,0) {\phantom{0}};
-\node[draw, circle] (4) at (1,-2) {\phantom{0}};
-\node[draw, circle] (5) at (3,-2) {\phantom{0}};
-\node[draw, circle] (6) at (5,-2) {\phantom{0}};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {\phantom{0}};
+        \node[draw, circle] (2) at (2,0) {\phantom{0}};
+        \node[draw, circle] (3) at (4,0) {\phantom{0}};
+        \node[draw, circle] (4) at (1,-2) {\phantom{0}};
+        \node[draw, circle] (5) at (3,-2) {\phantom{0}};
+        \node[draw, circle] (6) at (5,-2) {\phantom{0}};
 
-\path[draw,thick,->,>=latex] (2) -- (1);
-\path[draw,thick,->,>=latex] (3) -- (2);
-\path[draw,thick,->,>=latex] (5) -- (4);
-\path[draw,thick,->,>=latex] (6) -- (5);
-\path[draw,thick,->,>=latex] (4) -- (1);
-\path[draw,thick,->,>=latex] (4) -- (2);
-\path[draw,thick,->,>=latex] (5) -- (2);
-\path[draw,thick,->,>=latex] (6) -- (2);
-\end{tikzpicture}
+        \path[draw,thick,->,>=latex] (2) -- (1);
+        \path[draw,thick,->,>=latex] (3) -- (2);
+        \path[draw,thick,->,>=latex] (5) -- (4);
+        \path[draw,thick,->,>=latex] (6) -- (5);
+        \path[draw,thick,->,>=latex] (4) -- (1);
+        \path[draw,thick,->,>=latex] (4) -- (2);
+        \path[draw,thick,->,>=latex] (5) -- (2);
+        \path[draw,thick,->,>=latex] (6) -- (2);
+    \end{tikzpicture}
 \end{center}
 the Grundy numbers are as follows:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {0};
-\node[draw, circle] (2) at (2,0) {1};
-\node[draw, circle] (3) at (4,0) {0};
-\node[draw, circle] (4) at (1,-2) {2};
-\node[draw, circle] (5) at (3,-2) {0};
-\node[draw, circle] (6) at (5,-2) {2};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {0};
+        \node[draw, circle] (2) at (2,0) {1};
+        \node[draw, circle] (3) at (4,0) {0};
+        \node[draw, circle] (4) at (1,-2) {2};
+        \node[draw, circle] (5) at (3,-2) {0};
+        \node[draw, circle] (6) at (5,-2) {2};
 
-\path[draw,thick,->,>=latex] (2) -- (1);
-\path[draw,thick,->,>=latex] (3) -- (2);
-\path[draw,thick,->,>=latex] (5) -- (4);
-\path[draw,thick,->,>=latex] (6) -- (5);
-\path[draw,thick,->,>=latex] (4) -- (1);
-\path[draw,thick,->,>=latex] (4) -- (2);
-\path[draw,thick,->,>=latex] (5) -- (2);
-\path[draw,thick,->,>=latex] (6) -- (2);
-\end{tikzpicture}
+        \path[draw,thick,->,>=latex] (2) -- (1);
+        \path[draw,thick,->,>=latex] (3) -- (2);
+        \path[draw,thick,->,>=latex] (5) -- (4);
+        \path[draw,thick,->,>=latex] (6) -- (5);
+        \path[draw,thick,->,>=latex] (4) -- (1);
+        \path[draw,thick,->,>=latex] (4) -- (2);
+        \path[draw,thick,->,>=latex] (5) -- (2);
+        \path[draw,thick,->,>=latex] (6) -- (2);
+    \end{tikzpicture}
 \end{center}
 The Grundy number of a losing state is 0,
 and the Grundy number of a winning state is
@@ -463,26 +463,26 @@ of the game, where @ denotes the figure and *
 denotes a square where it can move.
 
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-  \begin{scope}
-    \fill [color=black] (0, 1) rectangle (1, 2);
-    \fill [color=black] (0, 3) rectangle (1, 4);
-    \fill [color=black] (2, 2) rectangle (3, 3);
-    \fill [color=black] (2, 4) rectangle (3, 5);
-    \fill [color=black] (4, 3) rectangle (5, 4);
+    \begin{tikzpicture}[scale=.65]
+        \begin{scope}
+            \fill [color=black] (0, 1) rectangle (1, 2);
+            \fill [color=black] (0, 3) rectangle (1, 4);
+            \fill [color=black] (2, 2) rectangle (3, 3);
+            \fill [color=black] (2, 4) rectangle (3, 5);
+            \fill [color=black] (4, 3) rectangle (5, 4);
 
-    \draw (0, 0) grid (5, 5);
-    
-    \node at (4.5,0.5) {@};
-    \node at (3.5,0.5) {*};
-    \node at (2.5,0.5) {*};
-    \node at (1.5,0.5) {*};
-    \node at (0.5,0.5) {*};
-    \node at (4.5,1.5) {*};
-    \node at (4.5,2.5) {*};
-    
-  \end{scope}
-\end{tikzpicture}
+            \draw (0, 0) grid (5, 5);
+
+            \node at (4.5,0.5) {@};
+            \node at (3.5,0.5) {*};
+            \node at (2.5,0.5) {*};
+            \node at (1.5,0.5) {*};
+            \node at (0.5,0.5) {*};
+            \node at (4.5,1.5) {*};
+            \node at (4.5,2.5) {*};
+
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 The states of the game are all floor squares
@@ -491,47 +491,47 @@ In the above maze, the Grundy numbers
 are as follows:
 
 \begin{center}
-\begin{tikzpicture}[scale=.65]
-  \begin{scope}
-    \fill [color=black] (0, 1) rectangle (1, 2);
-    \fill [color=black] (0, 3) rectangle (1, 4);
-    \fill [color=black] (2, 2) rectangle (3, 3);
-    \fill [color=black] (2, 4) rectangle (3, 5);
-    \fill [color=black] (4, 3) rectangle (5, 4);
+    \begin{tikzpicture}[scale=.65]
+        \begin{scope}
+            \fill [color=black] (0, 1) rectangle (1, 2);
+            \fill [color=black] (0, 3) rectangle (1, 4);
+            \fill [color=black] (2, 2) rectangle (3, 3);
+            \fill [color=black] (2, 4) rectangle (3, 5);
+            \fill [color=black] (4, 3) rectangle (5, 4);
 
-    \draw (0, 0) grid (5, 5);
-    
-    \node at (0.5,4.5) {0};
-    \node at (1.5,4.5) {1};
-    \node at (2.5,4.5) {};
-    \node at (3.5,4.5) {0};
-    \node at (4.5,4.5) {1};
+            \draw (0, 0) grid (5, 5);
 
-    \node at (0.5,3.5) {};
-    \node at (1.5,3.5) {0};
-    \node at (2.5,3.5) {1};
-    \node at (3.5,3.5) {2};
-    \node at (4.5,3.5) {};
+            \node at (0.5,4.5) {0};
+            \node at (1.5,4.5) {1};
+            \node at (2.5,4.5) {};
+            \node at (3.5,4.5) {0};
+            \node at (4.5,4.5) {1};
 
-    \node at (0.5,2.5) {0};
-    \node at (1.5,2.5) {2};
-    \node at (2.5,2.5) {};
-    \node at (3.5,2.5) {1};
-    \node at (4.5,2.5) {0};
+            \node at (0.5,3.5) {};
+            \node at (1.5,3.5) {0};
+            \node at (2.5,3.5) {1};
+            \node at (3.5,3.5) {2};
+            \node at (4.5,3.5) {};
 
-    \node at (0.5,1.5) {};
-    \node at (1.5,1.5) {3};
-    \node at (2.5,1.5) {0};
-    \node at (3.5,1.5) {4};
-    \node at (4.5,1.5) {1};
+            \node at (0.5,2.5) {0};
+            \node at (1.5,2.5) {2};
+            \node at (2.5,2.5) {};
+            \node at (3.5,2.5) {1};
+            \node at (4.5,2.5) {0};
 
-    \node at (0.5,0.5) {0};
-    \node at (1.5,0.5) {4};
-    \node at (2.5,0.5) {1};
-    \node at (3.5,0.5) {3};
-    \node at (4.5,0.5) {2};
-  \end{scope}
-\end{tikzpicture}
+            \node at (0.5,1.5) {};
+            \node at (1.5,1.5) {3};
+            \node at (2.5,1.5) {0};
+            \node at (3.5,1.5) {4};
+            \node at (4.5,1.5) {1};
+
+            \node at (0.5,0.5) {0};
+            \node at (1.5,0.5) {4};
+            \node at (2.5,0.5) {1};
+            \node at (3.5,0.5) {3};
+            \node at (4.5,0.5) {2};
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 Thus, each state of the maze game
@@ -572,171 +572,171 @@ of the mazes and then moves the figure in the maze.
 Assume that the initial state of the game is as follows:
 
 \begin{center}
-\begin{tabular}{ccc}
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \fill [color=black] (0, 1) rectangle (1, 2);
-    \fill [color=black] (0, 3) rectangle (1, 4);
-    \fill [color=black] (2, 2) rectangle (3, 3);
-    \fill [color=black] (2, 4) rectangle (3, 5);
-    \fill [color=black] (4, 3) rectangle (5, 4);
+    \begin{tabular}{ccc}
+        \begin{tikzpicture}[scale=.55]
+            \begin{scope}
+                \fill [color=black] (0, 1) rectangle (1, 2);
+                \fill [color=black] (0, 3) rectangle (1, 4);
+                \fill [color=black] (2, 2) rectangle (3, 3);
+                \fill [color=black] (2, 4) rectangle (3, 5);
+                \fill [color=black] (4, 3) rectangle (5, 4);
 
-    \draw (0, 0) grid (5, 5);
+                \draw (0, 0) grid (5, 5);
 
-    \node at (4.5,0.5) {@};
+                \node at (4.5,0.5) {@};
 
-    \end{scope}
-\end{tikzpicture}
-&
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \fill [color=black] (1, 1) rectangle (2, 3);
-    \fill [color=black] (2, 3) rectangle (3, 4);
-    \fill [color=black] (4, 4) rectangle (5, 5);
+            \end{scope}
+        \end{tikzpicture}
+         &
+        \begin{tikzpicture}[scale=.55]
+            \begin{scope}
+                \fill [color=black] (1, 1) rectangle (2, 3);
+                \fill [color=black] (2, 3) rectangle (3, 4);
+                \fill [color=black] (4, 4) rectangle (5, 5);
 
-    \draw (0, 0) grid (5, 5);
-    
-    \node at (4.5,0.5) {@};
+                \draw (0, 0) grid (5, 5);
 
-  \end{scope}
-\end{tikzpicture}
-&
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \fill [color=black] (1, 1) rectangle (4, 4);
+                \node at (4.5,0.5) {@};
 
-    \draw (0, 0) grid (5, 5);
-    
-    \node at (4.5,0.5) {@};
-  \end{scope}
-\end{tikzpicture}
-\end{tabular}
+            \end{scope}
+        \end{tikzpicture}
+         &
+        \begin{tikzpicture}[scale=.55]
+            \begin{scope}
+                \fill [color=black] (1, 1) rectangle (4, 4);
+
+                \draw (0, 0) grid (5, 5);
+
+                \node at (4.5,0.5) {@};
+            \end{scope}
+        \end{tikzpicture}
+    \end{tabular}
 \end{center}
 
 The Grundy numbers for the mazes are as follows:
 
 \begin{center}
-\begin{tabular}{ccc}
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \fill [color=black] (0, 1) rectangle (1, 2);
-    \fill [color=black] (0, 3) rectangle (1, 4);
-    \fill [color=black] (2, 2) rectangle (3, 3);
-    \fill [color=black] (2, 4) rectangle (3, 5);
-    \fill [color=black] (4, 3) rectangle (5, 4);
+    \begin{tabular}{ccc}
+        \begin{tikzpicture}[scale=.55]
+            \begin{scope}
+                \fill [color=black] (0, 1) rectangle (1, 2);
+                \fill [color=black] (0, 3) rectangle (1, 4);
+                \fill [color=black] (2, 2) rectangle (3, 3);
+                \fill [color=black] (2, 4) rectangle (3, 5);
+                \fill [color=black] (4, 3) rectangle (5, 4);
 
-    \draw (0, 0) grid (5, 5);
+                \draw (0, 0) grid (5, 5);
 
-    \node at (0.5,4.5) {0};
-    \node at (1.5,4.5) {1};
-    \node at (2.5,4.5) {};
-    \node at (3.5,4.5) {0};
-    \node at (4.5,4.5) {1};
+                \node at (0.5,4.5) {0};
+                \node at (1.5,4.5) {1};
+                \node at (2.5,4.5) {};
+                \node at (3.5,4.5) {0};
+                \node at (4.5,4.5) {1};
 
-    \node at (0.5,3.5) {};
-    \node at (1.5,3.5) {0};
-    \node at (2.5,3.5) {1};
-    \node at (3.5,3.5) {2};
-    \node at (4.5,3.5) {};
+                \node at (0.5,3.5) {};
+                \node at (1.5,3.5) {0};
+                \node at (2.5,3.5) {1};
+                \node at (3.5,3.5) {2};
+                \node at (4.5,3.5) {};
 
-    \node at (0.5,2.5) {0};
-    \node at (1.5,2.5) {2};
-    \node at (2.5,2.5) {};
-    \node at (3.5,2.5) {1};
-    \node at (4.5,2.5) {0};
+                \node at (0.5,2.5) {0};
+                \node at (1.5,2.5) {2};
+                \node at (2.5,2.5) {};
+                \node at (3.5,2.5) {1};
+                \node at (4.5,2.5) {0};
 
-    \node at (0.5,1.5) {};
-    \node at (1.5,1.5) {3};
-    \node at (2.5,1.5) {0};
-    \node at (3.5,1.5) {4};
-    \node at (4.5,1.5) {1};
+                \node at (0.5,1.5) {};
+                \node at (1.5,1.5) {3};
+                \node at (2.5,1.5) {0};
+                \node at (3.5,1.5) {4};
+                \node at (4.5,1.5) {1};
 
-    \node at (0.5,0.5) {0};
-    \node at (1.5,0.5) {4};
-    \node at (2.5,0.5) {1};
-    \node at (3.5,0.5) {3};
-    \node at (4.5,0.5) {2};
-    \end{scope}
-\end{tikzpicture}
-&
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \fill [color=black] (1, 1) rectangle (2, 3);
-    \fill [color=black] (2, 3) rectangle (3, 4);
-    \fill [color=black] (4, 4) rectangle (5, 5);
+                \node at (0.5,0.5) {0};
+                \node at (1.5,0.5) {4};
+                \node at (2.5,0.5) {1};
+                \node at (3.5,0.5) {3};
+                \node at (4.5,0.5) {2};
+            \end{scope}
+        \end{tikzpicture}
+         &
+        \begin{tikzpicture}[scale=.55]
+            \begin{scope}
+                \fill [color=black] (1, 1) rectangle (2, 3);
+                \fill [color=black] (2, 3) rectangle (3, 4);
+                \fill [color=black] (4, 4) rectangle (5, 5);
 
-    \draw (0, 0) grid (5, 5);
+                \draw (0, 0) grid (5, 5);
 
-    \node at (0.5,4.5) {0};
-    \node at (1.5,4.5) {1};
-    \node at (2.5,4.5) {2};
-    \node at (3.5,4.5) {3};
-    \node at (4.5,4.5) {};
+                \node at (0.5,4.5) {0};
+                \node at (1.5,4.5) {1};
+                \node at (2.5,4.5) {2};
+                \node at (3.5,4.5) {3};
+                \node at (4.5,4.5) {};
 
-    \node at (0.5,3.5) {1};
-    \node at (1.5,3.5) {0};
-    \node at (2.5,3.5) {};
-    \node at (3.5,3.5) {0};
-    \node at (4.5,3.5) {1};
+                \node at (0.5,3.5) {1};
+                \node at (1.5,3.5) {0};
+                \node at (2.5,3.5) {};
+                \node at (3.5,3.5) {0};
+                \node at (4.5,3.5) {1};
 
-    \node at (0.5,2.5) {2};
-    \node at (1.5,2.5) {};
-    \node at (2.5,2.5) {0};
-    \node at (3.5,2.5) {1};
-    \node at (4.5,2.5) {2};
+                \node at (0.5,2.5) {2};
+                \node at (1.5,2.5) {};
+                \node at (2.5,2.5) {0};
+                \node at (3.5,2.5) {1};
+                \node at (4.5,2.5) {2};
 
-    \node at (0.5,1.5) {3};
-    \node at (1.5,1.5) {};
-    \node at (2.5,1.5) {1};
-    \node at (3.5,1.5) {2};
-    \node at (4.5,1.5) {0};
+                \node at (0.5,1.5) {3};
+                \node at (1.5,1.5) {};
+                \node at (2.5,1.5) {1};
+                \node at (3.5,1.5) {2};
+                \node at (4.5,1.5) {0};
 
-    \node at (0.5,0.5) {4};
-    \node at (1.5,0.5) {0};
-    \node at (2.5,0.5) {2};
-    \node at (3.5,0.5) {5};
-    \node at (4.5,0.5) {3};
-  \end{scope}
-\end{tikzpicture}
-&
-\begin{tikzpicture}[scale=.55]
-  \begin{scope}
-    \fill [color=black] (1, 1) rectangle (4, 4);
+                \node at (0.5,0.5) {4};
+                \node at (1.5,0.5) {0};
+                \node at (2.5,0.5) {2};
+                \node at (3.5,0.5) {5};
+                \node at (4.5,0.5) {3};
+            \end{scope}
+        \end{tikzpicture}
+         &
+        \begin{tikzpicture}[scale=.55]
+            \begin{scope}
+                \fill [color=black] (1, 1) rectangle (4, 4);
 
-    \draw (0, 0) grid (5, 5);
+                \draw (0, 0) grid (5, 5);
 
-    \node at (0.5,4.5) {0};
-    \node at (1.5,4.5) {1};
-    \node at (2.5,4.5) {2};
-    \node at (3.5,4.5) {3};
-    \node at (4.5,4.5) {4};
+                \node at (0.5,4.5) {0};
+                \node at (1.5,4.5) {1};
+                \node at (2.5,4.5) {2};
+                \node at (3.5,4.5) {3};
+                \node at (4.5,4.5) {4};
 
-    \node at (0.5,3.5) {1};
-    \node at (1.5,3.5) {};
-    \node at (2.5,3.5) {};
-    \node at (3.5,3.5) {};
-    \node at (4.5,3.5) {0};
+                \node at (0.5,3.5) {1};
+                \node at (1.5,3.5) {};
+                \node at (2.5,3.5) {};
+                \node at (3.5,3.5) {};
+                \node at (4.5,3.5) {0};
 
-    \node at (0.5,2.5) {2};
-    \node at (1.5,2.5) {};
-    \node at (2.5,2.5) {};
-    \node at (3.5,2.5) {};
-    \node at (4.5,2.5) {1};
+                \node at (0.5,2.5) {2};
+                \node at (1.5,2.5) {};
+                \node at (2.5,2.5) {};
+                \node at (3.5,2.5) {};
+                \node at (4.5,2.5) {1};
 
-    \node at (0.5,1.5) {3};
-    \node at (1.5,1.5) {};
-    \node at (2.5,1.5) {};
-    \node at (3.5,1.5) {};
-    \node at (4.5,1.5) {2};
+                \node at (0.5,1.5) {3};
+                \node at (1.5,1.5) {};
+                \node at (2.5,1.5) {};
+                \node at (3.5,1.5) {};
+                \node at (4.5,1.5) {2};
 
-    \node at (0.5,0.5) {4};
-    \node at (1.5,0.5) {0};
-    \node at (2.5,0.5) {1};
-    \node at (3.5,0.5) {2};
-    \node at (4.5,0.5) {3};
-  \end{scope}
-\end{tikzpicture}
-\end{tabular}
+                \node at (0.5,0.5) {4};
+                \node at (1.5,0.5) {0};
+                \node at (2.5,0.5) {1};
+                \node at (3.5,0.5) {2};
+                \node at (4.5,0.5) {3};
+            \end{scope}
+        \end{tikzpicture}
+    \end{tabular}
 \end{center}
 
 In the initial state, the nim sum of the Grundy numbers
@@ -783,16 +783,16 @@ because it is not possible to divide the heaps
 of 1 and 2 sticks.
 The first Grundy numbers are:
 \[
-\begin{array}{lcl}
-f(1) & = & 0 \\
-f(2) & = & 0 \\
-f(3) & = & 1 \\
-f(4) & = & 0 \\
-f(5) & = & 2 \\
-f(6) & = & 1 \\
-f(7) & = & 0 \\
-f(8) & = & 2 \\
-\end{array}
+    \begin{array}{lcl}
+        f(1) & = & 0 \\
+        f(2) & = & 0 \\
+        f(3) & = & 1 \\
+        f(4) & = & 0 \\
+        f(5) & = & 2 \\
+        f(6) & = & 1 \\
+        f(7) & = & 0 \\
+        f(8) & = & 2 \\
+    \end{array}
 \]
 The Grundy number for $n=8$ is 2,
 so it is possible to win the game.
