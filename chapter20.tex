@@ -1,1441 +1,1311 @@
-\chapter{Flows and cuts}
+\chapter{Flujos y cortes}
 
-In this chapter, we focus on the following
-two problems:
+En este capítulo, nos centraremos en los dos problemas siguientes:
 
 \begin{itemize}
-\item \key{Finding a maximum flow}:
-What is the maximum amount of flow we can
-send from a node to another node?
-\item \key{Finding a minimum cut}:
-What is a minimum-weight set of edges
-that separates two nodes of the graph?
+    \item \key{Encontrar un flujo máximo}: ¿cuál es la máxima cantidad
+          de flujo que podemos enviar de un nodo a otro?
+    \item \key{Encontrar un corte mínimo}: ¿cuál es un conjunto de
+          aristas de peso total mínimo que separe dos nodos del grafo?
 \end{itemize}
 
-The input for both these problems is a directed,
-weighted graph that contains two special nodes:
-the \emph{source} is a node with no incoming edges,
-and the \emph{sink} is a node with no outgoing edges.
+La entrada para estos dos problemas es un grafo dirigido y ponderado que
+contiene dos nodos especiales: la \emph{fuente} es un nodo sin aristas
+entrantes, y el \emph{pozo} es un nodo sin aristas salientes.
 
-As an example, we will use the following graph
-where node 1 is the source and node 6
-is the sink:
+Por ejemplo, veamos el siguiente grafo donde el nodo 1 es la fuente
+y el nodo 6 es el pozo:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (1,2) {$1$};
-\node[draw, circle] (2) at (3,3) {$2$};
-\node[draw, circle] (3) at (5,3) {$3$};
-\node[draw, circle] (4) at (7,2) {$6$};
-\node[draw, circle] (5) at (3,1) {$4$};
-\node[draw, circle] (6) at (5,1) {$5$};
-\path[draw,thick,->] (1) -- node[font=\small,label=5] {} (2);
-\path[draw,thick,->] (2) -- node[font=\small,label=6] {} (3);
-\path[draw,thick,->] (3) -- node[font=\small,label=5] {} (4);
-\path[draw,thick,->] (1) -- node[font=\small,label=below:4] {} (5);
-\path[draw,thick,->] (5) -- node[font=\small,label=below:1] {} (6);
-\path[draw,thick,->] (6) -- node[font=\small,label=below:2] {} (4);
-\path[draw,thick,<-] (2) -- node[font=\small,label=left:3] {} (5);
-\path[draw,thick,->] (3) -- node[font=\small,label=left:8] {} (6);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (1,2) {$1$};
+        \node[draw, circle] (2) at (3,3) {$2$};
+        \node[draw, circle] (3) at (5,3) {$3$};
+        \node[draw, circle] (4) at (7,2) {$6$};
+        \node[draw, circle] (5) at (3,1) {$4$};
+        \node[draw, circle] (6) at (5,1) {$5$};
+        \path[draw,thick,->] (1) -- node[font=\small,label=5] {} (2);
+        \path[draw,thick,->] (2) -- node[font=\small,label=6] {} (3);
+        \path[draw,thick,->] (3) -- node[font=\small,label=5] {} (4);
+        \path[draw,thick,->] (1) -- node[font=\small,label=below:4] {} (5);
+        \path[draw,thick,->] (5) -- node[font=\small,label=below:1] {} (6);
+        \path[draw,thick,->] (6) -- node[font=\small,label=below:2] {} (4);
+        \path[draw,thick,<-] (2) -- node[font=\small,label=left:3] {} (5);
+        \path[draw,thick,->] (3) -- node[font=\small,label=left:8] {} (6);
+    \end{tikzpicture}
 \end{center}
 
-\subsubsection{Maximum flow}
+\subsubsection{Flujo máximo}
 
-\index{flow}
-\index{maximum flow}
+\index{flujo máximo}
 
-In the \key{maximum flow} problem,
-our task is to send as much flow as possible
-from the source to the sink.
-The weight of each edge is a capacity that
-restricts the flow
-that can go through the edge.
-In each intermediate node,
-the incoming and outgoing
-flow has to be equal.
+En el problema de \key{flujo máximo}, nuestra tarea es enviar tanto
+flujo como sea posible desde la fuente hacia el pozo. El peso de cada
+arista es una capacidad que restringe el flujo que puede pasar por ella.
+En cada nodo intermedio, el flujo entrante y saliente debe ser igual.
 
-For example, the maximum size of a flow
-in the example graph is 7.
-The following picture shows how we can
-route the flow:
+Por ejemplo, el máximo tamaño de un flujo en el grafo de ejemplo es 7.
+La siguiente imagen muestra cómo podríamos enviar el flujo:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (1,2) {$1$};
-\node[draw, circle] (2) at (3,3) {$2$};
-\node[draw, circle] (3) at (5,3) {$3$};
-\node[draw, circle] (4) at (7,2) {$6$};
-\node[draw, circle] (5) at (3,1) {$4$};
-\node[draw, circle] (6) at (5,1) {$5$};
-\path[draw,thick,->] (1) -- node[font=\small,label=3/5] {} (2);
-\path[draw,thick,->] (2) -- node[font=\small,label=6/6] {} (3);
-\path[draw,thick,->] (3) -- node[font=\small,label=5/5] {} (4);
-\path[draw,thick,->] (1) -- node[font=\small,label=below:4/4] {} (5);
-\path[draw,thick,->] (5) -- node[font=\small,label=below:1/1] {} (6);
-\path[draw,thick,->] (6) -- node[font=\small,label=below:2/2] {} (4);
-\path[draw,thick,<-] (2) -- node[font=\small,label=left:3/3] {} (5);
-\path[draw,thick,->] (3) -- node[font=\small,label=left:1/8] {} (6);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (1,2) {$1$};
+        \node[draw, circle] (2) at (3,3) {$2$};
+        \node[draw, circle] (3) at (5,3) {$3$};
+        \node[draw, circle] (4) at (7,2) {$6$};
+        \node[draw, circle] (5) at (3,1) {$4$};
+        \node[draw, circle] (6) at (5,1) {$5$};
+        \path[draw,thick,->] (1) -- node[font=\small,label=3/5] {} (2);
+        \path[draw,thick,->] (2) -- node[font=\small,label=6/6] {} (3);
+        \path[draw,thick,->] (3) -- node[font=\small,label=5/5] {} (4);
+        \path[draw,thick,->] (1) -- node[font=\small,label=below:4/4] {} (5);
+        \path[draw,thick,->] (5) -- node[font=\small,label=below:1/1] {} (6);
+        \path[draw,thick,->] (6) -- node[font=\small,label=below:2/2] {} (4);
+        \path[draw,thick,<-] (2) -- node[font=\small,label=left:3/3] {} (5);
+        \path[draw,thick,->] (3) -- node[font=\small,label=left:1/8] {} (6);
+    \end{tikzpicture}
 \end{center}
 
-The notation $v/k$ means
-that a flow of $v$ units is routed through
-an edge whose capacity is $k$ units.
-The size of the flow is $7$,
-because the source sends $3+4$ units of flow
-and the sink receives $5+2$ units of flow.
-It is easy see that this flow is maximum,
-because the total capacity of the edges
-leading to the sink is $7$.
+La notación $v/k$ indica que se envía un flujo de $v$ unidades
+a través de una arista cuya capacidad es de $k$ unidades. El tamaño
+del flujo es de $7$, porque la fuente envía $3+4$ unidades de flujo
+y el pozo recibe $5+2$ unidades de flujo. Es fácil ver que este
+flujo es máximo, porque la capacidad total de las aristas que llevan
+al pozo es de $7$.
 
-\subsubsection{Minimum cut}
+\subsubsection{Corte mínimo}
 
-\index{cut}
-\index{minimum cut}
+\index{corte mínimo}
 
-In the \key{minimum cut} problem,
-our task is to remove a set
-of edges from the graph
-such that there will be no path from the source
-to the sink after the removal
-and the total weight of the removed edges
-is minimum.
+En el problema del \key{corte mínimo}, nuestra tarea es remover un
+conjunto de nodos del grafo tal que no haya caminos desde la fuente
+hacia el pozo luego de la remoción, y el peso total de las aristas
+removidas sea mínimo.
 
-The minimum size of a cut in the example graph is 7.
-It suffices to remove the edges $2 \rightarrow 3$
-and $4 \rightarrow 5$:
+El tamaño mínimo de un corte en el grafo de ejemplo es 7. Es suficiente
+remover las aristas $2 \rightarrow 3$ y $4 \rightarrow 5$:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (1,2) {$1$};
-\node[draw, circle] (2) at (3,3) {$2$};
-\node[draw, circle] (3) at (5,3) {$3$};
-\node[draw, circle] (4) at (7,2) {$6$};
-\node[draw, circle] (5) at (3,1) {$4$};
-\node[draw, circle] (6) at (5,1) {$5$};
-\path[draw,thick,->] (1) -- node[font=\small,label=5] {} (2);
-\path[draw,thick,->] (2) -- node[font=\small,label=6] {} (3);
-\path[draw,thick,->] (3) -- node[font=\small,label=5] {} (4);
-\path[draw,thick,->] (1) -- node[font=\small,label=below:4] {} (5);
-\path[draw,thick,->] (5) -- node[font=\small,label=below:1] {} (6);
-\path[draw,thick,->] (6) -- node[font=\small,label=below:2] {} (4);
-\path[draw,thick,<-] (2) -- node[font=\small,label=left:3] {} (5);
-\path[draw,thick,->] (3) -- node[font=\small,label=left:8] {} (6);
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (1,2) {$1$};
+        \node[draw, circle] (2) at (3,3) {$2$};
+        \node[draw, circle] (3) at (5,3) {$3$};
+        \node[draw, circle] (4) at (7,2) {$6$};
+        \node[draw, circle] (5) at (3,1) {$4$};
+        \node[draw, circle] (6) at (5,1) {$5$};
+        \path[draw,thick,->] (1) -- node[font=\small,label=5] {} (2);
+        \path[draw,thick,->] (2) -- node[font=\small,label=6] {} (3);
+        \path[draw,thick,->] (3) -- node[font=\small,label=5] {} (4);
+        \path[draw,thick,->] (1) -- node[font=\small,label=below:4] {} (5);
+        \path[draw,thick,->] (5) -- node[font=\small,label=below:1] {} (6);
+        \path[draw,thick,->] (6) -- node[font=\small,label=below:2] {} (4);
+        \path[draw,thick,<-] (2) -- node[font=\small,label=left:3] {} (5);
+        \path[draw,thick,->] (3) -- node[font=\small,label=left:8] {} (6);
 
-\path[draw=red,thick,-,line width=2pt] (4-.3,3-.3) -- (4+.3,3+.3);
-\path[draw=red,thick,-,line width=2pt] (4-.3,3+.3) -- (4+.3,3-.3);
-\path[draw=red,thick,-,line width=2pt] (4-.3,1-.3) -- (4+.3,1+.3);
-\path[draw=red,thick,-,line width=2pt] (4-.3,1+.3) -- (4+.3,1-.3);
-\end{tikzpicture}
+        \path[draw=red,thick,-,line width=2pt] (4-.3,3-.3) -- (4+.3,3+.3);
+        \path[draw=red,thick,-,line width=2pt] (4-.3,3+.3) -- (4+.3,3-.3);
+        \path[draw=red,thick,-,line width=2pt] (4-.3,1-.3) -- (4+.3,1+.3);
+        \path[draw=red,thick,-,line width=2pt] (4-.3,1+.3) -- (4+.3,1-.3);
+    \end{tikzpicture}
 \end{center}
 
-After removing the edges,
-there will be no path from the source to the sink.
-The size of the cut is $7$,
-because the weights of the removed edges
-are $6$ and $1$.
-The cut is minimum, because there is no valid
-way to remove edges from the graph such that
-their total weight would be less than $7$.
-\\\\
-It is not a coincidence that
-the maximum size of a flow
-and the minimum size of a cut
-are the same in the above example.
-It turns out that a maximum flow
-and a minimum cut are
-\emph{always} equally large,
-so the concepts are two sides of the same coin.
+Habiendo removido las aristas, no habrá ningún camino de la fuente
+al pozo. El tamaño del corte es $7$, porque los pesos de las aristas
+removidas son $6$ y $1$. El corte es mínimo, porque no hay forma
+válida de remover aristas del grafo tal que su peso total sea
+menos que $7$.
 
-Next we will discuss the Ford–Fulkerson
-algorithm that can be used to find
-the maximum flow and minimum cut of a graph.
-The algorithm also helps us to understand
-\emph{why} they are equally large.
+No es coincidencia que los valores del flujo máximo y del corte mínimo
+sean iguales en el ejemplo anterior. Resulta que el flujo máximo y el
+corte mínimo \emph{siempre} son iguales, y los conceptos son dos caras
+de una misma moneda.
 
-\section{Ford–Fulkerson algorithm}
+Ahora veremos el algoritmo de Ford--Fulkerson, que puede utilizarse
+para encontrar el flujo máximo y corte mínimo de un grafo. El algoritmo
+también nos ayuda a entender \emph{por qué} son de igual magnitud.
 
-\index{Ford–Fulkerson algorithm}
+\section{Algoritmo de Ford--Fulkerson}
 
-The \key{Ford–Fulkerson algorithm} \cite{for56} finds
-the maximum flow in a graph.
-The algorithm begins with an empty flow,
-and at each step finds a path from the source
-to the sink that generates more flow.
-Finally, when the algorithm cannot increase the flow
-anymore, the maximum flow has been found.
+\index{algoritmo de Ford--Fulkerson}
 
-The algorithm uses a special representation
-of the graph where each original edge has a reverse
-edge in another direction.
-The weight of each edge indicates how much more flow
-we could route through it.
-At the beginning of the algorithm, the weight of each original edge
-equals the capacity of the edge
-and the weight of each reverse edge is zero.
+El \key{algoritmo de Ford--Fulkerson} \cite{for56} encuentra el
+flujo máximo en un grafo. El algoritmo comienza con un flujo vacío,
+y en cada paso encuentra un camino de la fuente al pozo que genere más
+flujo. Finalmente, cuando el algoritmo no pueda aumentar más el flujo,
+el flujo máximo ha sido encontrado.
 
-\begin{samepage}
-The new representation for the example graph is as follows:
+El algoritmo usa una representación especial del grafo donde cada
+arista original tiene una arista inversa en otra dirección. El peso
+de cada arista indica cuánto más flujo podríamos dirigir mediante ella.
+Al comienzo del algoritmo, el peso de cada arista original es igual a
+la capacidad de la arista y el peso de cada arista inversa es cero.
+
+\newpage
+La nueva representación para el grafo de ejemplo es la siguiente:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9,label distance=-2mm]
-\node[draw, circle] (1) at (1,1.3) {$1$};
-\node[draw, circle] (2) at (3,2.6) {$2$};
-\node[draw, circle] (3) at (5,2.6) {$3$};
-\node[draw, circle] (4) at (7,1.3) {$6$};
-\node[draw, circle] (5) at (3,0) {$4$};
-\node[draw, circle] (6) at (5,0) {$5$};
+    \begin{tikzpicture}[scale=0.9,label distance=-2mm]
+        \node[draw, circle] (1) at (1,1.3) {$1$};
+        \node[draw, circle] (2) at (3,2.6) {$2$};
+        \node[draw, circle] (3) at (5,2.6) {$3$};
+        \node[draw, circle] (4) at (7,1.3) {$6$};
+        \node[draw, circle] (5) at (3,0) {$4$};
+        \node[draw, circle] (6) at (5,0) {$5$};
 
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=5] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:0] {} (1);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=6] {} (3);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:0] {} (2);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=5] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (3);
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=4] {} (5);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:0] {} (1);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=2] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (6);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:3] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:0] {} (5);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:8] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:0] {} (3);
-\end{tikzpicture}
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=5] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:0] {} (1);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=6] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:0] {} (2);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=5] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=4] {} (5);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:0] {} (1);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=2] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (6);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:3] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:0] {} (5);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:8] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:0] {} (3);
+    \end{tikzpicture}
 \end{center}
-\end{samepage}
 
-\subsubsection{Algorithm description}
+\subsubsection{Descripción del algoritmo}
 
-The Ford–Fulkerson algorithm consists of several
-rounds.
-On each round, the algorithm finds
-a path from the source to the sink
-such that each edge on the path has a positive weight.
-If there is more than one possible path available,
-we can choose any of them.
+El algoritmo de Ford--Fulkerson consiste de múltiples rondas. En cada
+ronda, el algoritmo encuentra un camino de la fuente al pozo tal que
+cada arista en el camino tenga un peso positivo. Si hay más de un
+posible camino, podemos elegir cualquiera de ellos.
 
-For example, suppose we choose the following path:
+Por ejemplo, supongamos que elegimos el siguiente camino:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9,label distance=-2mm]
-\node[draw, circle] (1) at (1,1.3) {$1$};
-\node[draw, circle] (2) at (3,2.6) {$2$};
-\node[draw, circle] (3) at (5,2.6) {$3$};
-\node[draw, circle] (4) at (7,1.3) {$6$};
-\node[draw, circle] (5) at (3,0) {$4$};
-\node[draw, circle] (6) at (5,0) {$5$};
+    \begin{tikzpicture}[scale=0.9,label distance=-2mm]
+        \node[draw, circle] (1) at (1,1.3) {$1$};
+        \node[draw, circle] (2) at (3,2.6) {$2$};
+        \node[draw, circle] (3) at (5,2.6) {$3$};
+        \node[draw, circle] (4) at (7,1.3) {$6$};
+        \node[draw, circle] (5) at (3,0) {$4$};
+        \node[draw, circle] (6) at (5,0) {$5$};
 
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=5] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:0] {} (1);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=6] {} (3);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:0] {} (2);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=5] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (3);
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=4] {} (5);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:0] {} (1);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=2] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (6);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:3] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:0] {} (5);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:8] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:0] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=5] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:0] {} (1);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=6] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:0] {} (2);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=5] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=4] {} (5);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:0] {} (1);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=2] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (6);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:3] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:0] {} (5);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:8] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:0] {} (3);
 
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend left=10] (2);
-\path[draw=red,thick,->,line width=2pt] (2) edge [bend left=10] (3);
-\path[draw=red,thick,->,line width=2pt] (3) edge [bend left=10] (6);
-\path[draw=red,thick,->,line width=2pt] (6) edge [bend left=10] (4);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend left=10] (2);
+        \path[draw=red,thick,->,line width=2pt] (2) edge [bend left=10] (3);
+        \path[draw=red,thick,->,line width=2pt] (3) edge [bend left=10] (6);
+        \path[draw=red,thick,->,line width=2pt] (6) edge [bend left=10] (4);
+    \end{tikzpicture}
 \end{center}
 
-After choosing the path, the flow increases by $x$ units,
-where $x$ is the smallest edge weight on the path.
-In addition, the weight of each edge on the path
-decreases by $x$ and the weight of each reverse edge
-increases by $x$.
+Luego de elegir el camino, el flujo aumenta por $x$ unidades, donde $x$
+es el peso mínimo en el camino. Además, el peso de cada arista en el
+camino disminuye por $x$ y el peso de cada arista inversa aumenta por $x$.
 
-In the above path, the weights of the
-edges are 5, 6, 8 and 2.
-The smallest weight is 2,
-so the flow increases by 2
-and the new graph is as follows:
+En el camino de arriba, los pesos de las aristas son 5, 6, 8, y 2.
+El peso mínimo es 2, por lo que el flujo aumenta por 2 y el nuevo grafo
+se ve así:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9,label distance=-2mm]
-\node[draw, circle] (1) at (1,1.3) {$1$};
-\node[draw, circle] (2) at (3,2.6) {$2$};
-\node[draw, circle] (3) at (5,2.6) {$3$};
-\node[draw, circle] (4) at (7,1.3) {$6$};
-\node[draw, circle] (5) at (3,0) {$4$};
-\node[draw, circle] (6) at (5,0) {$5$};
+    \begin{tikzpicture}[scale=0.9,label distance=-2mm]
+        \node[draw, circle] (1) at (1,1.3) {$1$};
+        \node[draw, circle] (2) at (3,2.6) {$2$};
+        \node[draw, circle] (3) at (5,2.6) {$3$};
+        \node[draw, circle] (4) at (7,1.3) {$6$};
+        \node[draw, circle] (5) at (3,0) {$4$};
+        \node[draw, circle] (6) at (5,0) {$5$};
 
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=3] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:2] {} (1);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=4] {} (3);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:2] {} (2);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=5] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (3);
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=4] {} (5);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:0] {} (1);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:3] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:0] {} (5);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:6] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:2] {} (3);
-\end{tikzpicture}
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=3] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:2] {} (1);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=4] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:2] {} (2);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=5] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=4] {} (5);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:0] {} (1);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:3] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:0] {} (5);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:6] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:2] {} (3);
+    \end{tikzpicture}
 \end{center}
 
-The idea is that increasing the flow decreases the amount of
-flow that can go through the edges in the future.
-On the other hand, it is possible to cancel
-flow later using the reverse edges of the graph
-if it turns out that
-it would be beneficial to route the flow in another way.
+La idea es que aumentar el flujo disminuye la cantidad de flujo que
+puede pasar por las aristas en el futuro. Por otro lado, es posible
+cancelar flujo más tarde utilizando las aristas inversas del grafo
+si resulta que sería beneficiario dirigir el flujo de otra manera.
 
-The algorithm increases the flow as long as
-there is a path from the source
-to the sink through positive-weight edges.
-In the present example, our next path can be as follows:
+El algoritmo aumenta el flujo siempre y cuando haya un camino de la
+fuente al pozo mediante aristas de peso positivo. En el ejemplo,
+nuestro próximo camino puede ser el siguiente:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9,label distance=-2mm]
-\node[draw, circle] (1) at (1,1.3) {$1$};
-\node[draw, circle] (2) at (3,2.6) {$2$};
-\node[draw, circle] (3) at (5,2.6) {$3$};
-\node[draw, circle] (4) at (7,1.3) {$6$};
-\node[draw, circle] (5) at (3,0) {$4$};
-\node[draw, circle] (6) at (5,0) {$5$};
+    \begin{tikzpicture}[scale=0.9,label distance=-2mm]
+        \node[draw, circle] (1) at (1,1.3) {$1$};
+        \node[draw, circle] (2) at (3,2.6) {$2$};
+        \node[draw, circle] (3) at (5,2.6) {$3$};
+        \node[draw, circle] (4) at (7,1.3) {$6$};
+        \node[draw, circle] (5) at (3,0) {$4$};
+        \node[draw, circle] (6) at (5,0) {$5$};
 
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=3] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:2] {} (1);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=4] {} (3);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:2] {} (2);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=5] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (3);
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=4] {} (5);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:0] {} (1);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:3] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:0] {} (5);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:6] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:2] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=3] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:2] {} (1);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=4] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:2] {} (2);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=5] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:0] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=4] {} (5);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:0] {} (1);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:3] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:0] {} (5);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:6] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:2] {} (3);
 
-\path[draw=red,thick,->,line width=2pt] (1) edge [bend left=10] (5);
-\path[draw=red,thick,->,line width=2pt] (5) edge [bend left=10] (2);
-\path[draw=red,thick,->,line width=2pt] (2) edge [bend left=10] (3);
-\path[draw=red,thick,->,line width=2pt] (3) edge [bend left=10] (4);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (1) edge [bend left=10] (5);
+        \path[draw=red,thick,->,line width=2pt] (5) edge [bend left=10] (2);
+        \path[draw=red,thick,->,line width=2pt] (2) edge [bend left=10] (3);
+        \path[draw=red,thick,->,line width=2pt] (3) edge [bend left=10] (4);
+    \end{tikzpicture}
 \end{center}
 
-The minimum edge weight on this path is 3,
-so the path increases the flow by 3,
-and the total flow after processing the path is 5.
+El peso de arista mínimo en este camino es 3, así que el camino aumenta
+el flujo por 3, y el flujo total luego de procesar el camino es 5.
 
-\begin{samepage}
-The new graph will be as follows:
+El nuevo grafo será de la siguiente manera:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9,label distance=-2mm]
-\node[draw, circle] (1) at (1,1.3) {$1$};
-\node[draw, circle] (2) at (3,2.6) {$2$};
-\node[draw, circle] (3) at (5,2.6) {$3$};
-\node[draw, circle] (4) at (7,1.3) {$6$};
-\node[draw, circle] (5) at (3,0) {$4$};
-\node[draw, circle] (6) at (5,0) {$5$};
+    \begin{tikzpicture}[scale=0.9,label distance=-2mm]
+        \node[draw, circle] (1) at (1,1.3) {$1$};
+        \node[draw, circle] (2) at (3,2.6) {$2$};
+        \node[draw, circle] (3) at (5,2.6) {$3$};
+        \node[draw, circle] (4) at (7,1.3) {$6$};
+        \node[draw, circle] (5) at (3,0) {$4$};
+        \node[draw, circle] (6) at (5,0) {$5$};
 
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=3] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:2] {} (1);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=1] {} (3);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:5] {} (2);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=2] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:3] {} (3);
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=1] {} (5);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:3] {} (1);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:0] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:3] {} (5);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:6] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:2] {} (3);
-\end{tikzpicture}
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=3] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:2] {} (1);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=1] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:5] {} (2);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=2] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:3] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=1] {} (5);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:3] {} (1);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=1] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:0] {} (5);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:0] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:3] {} (5);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:6] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:2] {} (3);
+    \end{tikzpicture}
 \end{center}
-\end{samepage}
 
-We still need two more rounds before reaching the maximum flow.
-For example, we can choose the paths
-$1 \rightarrow 2 \rightarrow 3 \rightarrow 6$ and
+Todavía necesitamos dos rondas más antes de alcanzar el flujo máximo.
+Por ejemplo, podemos elegir los caminos
+$1 \rightarrow 2 \rightarrow 3 \rightarrow 6$ y
 $1 \rightarrow 4 \rightarrow 5 \rightarrow 3 \rightarrow 6$.
-Both paths increase the flow by 1,
-and the final graph is as follows:
+Ambos aumentan el flujo por 1, y el grafo final es el siguiente:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9,label distance=-2mm]
-\node[draw, circle] (1) at (1,1.3) {$1$};
-\node[draw, circle] (2) at (3,2.6) {$2$};
-\node[draw, circle] (3) at (5,2.6) {$3$};
-\node[draw, circle] (4) at (7,1.3) {$6$};
-\node[draw, circle] (5) at (3,0) {$4$};
-\node[draw, circle] (6) at (5,0) {$5$};
+    \begin{tikzpicture}[scale=0.9,label distance=-2mm]
+        \node[draw, circle] (1) at (1,1.3) {$1$};
+        \node[draw, circle] (2) at (3,2.6) {$2$};
+        \node[draw, circle] (3) at (5,2.6) {$3$};
+        \node[draw, circle] (4) at (7,1.3) {$6$};
+        \node[draw, circle] (5) at (3,0) {$4$};
+        \node[draw, circle] (6) at (5,0) {$5$};
 
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=2] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:3] {} (1);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=0] {} (3);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:6] {} (2);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=0] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:5] {} (3);
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=0] {} (5);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:4] {} (1);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=0] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:1] {} (5);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:0] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:3] {} (5);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:7] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:1] {} (3);
-\end{tikzpicture}
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=2] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:3] {} (1);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=0] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:6] {} (2);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=0] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:5] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=0] {} (5);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:4] {} (1);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=0] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:1] {} (5);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:0] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:3] {} (5);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:7] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:1] {} (3);
+    \end{tikzpicture}
 \end{center}
 
-It is not possible to increase the flow anymore,
-because there is no path from the source
-to the sink with positive edge weights.
-Hence, the algorithm terminates and the maximum flow is 7.
+No es posible seguir aumentando el flujo, porque no hay un camino
+de la fuente al pozo con pesos de arista positivos. Por ende, el
+algoritmo termina y el flujo máximo es 7.
 
-\subsubsection{Finding paths}
+\subsubsection{Encontrar caminos}
 
-The Ford–Fulkerson algorithm does not specify
-how we should choose the paths that increase the flow.
-In any case, the algorithm will terminate sooner or later
-and correctly find the maximum flow.
-However, the efficiency of the algorithm depends on
-the way the paths are chosen.
+El algoritmo de Ford--Fulkerson no especifica cómo deberíamos elegir
+los caminos que aumenten el flujo. En cualquier caso, el algoritmo
+terminará tarde o temprano y encontrará el flujo máximo correctamente.
+Sin embargo, la eficiencia del algoritmo depende en la manera en que
+elegimos los caminos.
 
-A simple way to find paths is to use depth-first search.
-Usually, this works well, but in the worst case,
-each path only increases the flow by 1
-and the algorithm is slow.
-Fortunately, we can avoid this situation
-by using one of the following techniques:
+Una forma simple de encontrar caminos es usando una búsqueda en
+profundidad. Típicamente esto funciona, pero en el peor caso,
+cada camino solo aumentará el flujo por 1 y el algoritmo se vuelve lento.
+Afortunadamente, podemos evitar esta situación utilizando una de las
+siguientes técnicas:
 
-\index{Edmonds–Karp algorithm}
+\index{Algoritmo de Edmonds--Karp}
 
-The \key{Edmonds–Karp algorithm} \cite{edm72}
-chooses each path so that the number of edges
-on the path is as small as possible.
-This can be done by using breadth-first search
-instead of depth-first search for finding paths.
-It can be proven that this guarantees that
-the flow increases quickly, and the time complexity
-of the algorithm is $O(m^2 n)$.
+El \key{algoritmo de Edmonds--Karp} \cite{edm72} elige un camino tal
+que el número de aristas en el camino sea tan pequeño como sea posible.
+Esto se puede hacer con una búsqueda en anchura en vez de una búsqueda
+en profundidad para encontrar caminos. Se puede demostrar que esto
+garantiza que el flujo aumentará rápidamente, y la complejidad temporal
+del algoritmo es $O(m^2 n)$.
 
-\index{scaling algorithm}
+\index{algoritmo escalador}
 
-The \key{scaling algorithm} \cite{ahu91} uses depth-first
-search to find paths where each edge weight is
-at least a threshold value.
-Initially, the threshold value is
-some large number, for example the sum of all
-edge weights of the graph.
-Always when a path cannot be found,
-the threshold value is divided by 2.
-The time complexity of the algorithm is $O(m^2 \log c)$,
-where $c$ is the initial threshold value.
+El \key{algoritmo escalador} \cite{ahu91} utiliza una búsqueda en
+profundidad para encontrar caminos donde cada peso de arista alcance
+un valor umbral. Inicialmente, el valor umbral es un número
+grande---por ejemplo la suma de todos los pesos en el grafo. Siempre
+que un camino no se pueda encontrar, el umbral es dividido por 2. La
+complejidad del algoritmo es $O(m^2 \log c)$, donde $c$ es el valor
+de umbral inicial.
 
-In practice, the scaling algorithm is easier to implement,
-because depth-first search can be used for finding paths.
-Both algorithms are efficient enough for problems
-that typically appear in programming contests.
+En la práctica, el algoritmo escalador es más fácil de implementar,
+porque se puede utilizar la búsqueda en profundidad para encontrar
+caminos. Ambos algoritmos son suficientemente eficientes para
+los problemas típicos de programación competitiva.
 
-\subsubsection{Minimum cuts}
+\subsubsection{Corte mínimo}
 
-\index{minimum cut}
+\index{corte mínimo}
 
-It turns out that once the Ford–Fulkerson algorithm
-has found a maximum flow,
-it has also determined a minimum cut.
-Let $A$ be the set of nodes
-that can be reached from the source
-using positive-weight edges.
-In the example graph, $A$ contains nodes 1, 2 and 4:
+Resulta que una vez que el algoritmo de Ford--Fulkerson ha encontrado
+un flujo máximo, también ha determinado un corte mínimo. Definamos
+$A$ como el conjunto de nodos alcanzables desde la fuente utilizando
+aristas de peso positivo. En el grafo de ejemplo, $A$ contiene los nodos
+1, 2, y 4:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9,label distance=-2mm]
-\node[draw, circle,fill=lightgray] (1) at (1,1.3) {$1$};
-\node[draw, circle,fill=lightgray] (2) at (3,2.6) {$2$};
-\node[draw, circle] (3) at (5,2.6) {$3$};
-\node[draw, circle] (4) at (7,1.3) {$6$};
-\node[draw, circle,fill=lightgray] (5) at (3,0) {$4$};
-\node[draw, circle] (6) at (5,0) {$5$};
+    \begin{tikzpicture}[scale=0.9,label distance=-2mm]
+        \node[draw, circle,fill=lightgray] (1) at (1,1.3) {$1$};
+        \node[draw, circle,fill=lightgray] (2) at (3,2.6) {$2$};
+        \node[draw, circle] (3) at (5,2.6) {$3$};
+        \node[draw, circle] (4) at (7,1.3) {$6$};
+        \node[draw, circle,fill=lightgray] (5) at (3,0) {$4$};
+        \node[draw, circle] (6) at (5,0) {$5$};
 
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=2] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:3] {} (1);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=0] {} (3);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:6] {} (2);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=0] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:5] {} (3);
-\path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=0] {} (5);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:4] {} (1);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=0] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:1] {} (5);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
-\path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
-\path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:0] {} (2);
-\path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:3] {} (5);
-\path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:7] {} (6);
-\path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:1] {} (3);
-\end{tikzpicture}
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=2] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=below:3] {} (1);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=0] {} (3);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=below:6] {} (2);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=0] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:5] {} (3);
+        \path[draw,thick,->] (1) edge [bend left=10] node[font=\small,label=0] {} (5);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=below:4] {} (1);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=0] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=below:1] {} (5);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=0] {} (4);
+        \path[draw,thick,->] (4) edge [bend left=10] node[font=\small,label=below:2] {} (6);
+        \path[draw,thick,->] (5) edge [bend left=10] node[font=\small,label=left:0] {} (2);
+        \path[draw,thick,->] (2) edge [bend left=10] node[font=\small,label=right:3] {} (5);
+        \path[draw,thick,->] (3) edge [bend left=10] node[font=\small,label=right:7] {} (6);
+        \path[draw,thick,->] (6) edge [bend left=10] node[font=\small,label=left:1] {} (3);
+    \end{tikzpicture}
 \end{center}
 
-Now the minimum cut consists of the edges of the original graph
-that start at some node in $A$, end at some node outside $A$,
-and whose capacity is fully
-used in the maximum flow.
-In the above graph, such edges are
-$2 \rightarrow 3$ and $4 \rightarrow 5$,
-that correspond to the minimum cut $6+1=7$.
+Ahora el corte mínimo consiste de las aristas del grafo original
+que comienzan en algún nodo en $A$, terminan en algún nodo fuera de $A$,
+y cuyas capacidades son enteramente utilizadas en el flujo máximo. En el
+grafo de arriba, tales aristas son $2 \rightarrow 3$ y
+$4 \rightarrow 5$, que corresponden al corte mínimo $6+1=7$.
 
-Why is the flow produced by the algorithm maximum
-and why is the cut minimum?
-The reason is that a graph cannot
-contain a flow whose size is larger
-than the weight of any cut of the graph.
-Hence, always when a flow and a cut are equally large,
-they are a maximum flow and a minimum cut.
+¿Por qué el flujo producido por el algoritmo es máximo, y el
+corte es mínimo? La razón es que el grafo no puede contener un flujo
+cuyo tamaño sea mayor que el peso de cualquier corte del grafo. Por ende,
+siempre que un flujo y un corte sean iguales, son un flujo máximo y
+un corte mínimo.
 
-Let us consider any cut of the graph
-such that the source belongs to $A$,
-the sink belongs to $B$
-and there are some edges between the sets:
+Consideremos cualquier corte del grafo tal que la fuente pertenezca
+a $A$, el pozo pertenezca a $B$, y haya algunas aristas entre los
+conjuntos:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\draw[dashed] (-2,0) circle (1.5);
-\draw[dashed] (2,0) circle (1.5);
+    \begin{tikzpicture}[scale=0.9]
+        \draw[dashed] (-2,0) circle (1.5);
+        \draw[dashed] (2,0) circle (1.5);
 
-\node at (-2,-1) {$A$};
-\node at (2,-1) {$B$};
+        \node at (-2,-1) {$A$};
+        \node at (2,-1) {$B$};
 
-\node[draw, circle] (1) at (-1,0.5) {};
-\node[draw, circle] (2) at (-1,0) {};
-\node[draw, circle] (3) at (-1,-0.5) {};
-\node[draw, circle] (4) at (1,0.5) {};
-\node[draw, circle] (5) at (1,0) {};
-\node[draw, circle] (6) at (1,-0.5) {};
+        \node[draw, circle] (1) at (-1,0.5) {};
+        \node[draw, circle] (2) at (-1,0) {};
+        \node[draw, circle] (3) at (-1,-0.5) {};
+        \node[draw, circle] (4) at (1,0.5) {};
+        \node[draw, circle] (5) at (1,0) {};
+        \node[draw, circle] (6) at (1,-0.5) {};
 
-\path[draw,thick,->] (1) -- (4);
-\path[draw,thick,->] (5) -- (2);
-\path[draw,thick,->] (3) -- (6);
+        \path[draw,thick,->] (1) -- (4);
+        \path[draw,thick,->] (5) -- (2);
+        \path[draw,thick,->] (3) -- (6);
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
 
-The size of the cut is the sum of the edges
-that go from $A$ to $B$.
-This is an upper bound for the flow
-in the graph, because the flow has to proceed
-from $A$ to $B$.
-Thus, the size of a maximum flow is smaller than or equal to
-the size of any cut in the graph.
+El tamaño del corte es la suma de las aristas que van de $A$ a $B$.
+Este es un límite inferior para el flujo en el grafo, porque el flujo
+debe proceder de $A$ a $B$. Por lo tanto, el tamaño del flujo máximo
+es menor o igual a aquel de cualquier corte en el grafo.
 
-On the other hand, the Ford–Fulkerson algorithm
-produces a flow whose size is \emph{exactly} as large
-as the size of a cut in the graph.
-Thus, the flow has to be a maximum flow
-and the cut has to be a minimum cut.
+Por otro lado, el algoritmo de Ford--Fulkerson produce un flujo
+cuyo tamaño es \emph{exactamente} igual al de algún corte en el grafo.
+Por esto, el flujo debe ser un flujo máximo y el corte debe ser mínimo.
 
-\section{Disjoint paths}
+\section{Caminos disjuntos}
 
-Many graph problems can be solved by reducing
-them to the maximum flow problem.
-Our first example of such a problem is
-as follows: we are given a directed graph
-with a source and a sink,
-and our task is to find the maximum number
-of disjoint paths from the source to the sink.
+Muchos problemas de grafos pueden ser resueltos si los reducimos al
+problema de flujo máximo. Nuestro primer ejemplo de tal problema es el
+siguiente: recibimos un grafo dirigido con una fuente y un pozo, y
+nuestra tarea es encontrar el máximo número de caminos disjuntos desde
+la fuente hasta el pozo.
 
-\subsubsection{Edge-disjoint paths}
+\subsubsection{Caminos disjuntos en aristas}
 
-We will first focus on the problem of
-finding the maximum number of
-\key{edge-disjoint paths} from the source to the sink.
-This means that we should construct a set of paths
-such that each edge appears in at most one path.
+Primero nos centraremos en el problema de encontrar el máximo número
+de \key{caminos disjuntos en aristas} de la fuente al pozo. Esto
+significa que debemos construir un conjunto de caminos tal que cada
+arista aparezca como mucho en un camino.
 
-For example, consider the following graph:
+Por ejemplo, veamos el siguiente grafo:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (1,2) {$1$};
-\node[draw, circle] (2) at (3,3) {$2$};
-\node[draw, circle] (3) at (5,3) {$3$};
-\node[draw, circle] (4) at (3,1) {$4$};
-\node[draw, circle] (5) at (5,1) {$5$};
-\node[draw, circle] (6) at (7,2) {$6$};
-\path[draw,thick,->] (1) -- (2);
-\path[draw,thick,->] (1) -- (4);
-\path[draw,thick,->] (2) -- (4);
-\path[draw,thick,->] (3) -- (2);
-\path[draw,thick,->] (3) -- (5);
-\path[draw,thick,->] (3) -- (6);
-\path[draw,thick,->] (4) -- (3);
-\path[draw,thick,->] (4) -- (5);
-\path[draw,thick,->] (5) -- (6);
-\end{tikzpicture}
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (1,2) {$1$};
+        \node[draw, circle] (2) at (3,3) {$2$};
+        \node[draw, circle] (3) at (5,3) {$3$};
+        \node[draw, circle] (4) at (3,1) {$4$};
+        \node[draw, circle] (5) at (5,1) {$5$};
+        \node[draw, circle] (6) at (7,2) {$6$};
+        \path[draw,thick,->] (1) -- (2);
+        \path[draw,thick,->] (1) -- (4);
+        \path[draw,thick,->] (2) -- (4);
+        \path[draw,thick,->] (3) -- (2);
+        \path[draw,thick,->] (3) -- (5);
+        \path[draw,thick,->] (3) -- (6);
+        \path[draw,thick,->] (4) -- (3);
+        \path[draw,thick,->] (4) -- (5);
+        \path[draw,thick,->] (5) -- (6);
+    \end{tikzpicture}
 \end{center}
 
-In this graph, the maximum number of edge-disjoint
-paths is 2.
-We can choose the paths
+En este grafo, el máximo número de caminos disjuntos en aristas es 2.
+Podemos elegir los caminos
 $1 \rightarrow 2 \rightarrow 4 \rightarrow 3 \rightarrow 6$
-and $1 \rightarrow 4 \rightarrow 5 \rightarrow 6$ as follows:
+y $1 \rightarrow 4 \rightarrow 5 \rightarrow 6$ como sigue:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (1,2) {$1$};
-\node[draw, circle] (2) at (3,3) {$2$};
-\node[draw, circle] (3) at (5,3) {$3$};
-\node[draw, circle] (4) at (3,1) {$4$};
-\node[draw, circle] (5) at (5,1) {$5$};
-\node[draw, circle] (6) at (7,2) {$6$};
-\path[draw,thick,->] (1) -- (2);
-\path[draw,thick,->] (1) -- (4);
-\path[draw,thick,->] (2) -- (4);
-\path[draw,thick,->] (3) -- (2);
-\path[draw,thick,->] (3) -- (5);
-\path[draw,thick,->] (3) -- (6);
-\path[draw,thick,->] (4) -- (3);
-\path[draw,thick,->] (4) -- (5);
-\path[draw,thick,->] (5) -- (6);
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (1,2) {$1$};
+        \node[draw, circle] (2) at (3,3) {$2$};
+        \node[draw, circle] (3) at (5,3) {$3$};
+        \node[draw, circle] (4) at (3,1) {$4$};
+        \node[draw, circle] (5) at (5,1) {$5$};
+        \node[draw, circle] (6) at (7,2) {$6$};
+        \path[draw,thick,->] (1) -- (2);
+        \path[draw,thick,->] (1) -- (4);
+        \path[draw,thick,->] (2) -- (4);
+        \path[draw,thick,->] (3) -- (2);
+        \path[draw,thick,->] (3) -- (5);
+        \path[draw,thick,->] (3) -- (6);
+        \path[draw,thick,->] (4) -- (3);
+        \path[draw,thick,->] (4) -- (5);
+        \path[draw,thick,->] (5) -- (6);
 
-\path[draw=green,thick,->,line width=2pt] (1) -- (2);
-\path[draw=green,thick,->,line width=2pt] (2) -- (4);
-\path[draw=green,thick,->,line width=2pt] (4) -- (3);
-\path[draw=green,thick,->,line width=2pt] (3) -- (6);
+        \path[draw=green,thick,->,line width=2pt] (1) -- (2);
+        \path[draw=green,thick,->,line width=2pt] (2) -- (4);
+        \path[draw=green,thick,->,line width=2pt] (4) -- (3);
+        \path[draw=green,thick,->,line width=2pt] (3) -- (6);
 
-\path[draw=blue,thick,->,line width=2pt] (1) -- (4);
-\path[draw=blue,thick,->,line width=2pt] (4) -- (5);
-\path[draw=blue,thick,->,line width=2pt] (5) -- (6);
-\end{tikzpicture}
+        \path[draw=blue,thick,->,line width=2pt] (1) -- (4);
+        \path[draw=blue,thick,->,line width=2pt] (4) -- (5);
+        \path[draw=blue,thick,->,line width=2pt] (5) -- (6);
+    \end{tikzpicture}
 \end{center}
 
-It turns out that the maximum number of
-edge-disjoint paths
-equals the maximum flow of the graph,
-assuming that the capacity of each edge is one.
-After the maximum flow has been constructed,
-the edge-disjoint paths can be found greedily
-by following paths from the source to the sink.
+Resulta que el máximo número de caminos disjuntos en aristas es igual
+al máximo flujo del grafo, asumiendo que la capacidad de cada arista
+es 1. Una vez que el máximo flujo ha sido construido, los caminos
+disjuntos en aristas pueden encontrarse vorazmente siguiendo caminos de
+la fuente al pozo.
 
-\subsubsection{Node-disjoint paths}
+\subsubsection{Caminos disjuntos en nodos}
 
-Let us now consider another problem:
-finding the maximum number of
-\key{node-disjoint paths} from the source
-to the sink.
-In this problem, every node,
-except for the source and sink,
-may appear in at most one path.
-The number of node-disjoint paths
-may be smaller than the number of
-edge-disjoint paths.
-
-For example, in the previous graph,
-the maximum number of node-disjoint paths is 1:
+Ahora considera otro problema: encontrar el máximo número de
+\key{caminos disjuntos en nodos} de la fuente al pozo. En este problema,
+cada nodo, excepto por la fuente y el pozo, puede aparecer como mucho
+en un camino. El número de caminos disjuntos en nodos puede ser
+menor que el de caminos disjuntos en aristas. Por ejemplo, en el
+grafo previo, el máximo número de caminos disjuntos en nodos es 1:
 
 \begin{center}
-\begin{tikzpicture}
-\node[draw, circle] (1) at (1,2) {$1$};
-\node[draw, circle] (2) at (3,3) {$2$};
-\node[draw, circle] (3) at (5,3) {$3$};
-\node[draw, circle] (4) at (3,1) {$4$};
-\node[draw, circle] (5) at (5,1) {$5$};
-\node[draw, circle] (6) at (7,2) {$6$};
-\path[draw,thick,->] (1) -- (2);
-\path[draw,thick,->] (1) -- (4);
-\path[draw,thick,->] (2) -- (4);
-\path[draw,thick,->] (3) -- (2);
-\path[draw,thick,->] (3) -- (5);
-\path[draw,thick,->] (3) -- (6);
-\path[draw,thick,->] (4) -- (3);
-\path[draw,thick,->] (4) -- (5);
-\path[draw,thick,->] (5) -- (6);
+    \begin{tikzpicture}
+        \node[draw, circle] (1) at (1,2) {$1$};
+        \node[draw, circle] (2) at (3,3) {$2$};
+        \node[draw, circle] (3) at (5,3) {$3$};
+        \node[draw, circle] (4) at (3,1) {$4$};
+        \node[draw, circle] (5) at (5,1) {$5$};
+        \node[draw, circle] (6) at (7,2) {$6$};
+        \path[draw,thick,->] (1) -- (2);
+        \path[draw,thick,->] (1) -- (4);
+        \path[draw,thick,->] (2) -- (4);
+        \path[draw,thick,->] (3) -- (2);
+        \path[draw,thick,->] (3) -- (5);
+        \path[draw,thick,->] (3) -- (6);
+        \path[draw,thick,->] (4) -- (3);
+        \path[draw,thick,->] (4) -- (5);
+        \path[draw,thick,->] (5) -- (6);
 
-\path[draw=green,thick,->,line width=2pt] (1) -- (2);
-\path[draw=green,thick,->,line width=2pt] (2) -- (4);
-\path[draw=green,thick,->,line width=2pt] (4) -- (3);
-\path[draw=green,thick,->,line width=2pt] (3) -- (6);
-\end{tikzpicture}
+        \path[draw=green,thick,->,line width=2pt] (1) -- (2);
+        \path[draw=green,thick,->,line width=2pt] (2) -- (4);
+        \path[draw=green,thick,->,line width=2pt] (4) -- (3);
+        \path[draw=green,thick,->,line width=2pt] (3) -- (6);
+    \end{tikzpicture}
 \end{center}
 
-We can reduce also this problem to the maximum flow problem.
-Since each node can appear in at most one path,
-we have to limit the flow that goes through the nodes.
-A standard method for this is to divide each node into
-two nodes such that the first node has the incoming edges
-of the original node, the second node has the outgoing
-edges of the original node, and
-there is a new edge from the first node
-to the second node.
+Podemos reducir este problema al problema del máximo flujo. Ya que
+cada nodo puede aparecer en un camino como mucho, debemos limitar el
+flujo que pasa por los nodos. Un método estándar para hacer esto es
+dividir cada nodo en dos nodos tal que el primero tenga las aristas
+de entrada del nodo original, el segundo las aristas de salida del
+nodo original, y haya una nueva arista del primer nodo al segundo.
 
-In our example, the graph becomes as follows:
+En nuestro ejemplo, el grafo se convierte en el siguiente:
 \begin{center}
-\begin{tikzpicture}
-\node[draw, circle] (1) at (1,2) {$1$};
+    \begin{tikzpicture}
+        \node[draw, circle] (1) at (1,2) {$1$};
 
-\node[draw, circle] (2a) at (3,3) {$2$};
-\node[draw, circle] (3a) at (6,3) {$3$};
-\node[draw, circle] (4a) at (3,1) {$4$};
-\node[draw, circle] (5a) at (6,1) {$5$};
+        \node[draw, circle] (2a) at (3,3) {$2$};
+        \node[draw, circle] (3a) at (6,3) {$3$};
+        \node[draw, circle] (4a) at (3,1) {$4$};
+        \node[draw, circle] (5a) at (6,1) {$5$};
 
-\node[draw, circle] (2b) at (4,3) {$2$};
-\node[draw, circle] (3b) at (7,3) {$3$};
-\node[draw, circle] (4b) at (4,1) {$4$};
-\node[draw, circle] (5b) at (7,1) {$5$};
+        \node[draw, circle] (2b) at (4,3) {$2$};
+        \node[draw, circle] (3b) at (7,3) {$3$};
+        \node[draw, circle] (4b) at (4,1) {$4$};
+        \node[draw, circle] (5b) at (7,1) {$5$};
 
-\node[draw, circle] (6) at (9,2) {$6$};
+        \node[draw, circle] (6) at (9,2) {$6$};
 
-\path[draw,thick,->] (2a) -- (2b);
-\path[draw,thick,->] (3a) -- (3b);
-\path[draw,thick,->] (4a) -- (4b);
-\path[draw,thick,->] (5a) -- (5b);
+        \path[draw,thick,->] (2a) -- (2b);
+        \path[draw,thick,->] (3a) -- (3b);
+        \path[draw,thick,->] (4a) -- (4b);
+        \path[draw,thick,->] (5a) -- (5b);
 
-\path[draw,thick,->] (1) -- (2a);
-\path[draw,thick,->] (1) -- (4a);
-\path[draw,thick,->] (2b) -- (4a);
-\path[draw,thick,->] (3b) edge [bend right=30] (2a);
-\path[draw,thick,->] (3b) -- (5a);
-\path[draw,thick,->] (3b) -- (6);
-\path[draw,thick,->] (4b) -- (3a);
-\path[draw,thick,->] (4b) -- (5a);
-\path[draw,thick,->] (5b) -- (6);
-\end{tikzpicture}
+        \path[draw,thick,->] (1) -- (2a);
+        \path[draw,thick,->] (1) -- (4a);
+        \path[draw,thick,->] (2b) -- (4a);
+        \path[draw,thick,->] (3b) edge [bend right=30] (2a);
+        \path[draw,thick,->] (3b) -- (5a);
+        \path[draw,thick,->] (3b) -- (6);
+        \path[draw,thick,->] (4b) -- (3a);
+        \path[draw,thick,->] (4b) -- (5a);
+        \path[draw,thick,->] (5b) -- (6);
+    \end{tikzpicture}
 \end{center}
 
-The maximum flow for the graph is as follows:
+El flujo máximo para el grafo es el siguiente:
 \begin{center}
-\begin{tikzpicture}
-\node[draw, circle] (1) at (1,2) {$1$};
+    \begin{tikzpicture}
+        \node[draw, circle] (1) at (1,2) {$1$};
 
-\node[draw, circle] (2a) at (3,3) {$2$};
-\node[draw, circle] (3a) at (6,3) {$3$};
-\node[draw, circle] (4a) at (3,1) {$4$};
-\node[draw, circle] (5a) at (6,1) {$5$};
+        \node[draw, circle] (2a) at (3,3) {$2$};
+        \node[draw, circle] (3a) at (6,3) {$3$};
+        \node[draw, circle] (4a) at (3,1) {$4$};
+        \node[draw, circle] (5a) at (6,1) {$5$};
 
-\node[draw, circle] (2b) at (4,3) {$2$};
-\node[draw, circle] (3b) at (7,3) {$3$};
-\node[draw, circle] (4b) at (4,1) {$4$};
-\node[draw, circle] (5b) at (7,1) {$5$};
+        \node[draw, circle] (2b) at (4,3) {$2$};
+        \node[draw, circle] (3b) at (7,3) {$3$};
+        \node[draw, circle] (4b) at (4,1) {$4$};
+        \node[draw, circle] (5b) at (7,1) {$5$};
 
-\node[draw, circle] (6) at (9,2) {$6$};
+        \node[draw, circle] (6) at (9,2) {$6$};
 
-\path[draw,thick,->] (2a) -- (2b);
-\path[draw,thick,->] (3a) -- (3b);
-\path[draw,thick,->] (4a) -- (4b);
-\path[draw,thick,->] (5a) -- (5b);
+        \path[draw,thick,->] (2a) -- (2b);
+        \path[draw,thick,->] (3a) -- (3b);
+        \path[draw,thick,->] (4a) -- (4b);
+        \path[draw,thick,->] (5a) -- (5b);
 
-\path[draw,thick,->] (1) -- (2a);
-\path[draw,thick,->] (1) -- (4a);
-\path[draw,thick,->] (2b) -- (4a);
-\path[draw,thick,->] (3b) edge [bend right=30] (2a);
-\path[draw,thick,->] (3b) -- (5a);
-\path[draw,thick,->] (3b) -- (6);
-\path[draw,thick,->] (4b) -- (3a);
-\path[draw,thick,->] (4b) -- (5a);
-\path[draw,thick,->] (5b) -- (6);
+        \path[draw,thick,->] (1) -- (2a);
+        \path[draw,thick,->] (1) -- (4a);
+        \path[draw,thick,->] (2b) -- (4a);
+        \path[draw,thick,->] (3b) edge [bend right=30] (2a);
+        \path[draw,thick,->] (3b) -- (5a);
+        \path[draw,thick,->] (3b) -- (6);
+        \path[draw,thick,->] (4b) -- (3a);
+        \path[draw,thick,->] (4b) -- (5a);
+        \path[draw,thick,->] (5b) -- (6);
 
-\path[draw=red,thick,->,line width=2pt] (1) -- (2a);
-\path[draw=red,thick,->,line width=2pt] (2a) -- (2b);
-\path[draw=red,thick,->,line width=2pt] (2b) -- (4a);
-\path[draw=red,thick,->,line width=2pt] (4a) -- (4b);
-\path[draw=red,thick,->,line width=2pt] (4b) -- (3a);
-\path[draw=red,thick,->,line width=2pt] (3a) -- (3b);
-\path[draw=red,thick,->,line width=2pt] (3b) -- (6);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (1) -- (2a);
+        \path[draw=red,thick,->,line width=2pt] (2a) -- (2b);
+        \path[draw=red,thick,->,line width=2pt] (2b) -- (4a);
+        \path[draw=red,thick,->,line width=2pt] (4a) -- (4b);
+        \path[draw=red,thick,->,line width=2pt] (4b) -- (3a);
+        \path[draw=red,thick,->,line width=2pt] (3a) -- (3b);
+        \path[draw=red,thick,->,line width=2pt] (3b) -- (6);
+    \end{tikzpicture}
 \end{center}
 
-Thus, the maximum number of node-disjoint paths
-from the source to the sink is 1.
+Por ende, el máximo número de caminos disjuntos en nodos de la fuente
+al pozo es 1.
 
-\section{Maximum matchings}
+\section{\textit{Matchings} máximos}
 
-\index{matching}
-\index{maximum matching}
+\index{\textit{matchings} máximos}
 
-The \key{maximum matching} problem asks to find
-a maximum-size set of node pairs in an undirected graph
-such that each pair is connected with an edge and
-each node belongs to at most one pair.
+El problema de \key{\textit{matchings} máximos} nos pide encontrar
+un conjunto de tamaño máximo de pares de nodos en un grafo no dirigido
+tal que cada par esté conectado con una arista y cada nodo pertenezca
+a lo sumo a un par de nodos.
 
-There are polynomial algorithms for finding
-maximum matchings in general graphs \cite{edm65},
-but such algorithms are complex and
-rarely seen in programming contests.
-However, in bipartite graphs,
-the maximum matching problem is much easier
-to solve, because we can reduce it to the
-maximum flow problem.
+Existen algoritmos polinomiales para encontrar matchings máximos en
+grafos generales \cite{edm65}, pero tales algoritmos son complejos
+y raramente vistos en competiciones de programación. Sin embargo, en
+grafos bipartitos, el problema de encontrar matchings máximos es mucho
+más fácil de resolver, porque podemos reducirlo al problema de flujo
+máximo.
 
-\subsubsection{Finding maximum matchings}
+\subsubsection{Encontrar \textit{matchings} máximos}
 
-The nodes of a bipartite graph can be always
-divided into two groups such that all edges
-of the graph go from the left group to the right group.
-For example, in the following bipartite graph,
-the groups are $\{1,2,3,4\}$ and $\{5,6,7,8\}$.
+Los nodos de un grafo bipartito siempre pueden dividirse en dos grupos
+tal que todas las aristas del grafo vayan del grupo izquierdo al grupo
+derecho. Por ejemplo, en el siguiente grafo bipartito, los grupos
+son $\{1,2,3,4\}$ y $\{5,6,7,8\}$.
 
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle] (1) at (2,4.5) {1};
-\node[draw, circle] (2) at (2,3) {2};
-\node[draw, circle] (3) at (2,1.5) {3};
-\node[draw, circle] (4) at (2,0) {4};
-\node[draw, circle] (5) at (8,4.5) {5};
-\node[draw, circle] (6) at (8,3) {6};
-\node[draw, circle] (7) at (8,1.5) {7};
-\node[draw, circle] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle] (1) at (2,4.5) {1};
+        \node[draw, circle] (2) at (2,3) {2};
+        \node[draw, circle] (3) at (2,1.5) {3};
+        \node[draw, circle] (4) at (2,0) {4};
+        \node[draw, circle] (5) at (8,4.5) {5};
+        \node[draw, circle] (6) at (8,3) {6};
+        \node[draw, circle] (7) at (8,1.5) {7};
+        \node[draw, circle] (8) at (8,0) {8};
 
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (7);
-\path[draw,thick,-] (3) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (8);
-\path[draw,thick,-] (4) -- (7);
-\end{tikzpicture}
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (7);
+        \path[draw,thick,-] (3) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (8);
+        \path[draw,thick,-] (4) -- (7);
+    \end{tikzpicture}
 \end{center}
-The size of a maximum matching of this graph is 3:
+El tamaño de un matching máximo en este grafo es 3:
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle] (1) at (2,4.5) {1};
-\node[draw, circle] (2) at (2,3) {2};
-\node[draw, circle] (3) at (2,1.5) {3};
-\node[draw, circle] (4) at (2,0) {4};
-\node[draw, circle] (5) at (8,4.5) {5};
-\node[draw, circle] (6) at (8,3) {6};
-\node[draw, circle] (7) at (8,1.5) {7};
-\node[draw, circle] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle] (1) at (2,4.5) {1};
+        \node[draw, circle] (2) at (2,3) {2};
+        \node[draw, circle] (3) at (2,1.5) {3};
+        \node[draw, circle] (4) at (2,0) {4};
+        \node[draw, circle] (5) at (8,4.5) {5};
+        \node[draw, circle] (6) at (8,3) {6};
+        \node[draw, circle] (7) at (8,1.5) {7};
+        \node[draw, circle] (8) at (8,0) {8};
 
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (7);
-\path[draw,thick,-] (3) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (8);
-\path[draw,thick,-] (4) -- (7);
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (7);
+        \path[draw,thick,-] (3) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (8);
+        \path[draw,thick,-] (4) -- (7);
 
-\path[draw=red,thick,-,line width=2pt] (1) -- (5);
-\path[draw=red,thick,-,line width=2pt] (2) -- (7);
-\path[draw=red,thick,-,line width=2pt] (3) -- (8);
-\end{tikzpicture}
+        \path[draw=red,thick,-,line width=2pt] (1) -- (5);
+        \path[draw=red,thick,-,line width=2pt] (2) -- (7);
+        \path[draw=red,thick,-,line width=2pt] (3) -- (8);
+    \end{tikzpicture}
 \end{center}
 
-We can reduce the bipartite maximum matching problem
-to the maximum flow problem by adding two new nodes
-to the graph: a source and a sink.
-We also add edges from the source
-to each left node and from each right node to the sink.
-After this, the size of a maximum flow in the graph
-equals the size of a maximum matching in the original graph.
+Podemos reducir el problema del matching máximo bipartito al problema
+del flujo máximo si añadimos dos nuevos nodos al grafo: una fuente y
+un pozo. También añadimos aristas de la fuente a cada nodo izquierdo y
+de cada nodo derecho al pozo. Luego de esto, el tamaño de un flujo
+máximo en el grafo equivale al tamaño de un matching máximo en el grafo
+original.
 
-For example, the reduction for the above
-graph is as follows:
+Por ejemplo, la reducción para el grafo de arriba es la siguiente:
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle] (1) at (2,4.5) {1};
-\node[draw, circle] (2) at (2,3) {2};
-\node[draw, circle] (3) at (2,1.5) {3};
-\node[draw, circle] (4) at (2,0) {4};
-\node[draw, circle] (5) at (8,4.5) {5};
-\node[draw, circle] (6) at (8,3) {6};
-\node[draw, circle] (7) at (8,1.5) {7};
-\node[draw, circle] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle] (1) at (2,4.5) {1};
+        \node[draw, circle] (2) at (2,3) {2};
+        \node[draw, circle] (3) at (2,1.5) {3};
+        \node[draw, circle] (4) at (2,0) {4};
+        \node[draw, circle] (5) at (8,4.5) {5};
+        \node[draw, circle] (6) at (8,3) {6};
+        \node[draw, circle] (7) at (8,1.5) {7};
+        \node[draw, circle] (8) at (8,0) {8};
 
-\node[draw, circle] (a) at (-2,2.25) {\phantom{0}};
-\node[draw, circle] (b) at (12,2.25) {\phantom{0}};
+        \node[draw, circle] (a) at (-2,2.25) {\phantom{0}};
+        \node[draw, circle] (b) at (12,2.25) {\phantom{0}};
 
-\path[draw,thick,->] (1) -- (5);
-\path[draw,thick,->] (2) -- (7);
-\path[draw,thick,->] (3) -- (5);
-\path[draw,thick,->] (3) -- (6);
-\path[draw,thick,->] (3) -- (8);
-\path[draw,thick,->] (4) -- (7);
+        \path[draw,thick,->] (1) -- (5);
+        \path[draw,thick,->] (2) -- (7);
+        \path[draw,thick,->] (3) -- (5);
+        \path[draw,thick,->] (3) -- (6);
+        \path[draw,thick,->] (3) -- (8);
+        \path[draw,thick,->] (4) -- (7);
 
-\path[draw,thick,->] (a) -- (1);
-\path[draw,thick,->] (a) -- (2);
-\path[draw,thick,->] (a) -- (3);
-\path[draw,thick,->] (a) -- (4);
-\path[draw,thick,->] (5) -- (b);
-\path[draw,thick,->] (6) -- (b);
-\path[draw,thick,->] (7) -- (b);
-\path[draw,thick,->] (8) -- (b);
-\end{tikzpicture}
+        \path[draw,thick,->] (a) -- (1);
+        \path[draw,thick,->] (a) -- (2);
+        \path[draw,thick,->] (a) -- (3);
+        \path[draw,thick,->] (a) -- (4);
+        \path[draw,thick,->] (5) -- (b);
+        \path[draw,thick,->] (6) -- (b);
+        \path[draw,thick,->] (7) -- (b);
+        \path[draw,thick,->] (8) -- (b);
+    \end{tikzpicture}
 \end{center}
 
-The maximum flow of this graph is as follows:
+El flujo máximo de este grafo es el siguiente:
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle] (1) at (2,4.5) {1};
-\node[draw, circle] (2) at (2,3) {2};
-\node[draw, circle] (3) at (2,1.5) {3};
-\node[draw, circle] (4) at (2,0) {4};
-\node[draw, circle] (5) at (8,4.5) {5};
-\node[draw, circle] (6) at (8,3) {6};
-\node[draw, circle] (7) at (8,1.5) {7};
-\node[draw, circle] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle] (1) at (2,4.5) {1};
+        \node[draw, circle] (2) at (2,3) {2};
+        \node[draw, circle] (3) at (2,1.5) {3};
+        \node[draw, circle] (4) at (2,0) {4};
+        \node[draw, circle] (5) at (8,4.5) {5};
+        \node[draw, circle] (6) at (8,3) {6};
+        \node[draw, circle] (7) at (8,1.5) {7};
+        \node[draw, circle] (8) at (8,0) {8};
 
-\node[draw, circle] (a) at (-2,2.25) {\phantom{0}};
-\node[draw, circle] (b) at (12,2.25) {\phantom{0}};
+        \node[draw, circle] (a) at (-2,2.25) {\phantom{0}};
+        \node[draw, circle] (b) at (12,2.25) {\phantom{0}};
 
-\path[draw,thick,->] (3) -- (5);
-\path[draw,thick,->] (3) -- (6);
-\path[draw,thick,->] (4) -- (7);
+        \path[draw,thick,->] (3) -- (5);
+        \path[draw,thick,->] (3) -- (6);
+        \path[draw,thick,->] (4) -- (7);
 
-\path[draw,thick,->] (a) -- (1);
-\path[draw,thick,->] (a) -- (2);
-\path[draw,thick,->] (a) -- (3);
-\path[draw,thick,->] (a) -- (4);
-\path[draw,thick,->] (5) -- (b);
-\path[draw,thick,->] (6) -- (b);
-\path[draw,thick,->] (7) -- (b);
-\path[draw,thick,->] (8) -- (b);
+        \path[draw,thick,->] (a) -- (1);
+        \path[draw,thick,->] (a) -- (2);
+        \path[draw,thick,->] (a) -- (3);
+        \path[draw,thick,->] (a) -- (4);
+        \path[draw,thick,->] (5) -- (b);
+        \path[draw,thick,->] (6) -- (b);
+        \path[draw,thick,->] (7) -- (b);
+        \path[draw,thick,->] (8) -- (b);
 
-\path[draw=red,thick,->,line width=2pt] (1) -- (5);
-\path[draw=red,thick,->,line width=2pt] (2) -- (7);
-\path[draw=red,thick,->,line width=2pt] (3) -- (8);
+        \path[draw=red,thick,->,line width=2pt] (1) -- (5);
+        \path[draw=red,thick,->,line width=2pt] (2) -- (7);
+        \path[draw=red,thick,->,line width=2pt] (3) -- (8);
 
-\path[draw=red,thick,->,line width=2pt] (a) -- (1);
-\path[draw=red,thick,->,line width=2pt] (a) -- (2);
-\path[draw=red,thick,->,line width=2pt] (a) -- (3);
+        \path[draw=red,thick,->,line width=2pt] (a) -- (1);
+        \path[draw=red,thick,->,line width=2pt] (a) -- (2);
+        \path[draw=red,thick,->,line width=2pt] (a) -- (3);
 
-\path[draw=red,thick,->,line width=2pt] (5) -- (b);
-\path[draw=red,thick,->,line width=2pt] (7) -- (b);
-\path[draw=red,thick,->,line width=2pt] (8) -- (b);
+        \path[draw=red,thick,->,line width=2pt] (5) -- (b);
+        \path[draw=red,thick,->,line width=2pt] (7) -- (b);
+        \path[draw=red,thick,->,line width=2pt] (8) -- (b);
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
 
-\subsubsection{Hall's theorem}
+\subsubsection{Teorema de Hall}
 
-\index{Hall's theorem}
-\index{perfect matching}
+\index{teorema de Hall}
+\index{\textit{matching} perfecto}
 
-\key{Hall's theorem} can be used to find out
-whether a bipartite graph has a matching
-that contains all left or right nodes.
-If the number of left and right nodes is the same,
-Hall's theorem tells us if it is possible to
-construct a \key{perfect matching} that
-contains all nodes of the graph.
+El \key{teorema de Hall} puede utilizarse para encontrar si un grafo
+bipartito tiene un matching que contenga todos los nodos izquierdos o
+derechos. Si el número de nodos izquierdos y derechos es el mismo, el
+teorema nos dice si es posible construir un \key{matching perfecto}---un
+matching que contenga todos los nodos del grafo.
 
-Assume that we want to find a matching
-that contains all left nodes.
-Let $X$ be any set of left nodes
-and let $f(X)$ be the set of their neighbors.
-According to Hall's theorem, a matching
-that contains all left nodes exists
-exactly when for each $X$, the condition $|X| \le |f(X)|$ holds.
+Asume que queremos encontrar un matching que contenga todos los nodos
+izquierdos. Definamos $X$ como cualquier conjunto de nodos izquierdos
+y $f(X)$ como el conjunto de sus vecinos. Según el teorema de Hall, un
+matching que contiene todos los nodos izquierdos existe exactamente
+cuando por cada $X$, la condición $|X| \le |f(x)|$ es verdadera.
 
-Let us study Hall's theorem in the example graph.
-First, let $X=\{1,3\}$ which yields $f(X)=\{5,6,8\}$:
+Estudiemos el teorema de Hall en el grafo de ejemplo. Primero,
+definamos $X=\{1,3\}$ que resulta en $f(X)=\{5,6,8\}$:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle, fill=lightgray] (1) at (2,4.5) {1};
-\node[draw, circle] (2) at (2,3) {2};
-\node[draw, circle, fill=lightgray] (3) at (2,1.5) {3};
-\node[draw, circle] (4) at (2,0) {4};
-\node[draw, circle, fill=lightgray] (5) at (8,4.5) {5};
-\node[draw, circle, fill=lightgray] (6) at (8,3) {6};
-\node[draw, circle] (7) at (8,1.5) {7};
-\node[draw, circle, fill=lightgray] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle, fill=lightgray] (1) at (2,4.5) {1};
+        \node[draw, circle] (2) at (2,3) {2};
+        \node[draw, circle, fill=lightgray] (3) at (2,1.5) {3};
+        \node[draw, circle] (4) at (2,0) {4};
+        \node[draw, circle, fill=lightgray] (5) at (8,4.5) {5};
+        \node[draw, circle, fill=lightgray] (6) at (8,3) {6};
+        \node[draw, circle] (7) at (8,1.5) {7};
+        \node[draw, circle, fill=lightgray] (8) at (8,0) {8};
 
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (7);
-\path[draw,thick,-] (3) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (8);
-\path[draw,thick,-] (4) -- (7);
-\end{tikzpicture}
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (7);
+        \path[draw,thick,-] (3) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (8);
+        \path[draw,thick,-] (4) -- (7);
+    \end{tikzpicture}
 \end{center}
 
-The condition of Hall's theorem holds, because
-$|X|=2$ and $|f(X)|=3$.
-Next, let $X=\{2,4\}$ which yields $f(X)=\{7\}$:
+La condición del teorema de Hall se cumple, porque $|X|=2$ y $|f(X)|=3$.
+Ahora, definamos $X=\{2,4\}$ que resuta en $f(X)=\{7\}$:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle] (1) at (2,4.5) {1};
-\node[draw, circle, fill=lightgray] (2) at (2,3) {2};
-\node[draw, circle] (3) at (2,1.5) {3};
-\node[draw, circle, fill=lightgray] (4) at (2,0) {4};
-\node[draw, circle] (5) at (8,4.5) {5};
-\node[draw, circle] (6) at (8,3) {6};
-\node[draw, circle, fill=lightgray] (7) at (8,1.5) {7};
-\node[draw, circle] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle] (1) at (2,4.5) {1};
+        \node[draw, circle, fill=lightgray] (2) at (2,3) {2};
+        \node[draw, circle] (3) at (2,1.5) {3};
+        \node[draw, circle, fill=lightgray] (4) at (2,0) {4};
+        \node[draw, circle] (5) at (8,4.5) {5};
+        \node[draw, circle] (6) at (8,3) {6};
+        \node[draw, circle, fill=lightgray] (7) at (8,1.5) {7};
+        \node[draw, circle] (8) at (8,0) {8};
 
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (7);
-\path[draw,thick,-] (3) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (8);
-\path[draw,thick,-] (4) -- (7);
-\end{tikzpicture}
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (7);
+        \path[draw,thick,-] (3) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (8);
+        \path[draw,thick,-] (4) -- (7);
+    \end{tikzpicture}
 \end{center}
 
-In this case, $|X|=2$ and $|f(X)|=1$,
-so the condition of Hall's theorem does not hold.
-This means that it is not possible to form
-a perfect matching for the graph.
-This result is not surprising, because we already
-know that the maximum matching of the graph is 3 and not 4.
+En este caso, $|X|=2$ y $|f(X)|=1$, así que la condición del teorema
+de Hall no se cumple. Esto significa que no es posible formar un
+matching perfecto para este grafo. El resultado no es sorprendente,
+porque ya sabemos que el matching máximo del grafo es 3 y no 4.
 
-If the condition of Hall's theorem does not hold,
-the set $X$ provides an explanation \emph{why}
-we cannot form such a matching.
-Since $X$ contains more nodes than $f(X)$,
-there are no pairs for all nodes in $X$.
-For example, in the above graph, both nodes 2 and 4
-should be connected with node 7 which is not possible.
+Si la condición del teorema de Hall no se cumple, el conjunto $X$
+provee una explicación de \emph{por qué} no podemos formar tal matching.
+Debido a que $X$ contiene más nodos que $f(X)$, no hay pares para todos
+los nodos en $X$. Por ejemplo, en el grafo de arriba, los dos nodos 2 y
+4 deberían estar conectados con el nodo 7, que es imposible.
 
-\subsubsection{Kőnig's theorem}
+\subsubsection{Teorema de Kőnig}
 
-\index{Kőnig's theorem}
-\index{node cover}
-\index{minimum node cover}
+\index{teorema de Kőnig}
+\index{cobertura de nodos mínima}
 
-A \key{minimum node cover} of a graph
-is a minimum set of nodes such that each edge of the graph
-has at least one endpoint in the set.
-In a general graph, finding a minimum node cover
-is a NP-hard problem.
-However, if the graph is bipartite,
-\key{Kőnig's theorem} tells us that
-the size of a minimum node cover
-and the size of a maximum matching are always equal.
-Thus, we can calculate the size of a minimum node cover
-using a maximum flow algorithm.
+Una \key{cobertura de nodos mínima} de un grafo es un mínimo conjunto
+de nodos tal que cada arista del grafo tenga por lo menos un extremo
+en el conjunto. En un grafo general, encontrar una cobertura de nodos
+mínima es un problema NP-difícil. No obstante, si el grafo es bipartito,
+el \key{teorema de Kőnig} nos dice que el tamaño de una cobertura de
+nodos mínima y el tamaño de un matching máximo siempre son iguales.
+Por lo tanto, podemos calcular el tamaño de la cobertura de nodos mínima
+utilizando un algoritmo de flujo máximo.
 
-Let us consider the following graph
-with a maximum matching of size 3:
+Considera el siguiente grafo con un matching máximo de tamaño 3:
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle] (1) at (2,4.5) {1};
-\node[draw, circle] (2) at (2,3) {2};
-\node[draw, circle] (3) at (2,1.5) {3};
-\node[draw, circle] (4) at (2,0) {4};
-\node[draw, circle] (5) at (8,4.5) {5};
-\node[draw, circle] (6) at (8,3) {6};
-\node[draw, circle] (7) at (8,1.5) {7};
-\node[draw, circle] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle] (1) at (2,4.5) {1};
+        \node[draw, circle] (2) at (2,3) {2};
+        \node[draw, circle] (3) at (2,1.5) {3};
+        \node[draw, circle] (4) at (2,0) {4};
+        \node[draw, circle] (5) at (8,4.5) {5};
+        \node[draw, circle] (6) at (8,3) {6};
+        \node[draw, circle] (7) at (8,1.5) {7};
+        \node[draw, circle] (8) at (8,0) {8};
 
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (7);
-\path[draw,thick,-] (3) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (8);
-\path[draw,thick,-] (4) -- (7);
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (7);
+        \path[draw,thick,-] (3) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (8);
+        \path[draw,thick,-] (4) -- (7);
 
-\path[draw=red,thick,-,line width=2pt] (1) -- (5);
-\path[draw=red,thick,-,line width=2pt] (2) -- (7);
-\path[draw=red,thick,-,line width=2pt] (3) -- (6);
-\end{tikzpicture}
+        \path[draw=red,thick,-,line width=2pt] (1) -- (5);
+        \path[draw=red,thick,-,line width=2pt] (2) -- (7);
+        \path[draw=red,thick,-,line width=2pt] (3) -- (6);
+    \end{tikzpicture}
 \end{center}
-Now Kőnig's theorem tells us that the size
-of a minimum node cover is also 3.
-Such a cover can be constructed as follows:
-
+Ahora el teorema de Kőnig nos dice que el tamaño de la cobertura de
+nodos mínima es también 3. Una cobertura tal puede construirse así:
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle, fill=lightgray] (1) at (2,4.5) {1};
-\node[draw, circle] (2) at (2,3) {2};
-\node[draw, circle, fill=lightgray] (3) at (2,1.5) {3};
-\node[draw, circle] (4) at (2,0) {4};
-\node[draw, circle] (5) at (8,4.5) {5};
-\node[draw, circle] (6) at (8,3) {6};
-\node[draw, circle, fill=lightgray] (7) at (8,1.5) {7};
-\node[draw, circle] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle, fill=lightgray] (1) at (2,4.5) {1};
+        \node[draw, circle] (2) at (2,3) {2};
+        \node[draw, circle, fill=lightgray] (3) at (2,1.5) {3};
+        \node[draw, circle] (4) at (2,0) {4};
+        \node[draw, circle] (5) at (8,4.5) {5};
+        \node[draw, circle] (6) at (8,3) {6};
+        \node[draw, circle, fill=lightgray] (7) at (8,1.5) {7};
+        \node[draw, circle] (8) at (8,0) {8};
 
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (7);
-\path[draw,thick,-] (3) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (8);
-\path[draw,thick,-] (4) -- (7);
-\end{tikzpicture}
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (7);
+        \path[draw,thick,-] (3) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (8);
+        \path[draw,thick,-] (4) -- (7);
+    \end{tikzpicture}
 \end{center}
 
-\index{independent set}
-\index{maximum independent set}
+\index{conjunto independiente máximo}
 
-The nodes that do \emph{not}
-belong to a minimum node cover
-form a \key{maximum independent set}.
-This is the largest possible set of nodes
-such that no two nodes in the set
-are connected with an edge.
-Once again, finding a maximum independent
-set in a general graph is a NP-hard problem,
-but in a bipartite graph we can use
-Kőnig's theorem to solve the problem efficiently.
-In the example graph, the maximum independent
-set is as follows:
+Los nodos que \emph{no} pertenecen a una cobertura de nodos mínima
+forman un \key{conjunto independiente máximo}. Este es el conjunto de
+nodos más grande tal que no haya algún par de nodos en el conjunto
+conectado por una arista. Nuevamente, encontrar el conjunto
+independiente en un grafo general es un problema NP-difícil, pero en
+un grafo bipartito podemos usar el teorema de Kőnig para resolver el
+problema eficientemente. En el grafo de ejemplo, el conjunto
+independiente máximo es el siguiente:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.60]
-\node[draw, circle] (1) at (2,4.5) {1};
-\node[draw, circle, fill=lightgray] (2) at (2,3) {2};
-\node[draw, circle] (3) at (2,1.5) {3};
-\node[draw, circle, fill=lightgray] (4) at (2,0) {4};
-\node[draw, circle, fill=lightgray] (5) at (8,4.5) {5};
-\node[draw, circle, fill=lightgray] (6) at (8,3) {6};
-\node[draw, circle] (7) at (8,1.5) {7};
-\node[draw, circle, fill=lightgray] (8) at (8,0) {8};
+    \begin{tikzpicture}[scale=0.60]
+        \node[draw, circle] (1) at (2,4.5) {1};
+        \node[draw, circle, fill=lightgray] (2) at (2,3) {2};
+        \node[draw, circle] (3) at (2,1.5) {3};
+        \node[draw, circle, fill=lightgray] (4) at (2,0) {4};
+        \node[draw, circle, fill=lightgray] (5) at (8,4.5) {5};
+        \node[draw, circle, fill=lightgray] (6) at (8,3) {6};
+        \node[draw, circle] (7) at (8,1.5) {7};
+        \node[draw, circle, fill=lightgray] (8) at (8,0) {8};
 
-\path[draw,thick,-] (1) -- (5);
-\path[draw,thick,-] (2) -- (7);
-\path[draw,thick,-] (3) -- (5);
-\path[draw,thick,-] (3) -- (6);
-\path[draw,thick,-] (3) -- (8);
-\path[draw,thick,-] (4) -- (7);
-\end{tikzpicture}
+        \path[draw,thick,-] (1) -- (5);
+        \path[draw,thick,-] (2) -- (7);
+        \path[draw,thick,-] (3) -- (5);
+        \path[draw,thick,-] (3) -- (6);
+        \path[draw,thick,-] (3) -- (8);
+        \path[draw,thick,-] (4) -- (7);
+    \end{tikzpicture}
 \end{center}
 
-\section{Path covers}
+\section{Cobertura de caminos}
 
-\index{path cover}
+\index{cobertura de caminos}
 
-A \key{path cover} is a set of paths in a graph
-such that each node of the graph belongs to at least one path.
-It turns out that in directed, acyclic graphs,
-we can reduce the problem of finding a minimum
-path cover to the problem of finding a maximum
-flow in another graph.
+Una \key{cobertura de caminos} es un conjunto de caminos de un grafo
+tal que cada nodo del grafo pertenezca a por lo menos un camino.
+Resulta que en un grafo acíclico dirigido, podemos reducir este problema
+al de encontrar el flujo máximo en otro grafo.
 
-\subsubsection{Node-disjoint path cover}
+\subsubsection{Cobertura de caminos disjunta en nodos}
 
-In a \key{node-disjoint path cover},
-each node belongs to exactly one path.
-As an example, consider the following graph:
+En una \key{cobertura de caminos disjunta en nodos}, cada nodo pertenece
+a exactamente un camino. Por ejemplo, considera el siguiente grafo:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {1};
-\node[draw, circle] (2) at (2,0) {2};
-\node[draw, circle] (3) at (4,0) {3};
-\node[draw, circle] (4) at (6,0) {4};
-\node[draw, circle] (5) at (0,-2) {5};
-\node[draw, circle] (6) at (2,-2) {6};
-\node[draw, circle] (7) at (4,-2) {7};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {1};
+        \node[draw, circle] (2) at (2,0) {2};
+        \node[draw, circle] (3) at (4,0) {3};
+        \node[draw, circle] (4) at (6,0) {4};
+        \node[draw, circle] (5) at (0,-2) {5};
+        \node[draw, circle] (6) at (2,-2) {6};
+        \node[draw, circle] (7) at (4,-2) {7};
 
-\path[draw,thick,->,>=latex] (1) -- (5);
-\path[draw,thick,->,>=latex] (2) -- (6);
-\path[draw,thick,->,>=latex] (3) -- (4);
-\path[draw,thick,->,>=latex] (5) -- (6);
-\path[draw,thick,->,>=latex] (6) -- (3);
-\path[draw,thick,->,>=latex] (6) -- (7);
-\end{tikzpicture}
+        \path[draw,thick,->,>=latex] (1) -- (5);
+        \path[draw,thick,->,>=latex] (2) -- (6);
+        \path[draw,thick,->,>=latex] (3) -- (4);
+        \path[draw,thick,->,>=latex] (5) -- (6);
+        \path[draw,thick,->,>=latex] (6) -- (3);
+        \path[draw,thick,->,>=latex] (6) -- (7);
+    \end{tikzpicture}
 \end{center}
 
-A minimum node-disjoint path cover
-of this graph
-consists of three paths.
-For example, we can choose the following paths:
+Una mínima cobertura de caminos disjunta en nodos de este grafo
+consiste de tres caminos. Por ejemplo, podemos elegir los siguientes:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {1};
-\node[draw, circle] (2) at (2,0) {2};
-\node[draw, circle] (3) at (4,0) {3};
-\node[draw, circle] (4) at (6,0) {4};
-\node[draw, circle] (5) at (0,-2) {5};
-\node[draw, circle] (6) at (2,-2) {6};
-\node[draw, circle] (7) at (4,-2) {7};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {1};
+        \node[draw, circle] (2) at (2,0) {2};
+        \node[draw, circle] (3) at (4,0) {3};
+        \node[draw, circle] (4) at (6,0) {4};
+        \node[draw, circle] (5) at (0,-2) {5};
+        \node[draw, circle] (6) at (2,-2) {6};
+        \node[draw, circle] (7) at (4,-2) {7};
 
-\path[draw=red,thick,->,line width=2pt] (1) -- (5);
-\path[draw=red,thick,->,line width=2pt] (5) -- (6);
-\path[draw=red,thick,->,line width=2pt] (6) -- (7);
-\path[draw=red,thick,->,line width=2pt] (3) -- (4);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (1) -- (5);
+        \path[draw=red,thick,->,line width=2pt] (5) -- (6);
+        \path[draw=red,thick,->,line width=2pt] (6) -- (7);
+        \path[draw=red,thick,->,line width=2pt] (3) -- (4);
+    \end{tikzpicture}
 \end{center}
 
-Note that one of the paths only contains node 2,
-so it is possible that a path does not contain any edges.
+Ten en cuenta que uno de los caminos solo contiene el nodo 2,
+así que no es posible que un camino no contenga ninguna arista.
 
-We can find a minimum node-disjoint path cover
-by constructing a \emph{matching graph} where each node
-of the original graph is represented by
-two nodes: a left node and a right node.
-There is an edge from a left node to a right node
-if there is such an edge in the original graph.
-In addition, the matching graph contains a source and a sink,
-and there are edges from the source to all
-left nodes and from all right nodes to the sink.
+Podemos encontrar una cobertura de caminos disjunta en nodos
+construyendo un \emph{grafo de matchings} donde cada nodo del grafo
+original esté representado por dos nodos: uno izquierdo y uno derecho.
+Hay una arista de un nodo izquierdo a un nodo derecho si hay tal arista
+en el grafo original. Adicionalmente, el grafo de matchings contiene
+una fuente y un pozo, y hay aristas de la fuente a todos los nodos
+izquierdos y de todos los nodos derechos al pozo.
 
-A maximum matching in the resulting graph corresponds
-to a minimum node-disjoint path cover in
-the original graph.
-For example, the following matching graph
-for the above graph contains
-a maximum matching of size 4:
+Un matching máximo en el grafo resultante corresponde a una mínima
+cobertura de caminos disjunta en nodos en el grafo original. Por ejemplo,
+el siguiente grafo de matchings para el grafo de arriba contiene un
+matching máximo de 4:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1a) at (0,6) {1};
-\node[draw, circle] (2a) at (0,5) {2};
-\node[draw, circle] (3a) at (0,4) {3};
-\node[draw, circle] (4a) at (0,3) {4};
-\node[draw, circle] (5a) at (0,2) {5};
-\node[draw, circle] (6a) at (0,1) {6};
-\node[draw, circle] (7a) at (0,0) {7};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1a) at (0,6) {1};
+        \node[draw, circle] (2a) at (0,5) {2};
+        \node[draw, circle] (3a) at (0,4) {3};
+        \node[draw, circle] (4a) at (0,3) {4};
+        \node[draw, circle] (5a) at (0,2) {5};
+        \node[draw, circle] (6a) at (0,1) {6};
+        \node[draw, circle] (7a) at (0,0) {7};
 
-\node[draw, circle] (1b) at (4,6) {1};
-\node[draw, circle] (2b) at (4,5) {2};
-\node[draw, circle] (3b) at (4,4) {3};
-\node[draw, circle] (4b) at (4,3) {4};
-\node[draw, circle] (5b) at (4,2) {5};
-\node[draw, circle] (6b) at (4,1) {6};
-\node[draw, circle] (7b) at (4,0) {7};
+        \node[draw, circle] (1b) at (4,6) {1};
+        \node[draw, circle] (2b) at (4,5) {2};
+        \node[draw, circle] (3b) at (4,4) {3};
+        \node[draw, circle] (4b) at (4,3) {4};
+        \node[draw, circle] (5b) at (4,2) {5};
+        \node[draw, circle] (6b) at (4,1) {6};
+        \node[draw, circle] (7b) at (4,0) {7};
 
-\node[draw, circle] (a) at (-3,3) {\phantom{0}};
-\node[draw, circle] (b) at (7,3) {\phantom{0}};
+        \node[draw, circle] (a) at (-3,3) {\phantom{0}};
+        \node[draw, circle] (b) at (7,3) {\phantom{0}};
 
-%\path[draw,thick,->,>=latex] (1a) -- (5b);
-\path[draw,thick,->,>=latex] (2a) -- (6b);
-%\path[draw,thick,->,>=latex] (3a) -- (4b);
-%\path[draw,thick,->,>=latex] (5a) -- (6b);
-\path[draw,thick,->,>=latex] (6a) -- (3b);
-%\path[draw,thick,->,>=latex] (6a) -- (7b);
+        %\path[draw,thick,->,>=latex] (1a) -- (5b);
+        \path[draw,thick,->,>=latex] (2a) -- (6b);
+        %\path[draw,thick,->,>=latex] (3a) -- (4b);
+        %\path[draw,thick,->,>=latex] (5a) -- (6b);
+        \path[draw,thick,->,>=latex] (6a) -- (3b);
+        %\path[draw,thick,->,>=latex] (6a) -- (7b);
 
-\path[draw,thick,->,>=latex] (a) -- (1a);
-\path[draw,thick,->,>=latex] (a) -- (2a);
-\path[draw,thick,->,>=latex] (a) -- (3a);
-\path[draw,thick,->,>=latex] (a) -- (4a);
-\path[draw,thick,->,>=latex] (a) -- (5a);
-\path[draw,thick,->,>=latex] (a) -- (6a);
-\path[draw,thick,->,>=latex] (a) -- (7a);
+        \path[draw,thick,->,>=latex] (a) -- (1a);
+        \path[draw,thick,->,>=latex] (a) -- (2a);
+        \path[draw,thick,->,>=latex] (a) -- (3a);
+        \path[draw,thick,->,>=latex] (a) -- (4a);
+        \path[draw,thick,->,>=latex] (a) -- (5a);
+        \path[draw,thick,->,>=latex] (a) -- (6a);
+        \path[draw,thick,->,>=latex] (a) -- (7a);
 
-\path[draw,thick,->,>=latex] (1b) -- (b);
-\path[draw,thick,->,>=latex] (2b) -- (b);
-\path[draw,thick,->,>=latex] (3b) -- (b);
-\path[draw,thick,->,>=latex] (4b) -- (b);
-\path[draw,thick,->,>=latex] (5b) -- (b);
-\path[draw,thick,->,>=latex] (6b) -- (b);
-\path[draw,thick,->,>=latex] (7b) -- (b);
+        \path[draw,thick,->,>=latex] (1b) -- (b);
+        \path[draw,thick,->,>=latex] (2b) -- (b);
+        \path[draw,thick,->,>=latex] (3b) -- (b);
+        \path[draw,thick,->,>=latex] (4b) -- (b);
+        \path[draw,thick,->,>=latex] (5b) -- (b);
+        \path[draw,thick,->,>=latex] (6b) -- (b);
+        \path[draw,thick,->,>=latex] (7b) -- (b);
 
-\path[draw=red,thick,->,line width=2pt] (1a) -- (5b);
-\path[draw=red,thick,->,line width=2pt] (5a) -- (6b);
-\path[draw=red,thick,->,line width=2pt] (6a) -- (7b);
-\path[draw=red,thick,->,line width=2pt] (3a) -- (4b);
+        \path[draw=red,thick,->,line width=2pt] (1a) -- (5b);
+        \path[draw=red,thick,->,line width=2pt] (5a) -- (6b);
+        \path[draw=red,thick,->,line width=2pt] (6a) -- (7b);
+        \path[draw=red,thick,->,line width=2pt] (3a) -- (4b);
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
 
-Each edge in the maximum matching of the matching graph corresponds
-to an edge in the minimum node-disjoint path cover
-of the original graph.
-Thus, the size of the minimum node-disjoint path cover is $n-c$,
-where $n$ is the number of nodes in the original graph
-and $c$ is the size of the maximum matching.
+Cada arista en el matching máximo del grafo de matchings corresponde
+a una arista en la mínima cubertura de caminos disjunta en nodos del
+grafo original. Por lo tanto, el tamaño de la mínima cobertura de
+caminos disjunta en nodos es $n-c$, donde $n$ es el número de nodos
+en el grafo original y $c$ es el tamaño del matching máximo.
 
-\subsubsection{General path cover}
+\subsubsection{Cobertura de caminos general}
 
-A \key{general path cover} is a path cover
-where a node can belong to more than one path.
-A minimum general path cover may be smaller
-than a minimum node-disjoint path cover,
-because a node can be used multiple times in paths.
-Consider again the following graph:
+Una \key{cobertura de caminos general} es una cobertura de caminos
+donde cada nodo puede pertenecer a más de un camino. Una cobertura
+de caminos general mínima puede ser más pequeña que una mínima cobertura
+de caminos disjunta en nodos, porque un nodo puede utilizarse
+múltiples veces en caminos. Considera de nuevo el siguiente grafo:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {1};
-\node[draw, circle] (2) at (2,0) {2};
-\node[draw, circle] (3) at (4,0) {3};
-\node[draw, circle] (4) at (6,0) {4};
-\node[draw, circle] (5) at (0,-2) {5};
-\node[draw, circle] (6) at (2,-2) {6};
-\node[draw, circle] (7) at (4,-2) {7};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {1};
+        \node[draw, circle] (2) at (2,0) {2};
+        \node[draw, circle] (3) at (4,0) {3};
+        \node[draw, circle] (4) at (6,0) {4};
+        \node[draw, circle] (5) at (0,-2) {5};
+        \node[draw, circle] (6) at (2,-2) {6};
+        \node[draw, circle] (7) at (4,-2) {7};
 
-\path[draw,thick,->,>=latex] (1) -- (5);
-\path[draw,thick,->,>=latex] (2) -- (6);
-\path[draw,thick,->,>=latex] (3) -- (4);
-\path[draw,thick,->,>=latex] (5) -- (6);
-\path[draw,thick,->,>=latex] (6) -- (3);
-\path[draw,thick,->,>=latex] (6) -- (7);
-\end{tikzpicture}
+        \path[draw,thick,->,>=latex] (1) -- (5);
+        \path[draw,thick,->,>=latex] (2) -- (6);
+        \path[draw,thick,->,>=latex] (3) -- (4);
+        \path[draw,thick,->,>=latex] (5) -- (6);
+        \path[draw,thick,->,>=latex] (6) -- (3);
+        \path[draw,thick,->,>=latex] (6) -- (7);
+    \end{tikzpicture}
 \end{center}
 
-The minimum general path cover of this graph
-consists of two paths.
-For example, the first path may be as follows:
+La cobertura de caminos general mínima de este grafo consiste de
+dos caminos. Por ejemplo, el primer camino puede ser el siguiente:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {1};
-\node[draw, circle] (2) at (2,0) {2};
-\node[draw, circle] (3) at (4,0) {3};
-\node[draw, circle] (4) at (6,0) {4};
-\node[draw, circle] (5) at (0,-2) {5};
-\node[draw, circle] (6) at (2,-2) {6};
-\node[draw, circle] (7) at (4,-2) {7};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {1};
+        \node[draw, circle] (2) at (2,0) {2};
+        \node[draw, circle] (3) at (4,0) {3};
+        \node[draw, circle] (4) at (6,0) {4};
+        \node[draw, circle] (5) at (0,-2) {5};
+        \node[draw, circle] (6) at (2,-2) {6};
+        \node[draw, circle] (7) at (4,-2) {7};
 
-\path[draw=red,thick,->,line width=2pt] (1) -- (5);
-\path[draw=red,thick,->,line width=2pt] (5) -- (6);
-\path[draw=red,thick,->,line width=2pt] (6) -- (3);
-\path[draw=red,thick,->,line width=2pt] (3) -- (4);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (1) -- (5);
+        \path[draw=red,thick,->,line width=2pt] (5) -- (6);
+        \path[draw=red,thick,->,line width=2pt] (6) -- (3);
+        \path[draw=red,thick,->,line width=2pt] (3) -- (4);
+    \end{tikzpicture}
 \end{center}
-And the second path may be as follows:
+Y el segundo camino el siguiente:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {1};
-\node[draw, circle] (2) at (2,0) {2};
-\node[draw, circle] (3) at (4,0) {3};
-\node[draw, circle] (4) at (6,0) {4};
-\node[draw, circle] (5) at (0,-2) {5};
-\node[draw, circle] (6) at (2,-2) {6};
-\node[draw, circle] (7) at (4,-2) {7};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {1};
+        \node[draw, circle] (2) at (2,0) {2};
+        \node[draw, circle] (3) at (4,0) {3};
+        \node[draw, circle] (4) at (6,0) {4};
+        \node[draw, circle] (5) at (0,-2) {5};
+        \node[draw, circle] (6) at (2,-2) {6};
+        \node[draw, circle] (7) at (4,-2) {7};
 
-\path[draw=red,thick,->,line width=2pt] (2) -- (6);
-\path[draw=red,thick,->,line width=2pt] (6) -- (7);
-\end{tikzpicture}
+        \path[draw=red,thick,->,line width=2pt] (2) -- (6);
+        \path[draw=red,thick,->,line width=2pt] (6) -- (7);
+    \end{tikzpicture}
 \end{center}
 
-A minimum general path cover can be found
-almost like a minimum node-disjoint path cover.
-It suffices to add some new edges to the matching graph
-so that there is an edge $a \rightarrow b$
-always when there is a path from $a$ to $b$
-in the original graph (possibly through several edges).
+Una cobertura de caminos general mínima puede encontrarse casi como
+una mínima cobertura de caminos disjunta en nodos. Es suficiente añadir
+algunos nodos nuevos al grafo de matchings tal que haya una arista
+$a \rightarrow b$ siempre y cuando haya un camino de $a \rightarrow b$
+en el grafo original (posiblemente de múltiples aristas).
 
-The matching graph for the above graph is as follows:
+El grafo de matchings para el grafo de arriba es el siguiente:
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1a) at (0,6) {1};
-\node[draw, circle] (2a) at (0,5) {2};
-\node[draw, circle] (3a) at (0,4) {3};
-\node[draw, circle] (4a) at (0,3) {4};
-\node[draw, circle] (5a) at (0,2) {5};
-\node[draw, circle] (6a) at (0,1) {6};
-\node[draw, circle] (7a) at (0,0) {7};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1a) at (0,6) {1};
+        \node[draw, circle] (2a) at (0,5) {2};
+        \node[draw, circle] (3a) at (0,4) {3};
+        \node[draw, circle] (4a) at (0,3) {4};
+        \node[draw, circle] (5a) at (0,2) {5};
+        \node[draw, circle] (6a) at (0,1) {6};
+        \node[draw, circle] (7a) at (0,0) {7};
 
-\node[draw, circle] (1b) at (4,6) {1};
-\node[draw, circle] (2b) at (4,5) {2};
-\node[draw, circle] (3b) at (4,4) {3};
-\node[draw, circle] (4b) at (4,3) {4};
-\node[draw, circle] (5b) at (4,2) {5};
-\node[draw, circle] (6b) at (4,1) {6};
-\node[draw, circle] (7b) at (4,0) {7};
+        \node[draw, circle] (1b) at (4,6) {1};
+        \node[draw, circle] (2b) at (4,5) {2};
+        \node[draw, circle] (3b) at (4,4) {3};
+        \node[draw, circle] (4b) at (4,3) {4};
+        \node[draw, circle] (5b) at (4,2) {5};
+        \node[draw, circle] (6b) at (4,1) {6};
+        \node[draw, circle] (7b) at (4,0) {7};
 
-\node[draw, circle] (a) at (-3,3) {\phantom{0}};
-\node[draw, circle] (b) at (7,3) {\phantom{0}};
-
-
-%\path[draw,thick,->,>=latex] (1a) -- (5b);
-\path[draw,thick,->,>=latex] (1a) -- (6b);
-\path[draw,thick,->,>=latex] (1a) -- (7b);
-\path[draw,thick,->,>=latex] (1a) -- (3b);
-\path[draw,thick,->,>=latex] (1a) -- (4b);
-\path[draw,thick,->,>=latex] (5a) -- (6b);
-\path[draw,thick,->,>=latex] (5a) -- (7b);
-%\path[draw,thick,->,>=latex] (5a) -- (3b);
-\path[draw,thick,->,>=latex] (5a) -- (4b);
-\path[draw,thick,->,>=latex] (6a) -- (7b);
-%\path[draw,thick,->,>=latex] (6a) -- (7b);
-\path[draw,thick,->,>=latex] (6a) -- (3b);
-%\path[draw,thick,->,>=latex] (3a) -- (4b);
-%\path[draw,thick,->,>=latex] (2a) -- (6b);
-\path[draw,thick,->,>=latex] (2a) -- (7b);
-\path[draw,thick,->,>=latex] (2a) -- (3b);
-\path[draw,thick,->,>=latex] (2a) -- (4b);
+        \node[draw, circle] (a) at (-3,3) {\phantom{0}};
+        \node[draw, circle] (b) at (7,3) {\phantom{0}};
 
 
-\path[draw,thick,->,>=latex] (a) -- (1a);
-\path[draw,thick,->,>=latex] (a) -- (2a);
-\path[draw,thick,->,>=latex] (a) -- (3a);
-\path[draw,thick,->,>=latex] (a) -- (4a);
-\path[draw,thick,->,>=latex] (a) -- (5a);
-\path[draw,thick,->,>=latex] (a) -- (6a);
-\path[draw,thick,->,>=latex] (a) -- (7a);
-
-\path[draw,thick,->,>=latex] (1b) -- (b);
-\path[draw,thick,->,>=latex] (2b) -- (b);
-\path[draw,thick,->,>=latex] (3b) -- (b);
-\path[draw,thick,->,>=latex] (4b) -- (b);
-\path[draw,thick,->,>=latex] (5b) -- (b);
-\path[draw,thick,->,>=latex] (6b) -- (b);
-\path[draw,thick,->,>=latex] (7b) -- (b);
-
-\path[draw=red,thick,->,line width=2pt] (1a) -- (5b);
-\path[draw=red,thick,->,line width=2pt] (5a) -- (3b);
-\path[draw=red,thick,->,line width=2pt] (3a) -- (4b);
-\path[draw=red,thick,->,line width=2pt] (2a) -- (6b);
-\path[draw=red,thick,->,line width=2pt] (6a) -- (7b);
+        %\path[draw,thick,->,>=latex] (1a) -- (5b);
+        \path[draw,thick,->,>=latex] (1a) -- (6b);
+        \path[draw,thick,->,>=latex] (1a) -- (7b);
+        \path[draw,thick,->,>=latex] (1a) -- (3b);
+        \path[draw,thick,->,>=latex] (1a) -- (4b);
+        \path[draw,thick,->,>=latex] (5a) -- (6b);
+        \path[draw,thick,->,>=latex] (5a) -- (7b);
+        %\path[draw,thick,->,>=latex] (5a) -- (3b);
+        \path[draw,thick,->,>=latex] (5a) -- (4b);
+        \path[draw,thick,->,>=latex] (6a) -- (7b);
+        %\path[draw,thick,->,>=latex] (6a) -- (7b);
+        \path[draw,thick,->,>=latex] (6a) -- (3b);
+        %\path[draw,thick,->,>=latex] (3a) -- (4b);
+        %\path[draw,thick,->,>=latex] (2a) -- (6b);
+        \path[draw,thick,->,>=latex] (2a) -- (7b);
+        \path[draw,thick,->,>=latex] (2a) -- (3b);
+        \path[draw,thick,->,>=latex] (2a) -- (4b);
 
 
-% \path[draw=red,thick,->,line width=2pt] (1a) -- (6b);
-% \path[draw=red,thick,->,line width=2pt] (1a) -- (7b);
-% \path[draw=red,thick,->,line width=2pt] (1a) -- (3b);
-% \path[draw=red,thick,->,line width=2pt] (1a) -- (4b);
-% \path[draw=red,thick,->,line width=2pt] (5a) -- (6b);
-% \path[draw=red,thick,->,line width=2pt] (5a) -- (7b);
-% \path[draw=red,thick,->,line width=2pt] (5a) -- (3b);
-% \path[draw=red,thick,->,line width=2pt] (5a) -- (4b);
-% \path[draw=red,thick,->,line width=2pt] (6a) -- (7b);
-% \path[draw=red,thick,->,line width=2pt] (6a) -- (7b);
-% \path[draw=red,thick,->,line width=2pt] (6a) -- (3b);
-% \path[draw=red,thick,->,line width=2pt] (3a) -- (4b);
-% \path[draw=red,thick,->,line width=2pt] (2a) -- (6b);
-% \path[draw=red,thick,->,line width=2pt] (2a) -- (7b);
-% \path[draw=red,thick,->,line width=2pt] (2a) -- (3b);
-% \path[draw=red,thick,->,line width=2pt] (2a) -- (4b);
+        \path[draw,thick,->,>=latex] (a) -- (1a);
+        \path[draw,thick,->,>=latex] (a) -- (2a);
+        \path[draw,thick,->,>=latex] (a) -- (3a);
+        \path[draw,thick,->,>=latex] (a) -- (4a);
+        \path[draw,thick,->,>=latex] (a) -- (5a);
+        \path[draw,thick,->,>=latex] (a) -- (6a);
+        \path[draw,thick,->,>=latex] (a) -- (7a);
 
-\end{tikzpicture}
+        \path[draw,thick,->,>=latex] (1b) -- (b);
+        \path[draw,thick,->,>=latex] (2b) -- (b);
+        \path[draw,thick,->,>=latex] (3b) -- (b);
+        \path[draw,thick,->,>=latex] (4b) -- (b);
+        \path[draw,thick,->,>=latex] (5b) -- (b);
+        \path[draw,thick,->,>=latex] (6b) -- (b);
+        \path[draw,thick,->,>=latex] (7b) -- (b);
+
+        \path[draw=red,thick,->,line width=2pt] (1a) -- (5b);
+        \path[draw=red,thick,->,line width=2pt] (5a) -- (3b);
+        \path[draw=red,thick,->,line width=2pt] (3a) -- (4b);
+        \path[draw=red,thick,->,line width=2pt] (2a) -- (6b);
+        \path[draw=red,thick,->,line width=2pt] (6a) -- (7b);
+
+
+        % \path[draw=red,thick,->,line width=2pt] (1a) -- (6b);
+        % \path[draw=red,thick,->,line width=2pt] (1a) -- (7b);
+        % \path[draw=red,thick,->,line width=2pt] (1a) -- (3b);
+        % \path[draw=red,thick,->,line width=2pt] (1a) -- (4b);
+        % \path[draw=red,thick,->,line width=2pt] (5a) -- (6b);
+        % \path[draw=red,thick,->,line width=2pt] (5a) -- (7b);
+        % \path[draw=red,thick,->,line width=2pt] (5a) -- (3b);
+        % \path[draw=red,thick,->,line width=2pt] (5a) -- (4b);
+        % \path[draw=red,thick,->,line width=2pt] (6a) -- (7b);
+        % \path[draw=red,thick,->,line width=2pt] (6a) -- (7b);
+        % \path[draw=red,thick,->,line width=2pt] (6a) -- (3b);
+        % \path[draw=red,thick,->,line width=2pt] (3a) -- (4b);
+        % \path[draw=red,thick,->,line width=2pt] (2a) -- (6b);
+        % \path[draw=red,thick,->,line width=2pt] (2a) -- (7b);
+        % \path[draw=red,thick,->,line width=2pt] (2a) -- (3b);
+        % \path[draw=red,thick,->,line width=2pt] (2a) -- (4b);
+
+    \end{tikzpicture}
 \end{center}
 
-\subsubsection{Dilworth's theorem}
+\subsubsection{Teorema de Dilworth}
 
-\index{Dilworth's theorem}
-\index{antichain}
+\index{teorema de Dilworth}
+\index{anticadena}
 
-An \key{antichain} is a set of nodes of a graph
-such that there is no path
-from any node to another node
-using the edges of the graph.
-\key{Dilworth's theorem} states that
-in a directed acyclic graph, the size of
-a minimum general path cover
-equals the size of a maximum antichain.
+Una \key{anticadena} es un conjunto de nodos de un grafo tal que
+no exista un camino de un nodo a otro utilizando aristas del grafo.
+El \key{teorema de Dilworth} establece que en un grafo acíclico dirigido,
+el tamaño de una cobertura de caminos general mínima es igual al tamaño
+de una anticadena máxima.
 
-For example, nodes 3 and 7 form an antichain
-in the following graph:
+Por ejemplo, los nodos 3 y 7 forman una anticadena en el siguiente grafo:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.9]
-\node[draw, circle] (1) at (0,0) {1};
-\node[draw, circle] (2) at (2,0) {2};
-\node[draw, circle, fill=lightgray] (3) at (4,0) {3};
-\node[draw, circle] (4) at (6,0) {4};
-\node[draw, circle] (5) at (0,-2) {5};
-\node[draw, circle] (6) at (2,-2) {6};
-\node[draw, circle, fill=lightgray] (7) at (4,-2) {7};
+    \begin{tikzpicture}[scale=0.9]
+        \node[draw, circle] (1) at (0,0) {1};
+        \node[draw, circle] (2) at (2,0) {2};
+        \node[draw, circle, fill=lightgray] (3) at (4,0) {3};
+        \node[draw, circle] (4) at (6,0) {4};
+        \node[draw, circle] (5) at (0,-2) {5};
+        \node[draw, circle] (6) at (2,-2) {6};
+        \node[draw, circle, fill=lightgray] (7) at (4,-2) {7};
 
-\path[draw,thick,->,>=latex] (1) -- (5);
-\path[draw,thick,->,>=latex] (2) -- (6);
-\path[draw,thick,->,>=latex] (3) -- (4);
-\path[draw,thick,->,>=latex] (5) -- (6);
-\path[draw,thick,->,>=latex] (6) -- (3);
-\path[draw,thick,->,>=latex] (6) -- (7);
-\end{tikzpicture}
+        \path[draw,thick,->,>=latex] (1) -- (5);
+        \path[draw,thick,->,>=latex] (2) -- (6);
+        \path[draw,thick,->,>=latex] (3) -- (4);
+        \path[draw,thick,->,>=latex] (5) -- (6);
+        \path[draw,thick,->,>=latex] (6) -- (3);
+        \path[draw,thick,->,>=latex] (6) -- (7);
+    \end{tikzpicture}
 \end{center}
 
-This is a maximum antichain, because it is not possible
-to construct any antichain that would contain three nodes.
-We have seen before that the size of a minimum
-general path cover of this graph consists of two paths.
+Esta es una anticadena máxima, porque no es posible construir una
+anticadena que contuviera tres nodos. Hemos visto anteriormente que
+el tamaño de una cobertura de caminos general mínima de este grafo
+consiste de dos caminos.
