@@ -182,32 +182,32 @@ Al igual que los subconjuntos, las permutaciones se pueden generar
 usando recursión.
 La siguiente función \texttt{buscar} recorre
 las permutaciones del conjunto $\{0,1,\ldots,n-1\}$.
-La función construye un vector \texttt{perm}
+La función construye un vector \texttt{permutaciónm}
 que contiene la permutación,
 y la búsqueda comienza llamando a la función.
 
 \begin{lstlisting}
 void buscar() {
-    if (perm.size() == n) {
+    if (permutación.size() == n) {
         // procesar permutación
     } else {
         for (int i = 0; i < n; i++) {
             if (elegido[i]) continue;
             elegido[i] = true;
-            perm.push_back(i);
+            permutación.push_back(i);
             buscar();
             elegido[i] = false;
-            perm.pop_back();
+            permutación.pop_back();
         }
     }
 }
 \end{lstlisting}
 
 Cada llamada a la función añade un nuevo elemento a
-\texttt{perm}.
+\texttt{permutación}.
 El vector \texttt{elegido} indica cuáles
 elementos ya están incluidos en la permutación.
-Si el tamaño de \texttt{perm} es igual al tamaño del conjunto,
+Si el tamaño de \texttt{permutación} es igual al tamaño del conjunto,
 se ha generado una permutación.
 
 \subsubsection{Método 2}
@@ -222,12 +222,12 @@ La biblioteca estándar de C++ contiene la función
 \texttt{next\_permutation} que se puede utilizar para esto:
 
 \begin{lstlisting}
-vector<int> perm; // construir permutación inicial
-for (int i = 0; i < n; i++) perm.push_back(i);
+vector<int> permutación; // construir permutación inicial
+for (int i = 0; i < n; i++) permutación.push_back(i);
 
 do {
-    // procesar permutacion
-} while (next_permutation(permutacion.begin(),permutacion.end()));
+    // procesar permutación
+} while (next_permutation(permutación.begin(), permutación.end()));
 \end{lstlisting}
 
 \section{Backtracking}
@@ -447,9 +447,9 @@ porque el número de soluciones aumenta
 exponencialmente.
 Por ejemplo, calcular $q(16)=14772512$
 usando el algoritmo anterior ya toma aproximadamente un minuto
-en una computadora moderna\footnote{No se conoce ninguna forma eficiente de
+en una computadora moderna.\footnote{No se conoce ninguna forma eficiente de
   calcular valores más grandes de $q(n)$. El récord actual es
-  $q(27)=234907967154122528$, calculado en 2016 \cite{q27}.}.
+  $q(27)=234907967154122528$, calculado en 2016 \cite{q27}.}
 
 \newpage
 \section{Podar la búsqueda}
@@ -705,8 +705,9 @@ verificar si la suma de alguno de los subconjuntos es $x$.
 El tiempo de ejecución de dicho algoritmo es $O(2^n)$,
 porque hay $2^n$ subconjuntos.
 Sin embargo, usando la técnica de encuentro en el medio,
-podemos lograr un algoritmo más eficiente de tiempo $O(2^{n/2})$\footnote{Esta
-  idea fue introducida en 1974 por E. Horowitz y S. Sahni \cite{hor74}.}.
+podemos lograr un algoritmo más eficiente de tiempo $O(2^{n/2})$.
+\footnote{Esta idea fue introducida en 1974 por E. Horowitz y
+  S. Sahni \cite{hor74}.}
 Ten en cuenta que $O(2^n)$ y $O(2^{n/2})$ son diferentes
 complejidades porque $2^{n/2}$ es igual a $\sqrt{2^n}$.
 

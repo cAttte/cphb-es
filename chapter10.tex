@@ -710,16 +710,16 @@ for (int s = 1; s < (1 << n); s++) {
     mejor[s] = {n + 1, 0};
     for (int p = 0; p < n; p++) {
         if (s & (1 << p)) {
-            auto opcion = mejor[s ^ (1 << p)];
-            if (opcion.second + peso[p] <= x) {
+            auto opción = mejor[s ^ (1 << p)];
+            if (opción.second + peso[p] <= x) {
                 // agregar p a un viaje existente
-                opcion.second += peso[p];
+                opción.second += peso[p];
             } else {
                 // reservar un nuevo viaje para p
-                opcion.first++;
-                opcion.second = peso[p];
+                opción.first++;
+                opción.second = peso[p];
             }
-            mejor[s] = min(mejor[s], opcion);
+            mejor[s] = min(mejor[s], opción);
         }
     }
 }

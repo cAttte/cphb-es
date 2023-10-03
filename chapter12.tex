@@ -335,11 +335,11 @@ grafo no es dirigido.
 
 \subsubsection{Conectividad}
 
-\index{grafo conectado}
+\index{grafo conexo}
 
-Un grafo es conectado si hay un camino desde cualquier
+Un grafo es conexo si hay un camino desde cualquier
 par de nodos en el grafo. Por ende, podemos revisar si un grafo
-es conectado comenzando una búsqueda en cualquier nodo y revisando
+es conexo comenzando una búsqueda en cualquier nodo y revisando
 si podemos alcanzar todos los otros nodos.
 
 Por ejemplo, en el grafo
@@ -379,8 +379,8 @@ los siguientes nodos:
 \end{center}
 
 Ya que la búsqueda no visitó todos los nodos, podemos
-concluir que el grafo no es conectado. Similarmente,
-también podemos encontrar todos los componentes conectados
+concluir que el grafo no es conexo. Similarmente,
+también podemos encontrar todos los componentes conexos
 de un grafo si iteramos a través de los nodos y comenzamos
 una nueva búsqueda en profundidad siempre y cuando el nodo
 todavía no haya sido visitado.
@@ -456,7 +456,7 @@ La idea es colorear el nodo inicial de azul, todos sus vecinos
 de rojo, todos sus vecinos de azul, y así. Si en algún punto de la
 búsqueda nos damos cuenta que dos nodos adyacentes tienen el mismo
 color, esto significa que el grafo no es bipartito. De lo contrario
-el grafo es bipartito y hemos encontrado un coloramiento.
+el grafo es bipartito y hemos encontrado una coloración.
 
 Por ejemplo, el grafo
 \begin{center}

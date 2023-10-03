@@ -466,9 +466,9 @@ ya que facilita la implementación.
 
 Definamos $p(k)$ como la mayor potencia de 2 que
 divide a $k$.
-Almacenamos un árbol binario indexado como un arreglo \texttt{arbol}
+Almacenamos un árbol binario indexado como un arreglo \texttt{árbol}
 tal que
-\[ \texttt{arbol}[k] = \texttt{suma}_q(k-p(k)+1,k),\]
+\[ \texttt{árbol}[k] = \texttt{suma}_q(k-p(k)+1,k),\]
 es decir, cada posición $k$ contiene la suma de los valores
 en un rango del arreglo original cuya longitud es $p(k)$
 y que termina en la posición $k$.
@@ -699,7 +699,7 @@ La siguiente función calcula el valor de $\texttt{suma}_q(1,k)$:
 int suma(int k) {
     int s = 0;
     while (k >= 1) {
-        s += arbol[k];
+        s += árbol[k];
         k -= k & -k;
     }
     return s;
@@ -714,7 +714,7 @@ valor del arreglo en la posición $k$ por $x$
 \begin{lstlisting}
 void agregar(int k, int x) {
     while (k <= n) {
-        arbol[k] += x;
+        árbol[k] += x;
         k += k & -k;
     }
 }
@@ -1080,8 +1080,8 @@ int suma(int a, int b) {
     a += n; b += n;
     int s = 0;
     while (a <= b) {
-        if (a % 2 == 1) s += arbol[a++];
-        if (b % 2 == 0) s += arbol[b--];
+        if (a % 2 == 1) s += árbol[a++];
+        if (b % 2 == 0) s += árbol[b--];
         a /= 2; b /= 2;
     }
     return s;
@@ -1099,9 +1099,9 @@ en la posición $k$ por $x$:
 \begin{lstlisting}
 void agregar(int k, int x) {
     k += n;
-    arbol[k] += x;
+    árbol[k] += x;
     for (k /= 2; k >= 1; k /= 2) {
-        arbol[k] = arbol[2 * k] + arbol[2 * k + 1];
+        árbol[k] = árbol[2 * k] + árbol[2 * k + 1];
     }
 }
 \end{lstlisting}

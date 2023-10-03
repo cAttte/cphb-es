@@ -8,7 +8,7 @@ Un \key{árbol de expansión}, \textit{recubridor}, o \textit{generador}
 de un grafo consiste en todos los nodos del grafo y algunas de sus
 aristas, tal que haya un camino entre cualquier par de nodos.
 Como los árboles en general, los árboles de expansión son
-conectados y acíclicos. Usualmente hay múltiples maneras de
+conexos y acíclicos. Usualmente hay múltiples maneras de
 construir un árbol de expansión.
 
 Por ejemplo, considera el siguiente grafo:
@@ -267,7 +267,7 @@ Por la misma razón la arista 2--5 no será incluida.
 \end{samepage}
 
 Luego de esto, el algoritmo deja de incluir aristas nuevas
-porque el grafo está conectado y hay un camino entre cada par de
+porque el grafo está conexo y hay un camino entre cada par de
 nodos. El grafo resultante es un árbol de expansión mínimo con peso
 $2+3+3+5+7=20$.
 
@@ -634,7 +634,7 @@ El proceso continúa hasta que todos los nodos formen parte del árbol:
 Tal como el algoritmo de Dijkstra, el algoritmo de Prim se puede
 implementar eficientemente utilizando una cola de prioridad. La
 cola de prioridad debería contener todos los nodos que pueden
-se conectados al componente actual utilizando una sola arista,
+ser conectados al componente actual utilizando una sola arista,
 en orden creciente de los pesos de las aristas correspondientes.
 
 La complejidad temporal del algoritmo de Prim es

@@ -2,7 +2,7 @@
 
 \index{árbol}
 
-Un \key{árbol} es un grafo conectado y acíclico
+Un \key{árbol} es un grafo conexo y acíclico
 que consta de $n$ nodos y $n-1$ aristas.
 Eliminar cualquier arista de un árbol lo divide
 en dos componentes,
@@ -107,7 +107,7 @@ de un árbol es más fácil de implementar que aquel de un grafo general,
 porque en un árbol no hay ciclos y no es posible alcanzar un nodo
 desde múltiples direcciones.
 
-La fórma típica de recorrer un árbol es comenzar una búsqueda en
+La forma típica de recorrer un árbol es comenzar una búsqueda en
 profundidad en un nodo arbitrario. La siguiente función recursiva
 puede ser utilizada:
 
@@ -268,7 +268,7 @@ La programación dinámica puede utilizarse para calcular los valores
 anteriores para cada nodo en $O(n)$. Primero, para calcular
 $\texttt{a\_hoja}(x)$, visitamos los hijos de $x$, elegimos un hijo $h$
 con $\texttt{a\_hoja}(h)$ máxima, y añadimos 1 a este valor.
-Luego, para calcuar $\texttt{long\_max}(x)$, elegimos dos hijos distintos
+Luego, para calcular $\texttt{long\_max}(x)$, elegimos dos hijos distintos
 $a$ y $b$ tal que la suma $\texttt{a\_hoja}(a)+\texttt{a\_hoja}(b)$
 sea máxima, y añadimos 2 a esta suma.
 
