@@ -7,31 +7,30 @@ que estudia los enteros.
 La teoría de números es un campo fascinante,
 porque muchas preguntas que involucran enteros
 son muy difíciles de resolver incluso si parecen
-simples a primera vista.
-
-Como ejemplo, considere la siguiente ecuación:
+simples a primera vista. Por ejemplo, considera la
+siguiente ecuación:
 \[x^3 + y^3 + z^3 = 33\]
-Es fácil encontrar tres números reales $x$, $y$ y $z$
+Es fácil encontrar tres números reales $x$, $y$, y $z$
 que satisfagan la ecuación.
 Por ejemplo, podemos elegir
 \[
-\begin{array}{lcl}
-x = 3, \\
-y = \sqrt[3]{3}, \\
-z = \sqrt[3]{3}.\\
-\end{array}
+    \begin{array}{lcl}
+        x = 3,           \\
+        y = \sqrt[3]{3}, \\
+        z = \sqrt[3]{3}. \\
+    \end{array}
 \]
 Sin embargo, es un problema abierto en teoría de números
 si hay tres
-\emph{enteros} $x$, $y$ y $z$
+\emph{enteros} $x$, $y$, y $z$
 que satisfagan la ecuación \cite{bec07}.
 
 En este capítulo, nos centraremos en conceptos básicos
 y algoritmos en teoría de números.
 A lo largo del capítulo, asumiremos que todos los números
-son enteros, si no se indica lo contrario.
+son enteros si no se indica lo contrario.
 
-\section{Números primos y factores}
+\section{Primos y factores}
 
 \index{divisibilidad}
 \index{factor}
@@ -44,10 +43,11 @@ escribimos $a \mid b$, y de lo contrario escribimos $a \nmid b$.
 Por ejemplo, los factores de 24 son
 1, 2, 3, 4, 6, 8, 12 y 24.
 
-\index{número primo}
+\index{primo}
 \index{descomposición en primos}
+\index{factorización en primos}
 
-Un número $n>1$ es un \key{primo}
+Un número $n>1$ es \key{primo}
 si sus únicos factores positivos son 1 y $n$.
 Por ejemplo, 7, 19 y 41 son primos,
 pero 35 no es un primo, porque $5 \cdot 7 = 35$.
@@ -111,7 +111,7 @@ tiene que ser infinito.
 
 La densidad de primos significa cuán a menudo hay primos
 entre los números.
-Dejemos que $\pi(n)$ denote el número de primos entre
+Decimos que $\pi(n)$ denota el número de primos entre
 $1$ y $n$. Por ejemplo, $\pi(10)=4$, porque
 hay 4 primos entre $1$ y $10$: 2, 3, 5 y 7.
 
@@ -125,24 +125,24 @@ y $10^6 / \ln 10^6 \approx 72382$.
 \subsubsection{Conjeturas}
 
 Hay muchas \emph{conjeturas} relacionadas con los números primos.
-La mayoría de las personas piensa que las conjeturas son verdaderas,
-pero nadie ha podido demostrarlas.
-Por ejemplo, las siguientes conjeturas son famosas:
+La mayoría de las personas piensan que las conjeturas son verdaderas,
+pero nadie ha podido demostrarlas todavía. Algunos ejemplos de conjeturas
+famosas son:
 
 \begin{itemize}
-\index{Conjetura de Goldbach}
-\item \key{Conjetura de Goldbach}:
-Cada número entero par $n>2$ puede ser representado como una
-suma $n=a+b$ de tal manera que tanto $a$ como $b$ sean primos.
-\index{números primos gemelos}
-\item \key{Conjetura de los números primos gemelos}:
-Hay una cantidad infinita de pares
-de la forma $\{p,p+2\}$,
-donde tanto $p$ como $p+2$ son primos.
-\index{Conjetura de Legendre}
-\item \key{Conjetura de Legendre}:
-Siempre hay un número primo entre los números
-$n^2$ y $(n+1)^2$, donde $n$ es cualquier número entero positivo.
+    \index{Conjetura de Goldbach}
+    \item \key{Conjetura de Goldbach}:
+          Cada número entero par $n>2$ puede representarse como una
+          suma de dos números primos.
+          \index{números primos gemelos}
+    \item \key{Conjetura de los primos gemelos}:
+          Hay una cantidad infinita de pares
+          de la forma $\{p,p+2\}$,
+          donde tanto $p$ como $p+2$ son primos.
+          \index{Conjetura de Legendre}
+    \item \key{Conjetura de Legendre}:
+          Siempre hay un número primo entre los números
+          $n^2$ y $(n+1)^2$, donde $n$ es cualquier número entero positivo.
 \end{itemize}
 
 \subsubsection{Algoritmos básicos}
@@ -157,15 +157,15 @@ de un número en tiempo $O(\sqrt n)$.
 
 La siguiente función \texttt{esPrimo} verifica
 si el número dado $n$ es primo.
-La función intenta dividir $n$ entre
-todos los números entre $2$ y $\lfloor \sqrt n \rfloor$,
+La función intenta dividir $n$ por
+cada número entre $2$ y $\lfloor \sqrt n \rfloor$,
 y si ninguno de ellos divide a $n$, entonces $n$ es primo.
 
 \begin{lstlisting}
 bool esPrimo(int n) {
     if (n < 2) return false;
-    for (int x = 2; x*x <= n; x++) {
-        if (n%x == 0) return false;
+    for (int x = 2; x * x <= n; x++) {
+        if (n % x == 0) return false;
     }
     return true;
 }
@@ -184,8 +184,8 @@ Si $n>1$, es primo y el último factor.
 \begin{lstlisting}
 vector<int> factores(int n) {
     vector<int> f;
-    for (int x = 2; x*x <= n; x++) {
-        while (n%x == 0) {
+    for (int x = 2; x * x <= n; x++) {
+        while (n % x == 0) {
             f.push_back(x);
             n /= x;
         }
@@ -195,17 +195,16 @@ vector<int> factores(int n) {
 }
 \end{lstlisting}
 
-Tenga en cuenta que cada factor primo aparece en el vector
+Ten en cuenta que cada factor primo aparece en el vector
 tantas veces como divide el número.
 Por ejemplo, $24=2^3 \cdot 3$,
-entonces el resultado de la función es $[2,2,2,3]$.
+así que la función devuelve $[2,2,2,3]$.
 
 \subsubsection{Criba de Eratóstenes}
 
 \index{criba de Eratóstenes}
 
 La \key{criba de Eratóstenes}
-%\footnote{Eratóstenes (c. 276 a.C. -- c. 194 a.C.) fue un matemático griego.}
 es un algoritmo de preprocesamiento
 que construye una matriz con la que podemos
 comprobar de manera eficiente si un número dado entre $2 \ldots n$
@@ -229,52 +228,52 @@ porque el número $x$ los divide.
 Por ejemplo, si $n=20$, la matriz es la siguiente:
 
 \begin{center}
-\begin{tikzpicture}[scale=0.7]
-\draw (0,0) grid (19,1);
+    \begin{tikzpicture}[scale=0.7]
+        \draw (0,0) grid (19,1);
 
-\node at (0.5,0.5) {$0$};
-\node at (1.5,0.5) {$0$};
-\node at (2.5,0.5) {$2$};
-\node at (3.5,0.5) {$0$};
-\node at (4.5,0.5) {$3$};
-\node at (5.5,0.5) {$0$};
-\node at (6.5,0.5) {$2$};
-\node at (7.5,0.5) {$3$};
-\node at (8.5,0.5) {$5$};
-\node at (9.5,0.5) {$0$};
-\node at (10.5,0.5) {$3$};
-\node at (11.5,0.5) {$0$};
-\node at (12.5,0.5) {$7$};
-\node at (13.5,0.5) {$5$};
-\node at (14.5,0.5) {$2$};
-\node at (15.5,0.5) {$0$};
-\node at (16.5,0.5) {$3$};
-\node at (17.5,0.5) {$0$};
-\node at (18.5,0.5) {$5$};
+        \node at (0.5,0.5) {$0$};
+        \node at (1.5,0.5) {$0$};
+        \node at (2.5,0.5) {$2$};
+        \node at (3.5,0.5) {$0$};
+        \node at (4.5,0.5) {$3$};
+        \node at (5.5,0.5) {$0$};
+        \node at (6.5,0.5) {$2$};
+        \node at (7.5,0.5) {$3$};
+        \node at (8.5,0.5) {$5$};
+        \node at (9.5,0.5) {$0$};
+        \node at (10.5,0.5) {$3$};
+        \node at (11.5,0.5) {$0$};
+        \node at (12.5,0.5) {$7$};
+        \node at (13.5,0.5) {$5$};
+        \node at (14.5,0.5) {$2$};
+        \node at (15.5,0.5) {$0$};
+        \node at (16.5,0.5) {$3$};
+        \node at (17.5,0.5) {$0$};
+        \node at (18.5,0.5) {$5$};
 
-\footnotesize
+        \footnotesize
 
-\node at (0.5,1.5) {$2$};
-\node at (1.5,1.5) {$3$};
-\node at (2.5,1.5) {$4$};
-\node at (3.5,1.5) {$5$};
-\node at (4.5,1.5) {$6$};
-\node at (5.5,1.5) {$7$};
-\node at (6.5,1.5) {$8$};
-\node at (7.5,1.5) {$9$};
-\node at (8.5,1.5) {$10$};
-\node at (9.5,1.5) {$11$};
-\node at (10.5,1.5) {$12$};
-\node at (11.5,1.5) {$13$};
-\node at (12.5,1.5) {$14$};
-\node at (13.5,1.5) {$15$};
-\node at (14.5,1.5) {$16$};
-\node at (15.5,1.5) {$17$};
-\node at (16.5,1.5) {$18$};
-\node at (17.5,1.5) {$19$};
-\node at (18.5,1.5) {$20$};
+        \node at (0.5,1.5) {$2$};
+        \node at (1.5,1.5) {$3$};
+        \node at (2.5,1.5) {$4$};
+        \node at (3.5,1.5) {$5$};
+        \node at (4.5,1.5) {$6$};
+        \node at (5.5,1.5) {$7$};
+        \node at (6.5,1.5) {$8$};
+        \node at (7.5,1.5) {$9$};
+        \node at (8.5,1.5) {$10$};
+        \node at (9.5,1.5) {$11$};
+        \node at (10.5,1.5) {$12$};
+        \node at (11.5,1.5) {$13$};
+        \node at (12.5,1.5) {$14$};
+        \node at (13.5,1.5) {$15$};
+        \node at (14.5,1.5) {$16$};
+        \node at (15.5,1.5) {$17$};
+        \node at (16.5,1.5) {$18$};
+        \node at (17.5,1.5) {$19$};
+        \node at (18.5,1.5) {$20$};
 
-\end{tikzpicture}
+    \end{tikzpicture}
 \end{center}
 
 El siguiente código implementa la criba de
@@ -292,8 +291,8 @@ for (int x = 2; x <= n; x++) {
 \end{lstlisting}
 
 El bucle interno del algoritmo se ejecuta
-$n/x$ veces para cada valor de $x$.
-Por lo tanto, un límite superior para el tiempo de ejecución
+$n/x$ veces para cada valor de $x$, por lo que
+un límite superior para el tiempo de ejecución
 del algoritmo es la suma armónica
 \[\sum_{x=2}^n n/x = n/2 + n/3 + n/4 + \cdots + n/n = O(n \log n).\]
 
@@ -304,7 +303,7 @@ porque el bucle interno solo se ejecutará si
 el número $x$ es primo.
 Se puede demostrar que el tiempo de ejecución del
 algoritmo es solo $O(n \log \log n)$,
-una complejidad muy cercana a $O(n)$. 
+una complejidad muy cercana a $O(n)$.
 
 \subsubsection{Algoritmo de Euclides}
 
@@ -328,14 +327,14 @@ están conectados de la siguiente manera:
 \[\textrm{mcm}(a,b)=\frac{ab}{\textrm{mcd}(a,b)}\]
 
 El \key{algoritmo de Euclides}\footnote{Euclides fue un matemático griego que
-vivió alrededor del año 300 a.C. Este es quizás el primer algoritmo conocido en la historia.} proporciona una forma eficiente
+    vivió alrededor del año 300 a.C. Este es quizás el primer algoritmo conocido en la historia.} proporciona una forma eficiente
 para encontrar el máximo común divisor de dos números.
 El algoritmo se basa en la siguiente fórmula:
 \begin{equation*}
     \textrm{mcd}(a,b) = \begin{cases}
-               a        & b = 0\\
-               \textrm{mcd}(b,a \bmod b) & b \neq 0\\
-           \end{cases}
+        a                         & b = 0    \\
+        \textrm{mcd}(b,a \bmod b) & b \neq 0 \\
+    \end{cases}
 \end{equation*}
 
 Por ejemplo,
@@ -355,7 +354,7 @@ El peor caso para el algoritmo es
 cuando $a$ y $b$ son números consecutivos de Fibonacci.
 Por ejemplo,
 \[\textrm{mcd}(13,8)=\textrm{mcd}(8,5)
-=\textrm{mcd}(5,3)=\textrm{mcd}(3,2)=\textrm{mcd}(2,1)=\textrm{mcd}(1,0)=1.\]
+    =\textrm{mcd}(5,3)=\textrm{mcd}(3,2)=\textrm{mcd}(2,1)=\textrm{mcd}(1,0)=1.\]
 
 \subsubsection{Función $\varphi$ de Euler}
 
@@ -377,7 +376,7 @@ a partir de la factorización en primos de $n$
 usando la fórmula
 \[ \varphi(n) = \prod_{i=1}^k p_i^{\alpha_i-1}(p_i-1). \]
 Por ejemplo, $\varphi(12)=2^1 \cdot (2-1) \cdot 3^0 \cdot (3-1)=4$.
-Nótese que $\varphi(n)=n-1$ si $n$ es primo.
+Nota que $\varphi(n)=n-1$ si $n$ es primo.
 
 \section{Aritmética modular}
 
@@ -389,7 +388,7 @@ solo se utilizan los números $0,1,2,\ldots,m-1$,
 donde $m$ es una constante.
 Cada número $x$ es
 representado por el número $x \bmod m$:
-el residuo después de dividir $x$ entre $m$.
+el resto luego de dividir $x$ por $m$.
 Por ejemplo, si $m=17$, entonces $75$
 es representado por $75 \bmod 17 = 7$.
 
@@ -397,329 +396,267 @@ A menudo podemos tomar residuos antes de realizar
 cálculos.
 En particular, se cumplen las siguientes fórmulas:
 \[
-\begin{array}{rcl}
-(x+y) \bmod m & = & (x \bmod m + y \bmod m) \bmod m \\
-(x-y) \bmod m & = & (x \bmod m - y \bmod m) \bmod m \\
-(x \cdot y) \bmod m & = & (x \bmod m \cdot y \bmod m) \bmod m \\
-x^n \bmod m & = & (x \bmod m)^n \bmod m \\
-\end{array}
+    \begin{array}{rcl}
+        (x+y) \bmod m       & = & (x \bmod m + y \bmod m) \bmod m     \\
+        (x-y) \bmod m       & = & (x \bmod m - y \bmod m) \bmod m     \\
+        (x \cdot y) \bmod m & = & (x \bmod m \cdot y \bmod m) \bmod m \\
+        x^n \bmod m         & = & (x \bmod m)^n \bmod m               \\
+    \end{array}
 \]
 
-\subsubsection{Modular exponentiation}
+\subsubsection{Exponenciación modular}
 
-There is often need to efficiently calculate
-the value of $x^n \bmod m$.
-This can be done in $O(\log n)$ time
-using the following recursion:
+A menudo es necesario calcular el valor de $x^n \bmod m$ eficientemente.
+Esto puede hacerse en $O(\log n)$ utilizando la siguiente recursión:
 \begin{equation*}
     x^n = \begin{cases}
-               1        & n = 0\\
-               x^{n/2} \cdot x^{n/2} & \text{$n$ is even}\\
-               x^{n-1} \cdot x & \text{$n$ is odd}
-           \end{cases}
+        1                     & n = 0               \\
+        x^{n/2} \cdot x^{n/2} & \text{$n$ es par}   \\
+        x^{n-1} \cdot x       & \text{$n$ es impar}
+    \end{cases}
 \end{equation*}
 
-It is important that in the case of an even $n$,
-the value of $x^{n/2}$ is calculated only once.
-This guarantees that the time complexity of the
-algorithm is $O(\log n)$, because $n$ is always halved
-when it is even.
+Es importante que en el caso de un $n$ impar, el valor de $x^{n/2}$ solo
+se compute una vez. Esto garantiza que la complejidad temporal del algoritmo
+sea $O(\log n)$, porque $n$ siempre se divide en dos cuando es par.
 
-The following function calculates the value of
-$x^n \bmod m$:
+La siguiente función calcula el valor de $x^n \bmod m$:
 
 \begin{lstlisting}
-int modpow(int x, int n, int m) {
-    if (n == 0) return 1%m;
-    long long u = modpow(x,n/2,m);
-    u = (u*u)%m;
-    if (n%2 == 1) u = (u*x)%m;
+int exp_mod(int x, int n, int m) {
+    if (n == 0) return 1 % m;
+    long long u = exp_mod(x, n / 2, m);
+    u = (u * u) % m;
+    if (n % 2 == 1) u = (u * x) % m;
     return u;
 }
 \end{lstlisting}
 
-\subsubsection{Fermat's theorem and Euler's theorem}
+\subsubsection{Teorema de Fermat y teorema de Euler}
 
-\index{Fermat's theorem}
-\index{Euler's theorem}
+\index{teorema de Fermat}
+\index{teorema de Euler}
 
-\key{Fermat's theorem}
-%\footnote{Fermat discovered this theorem in 1640.}
-states that
+El \key{teorema de Fermat} dice que
 \[x^{m-1} \bmod m = 1\]
-when $m$ is prime and $x$ and $m$ are coprime.
-This also yields
+cuando $m$ es primo y $x$ y $m$ son coprimos. Esto también resulta en
 \[x^k \bmod m = x^{k \bmod (m-1)} \bmod m.\]
-More generally, \key{Euler's theorem}
-%\footnote{Euler published this theorem in 1763.}
-states that
+Más generalmente, el \key{teorema de Euler} establece que
 \[x^{\varphi(m)} \bmod m = 1\]
-when $x$ and $m$ are coprime.
-Fermat's theorem follows from Euler's theorem,
-because if $m$ is a prime, then $\varphi(m)=m-1$.
+cuando $x$ y $m$ son coprimos. El teorema de Fermat sigue del teorema
+de Euler, porque si $m$ es primo, entonces $\varphi(m)=m-1$.
 
-\subsubsection{Modular inverse}
+\subsubsection{Inverso modular}
 
-\index{modular inverse}
+\index{inverso modular}
 
-The inverse of $x$ modulo $m$
-is a number $x^{-1}$ such that
+El inverso de $x$ módulo $m$ es un número $x^{-1}$ tal que
 \[ x x^{-1} \bmod m = 1. \]
-For example, if $x=6$ and $m=17$,
-then $x^{-1}=3$, because $6\cdot3 \bmod 17=1$.
+Por ejemplo, si $x=6$ y $m=17$, entonces $x^{-1}=3$, porque
+$6\cdot3 \bmod 17=1$.
 
-Using modular inverses, we can divide numbers
-modulo $m$, because division by $x$
-corresponds to multiplication by $x^{-1}$.
-For example, to evaluate the value of $36/6 \bmod 17$,
-we can use the formula $2 \cdot 3 \bmod 17$,
-because $36 \bmod 17 = 2$ and $6^{-1} \bmod 17 = 3$.
+Utilizando inversos modulares, podemos dividir números módulo $m$, porque
+la división por $x$ corresponde a la multiplicación por $x^{-1}$. Por ejemplo,
+para evaluar el valor de $36/6 \bmod 17$, podemos usar la fórmula
+$2 \cdot 3 \bmod 17$, porque $36 \bmod 17 = 2$ y $6^{-1} \bmod 17 = 3$.
 
-However, a modular inverse does not always exist.
-For example, if $x=2$ and $m=4$, the equation
+De todas formas, un inverso modular no siempre existe. Por ejemplo, si $x=2$
+y $m=4$, la ecuación
 \[ x x^{-1} \bmod m = 1 \]
-cannot be solved, because all multiples of 2
-are even and the remainder can never be 1 when $m=4$.
-It turns out that the value of $x^{-1} \bmod m$
-can be calculated exactly when $x$ and $m$ are coprime.
+no puede resolverse, porque todos los múltiplos de 2 son pares y el resto
+nunca puede ser 1 cuando $m=4$. Resulta que el valor de $x^{-1} \bmod m$
+puede ser calculado exactamente cuando $x$ y $m$ son coprimos.
 
-If a modular inverse exists, it can be
-calculated using the formula
+Si existe un inverso modular, puede ser calculado utilizando la fórmula
 \[
-x^{-1} = x^{\varphi(m)-1}.
+    x^{-1} = x^{\varphi(m)-1}.
 \]
-If $m$ is prime, the formula becomes
+Si $m$ es primo, la fórmula se vuelve
 \[
-x^{-1} = x^{m-2}.
+    x^{-1} = x^{m-2}.
 \]
-For example,
+Por ejemplo,
 \[6^{-1} \bmod 17 =6^{17-2} \bmod 17 = 3.\]
 
-This formula allows us to efficiently calculate
-modular inverses using the modular exponentation algorithm.
-The formula can be derived using Euler's theorem.
-First, the modular inverse should satisfy the following equation:
+Esta fórmula nos permite calcular inversos modulares eficientemente utilizando
+el algoritmo de exponenciación modular. Esta fórmula puede ser derivada usando
+el algoritmo de Euler. Primero, el inverso modular debe satisfacer la
+siguiente ecuación:
 \[
-x x^{-1} \bmod m = 1.
+    x x^{-1} \bmod m = 1.
 \]
-On the other hand, according to Euler's theorem,
+Por otro lado, según el teorema de Euler,
 \[
-x^{\varphi(m)} \bmod m =  xx^{\varphi(m)-1} \bmod m = 1,
+    x^{\varphi(m)} \bmod m =  xx^{\varphi(m)-1} \bmod m = 1,
 \]
-so the numbers $x^{-1}$ and $x^{\varphi(m)-1}$ are equal.
+así que los números $x^{-1}$ y $x^{\varphi(m)-1}$ son iguales.
 
-\subsubsection{Computer arithmetic}
+\subsubsection{Aritmética computacional}
 
-In programming, unsigned integers are represented modulo $2^k$,
-where $k$ is the number of bits of the data type.
-A usual consequence of this is that a number wraps around
-if it becomes too large.
+En la programación, los enteros sin signo son representados módulo $2^k$,
+donde $k$ es el número de bits del tipo de datos. Una consecuencia típica
+de esto es que el número ``da la vuelta'' si se vuelve demasiado grande.
 
-For example, in C++, numbers of type \texttt{unsigned int}
-are represented modulo $2^{32}$.
-The following code declares an \texttt{unsigned int}
-variable whose value is $123456789$.
-After this, the value will be multiplied by itself,
-and the result is
-$123456789^2 \bmod 2^{32} = 2537071545$.
+Por ejemplo, en C++, los números de tipo \texttt{unsigned int} se representan
+módulo $2^{32}$. El siguiente código declara una variable \texttt{unsigned int}
+cuyo valor es $123456789$. Luego de esto, el valor se multiplicará por si mismo,
+y el resultado es $123456789^2 \bmod 2^{32} = 2537071545$.
 
 \begin{lstlisting}
 unsigned int x = 123456789;
-cout << x*x << "\n"; // 2537071545
+cout << x * x << "\n"; // 2537071545
 \end{lstlisting}
 
-\section{Solving equations}
+\section{Resolver ecuaciones}
 
-\subsubsection*{Diophantine equations}
+\subsubsection*{Ecuaciones diofánticas}
 
-\index{Diophantine equation}
+\index{ecuacion diofántica}
 
-A \key{Diophantine equation}
-%\footnote{Diophantus of Alexandria was a Greek mathematician who lived in the 3th century.}
-is an equation of the form
-\[ ax + by = c, \]
-where $a$, $b$ and $c$ are constants
-and the values of $x$ and $y$ should be found.
-Each number in the equation has to be an integer.
-For example, one solution for the equation
-$5x+2y=11$ is $x=3$ and $y=-2$.
+Una \key{ecuación diofántica} es una ecuación con la forma \[ ax + by = c, \]
+donde $a$, $b$, y $c$ son constantes y los valores de $x$ e $y$ deben ser
+encontrados. Cada número en la ecuación debe ser un entero. Por ejemplo, una
+solución para la ecuación $5x+2y=11$ es $x=3$ y $y=-2$.
 
-\index{extended Euclid's algorithm}
+\index{algoritmo extendido de Euclides}
 
-We can efficiently solve a Diophantine equation
-by using Euclid's algorithm.
-It turns out that we can extend Euclid's algorithm
-so that it will find numbers $x$ and $y$
-that satisfy the following equation:
+Podemos resolver una ecuación diofántica eficientemente utilizando el
+algoritmo de Euclides. Resulta que podemos extender el algoritmo de
+Euclides tal que encuentre números $x$ e $y$ que satisfagan la siguiente
+ecuación: \[ax + by = \textrm{mcd}(a,b)\]
+
+Una ecuación diofántica puede resolverse si $c$ es divisible por
+$\textrm{mcd}(a,b)$, y de lo contrario no se puede resolver.
+
+Por ejemplo, encontremos los números $x$ e $y$ que satisfagan la siguiente
+ecuación: \[39x + 15y = 12\]
+
+La ecuación se puede resolver, porque $\textrm{mcd}(39,15)=3$ y $3 \mid 12$.
+Cuando el algoritmo de Euclides calculo el máximo común divisor de 39 y 15,
+produce la siguiente secuencia de llamadas de función:
 \[
-ax + by = \textrm{gcd}(a,b)
+    \textrm{mcd}(39,15) = \textrm{mcd}(15,9)
+    = \textrm{mcd}(9,6) = \textrm{mcd}(6,3)
+    = \textrm{mcd}(3,0) = 3 \]
+Esto corresponde a las siguientes ecuaciones:
+\[
+    \begin{array}{lcl}
+        39 - 2 \cdot 15 & = & 9 \\
+        15 - 1 \cdot 9  & = & 6 \\
+        9 - 1 \cdot 6   & = & 3 \\
+    \end{array}
 \]
-
-A Diophantine equation can be solved if
-$c$ is divisible by
-$\textrm{gcd}(a,b)$,
-and otherwise it cannot be solved.
-
-As an example, let us find numbers $x$ and $y$
-that satisfy the following equation:
+Utilizando estas ecuaciones, podemos derivar
 \[
-39x + 15y = 12
+    39 \cdot 2 + 15 \cdot (-5) = 3
 \]
-The equation can be solved, because
-$\textrm{gcd}(39,15)=3$ and $3 \mid 12$.
-When Euclid's algorithm calculates the
-greatest common divisor of 39 and 15,
-it produces the following sequence of function calls:
+y multiplicando esto por 4, el resultado es
 \[
-\textrm{gcd}(39,15) = \textrm{gcd}(15,9)
-= \textrm{gcd}(9,6) = \textrm{gcd}(6,3)
-= \textrm{gcd}(3,0) = 3 \]
-This corresponds to the following equations:
-\[
-\begin{array}{lcl}
-39 - 2 \cdot 15 & = & 9 \\
-15 - 1 \cdot 9 & = & 6 \\
-9 - 1 \cdot 6 & = & 3 \\
-\end{array}
+    39 \cdot 8 + 15 \cdot (-20) = 12,
 \]
-Using these equations, we can derive
+por lo que una solución a la ecuación es $x=8$ e $y=-20$.
+
+Una solución a una ecuación diofántica no es única, porque podemos formar un
+número infinito de soluciones si conocemos una. Si un par $(x,y)$ es una
+solución, entonces todos los pares con la siguiente forma, donde $k$ es cualquier entero
+\[\left(x+\frac{kb}{\textrm{mcd}(a,b)},y-\frac{ka}{\textrm{mcd}(a,b)}\right)\]
+también son soluciones.
+
+\subsubsection{Teorema chino del resto}
+
+\index{teorema chino del resto}
+
+El \key{teorema chino del resto} resuelve un grupo de ecuaciones con la forma
 \[
-39 \cdot 2 + 15 \cdot (-5) = 3
+    \begin{array}{lcl}
+        x & = & a_1 \bmod m_1 \\
+        x & = & a_2 \bmod m_2 \\
+        \cdots                \\
+        x & = & a_n \bmod m_n \\
+    \end{array}
 \]
-and by multiplying this by 4, the result is
-\[
-39 \cdot 8 + 15 \cdot (-20) = 12,
-\]
-so a solution to the equation is
-$x=8$ and $y=-20$.
+donde todos los pares de $m_1,m_2,\ldots,m_n$ son coprimos.
 
-A solution to a Diophantine equation is not unique,
-because we can form an infinite number of solutions
-if we know one solution.
-If a pair $(x,y)$ is a solution, then also all pairs
-\[(x+\frac{kb}{\textrm{gcd}(a,b)},y-\frac{ka}{\textrm{gcd}(a,b)})\]
-are solutions, where $k$ is any integer.
-
-\subsubsection{Chinese remainder theorem}
-
-\index{Chinese remainder theorem}
-
-The \key{Chinese remainder theorem} solves
-a group of equations of the form
-\[
-\begin{array}{lcl}
-x & = & a_1 \bmod m_1 \\
-x & = & a_2 \bmod m_2 \\
-\cdots \\
-x & = & a_n \bmod m_n \\
-\end{array}
-\]
-where all pairs of $m_1,m_2,\ldots,m_n$ are coprime.
-
-Let $x^{-1}_m$ be the inverse of $x$ modulo $m$, and
+Definamos $x^{-1}_m$ como el inverso de $x$ módulo $m$, y
 \[ X_k = \frac{m_1 m_2 \cdots m_n}{m_k}.\]
-Using this notation, a solution to the equations is
+Usando esta notación, una solución a la ecuación es
 \[x = a_1 X_1 {X_1}^{-1}_{m_1} + a_2 X_2 {X_2}^{-1}_{m_2} + \cdots + a_n X_n {X_n}^{-1}_{m_n}.\]
-In this solution, for each $k=1,2,\ldots,n$,
+En esta solución, para cada $k=1,2,\ldots,n$,
 \[a_k X_k {X_k}^{-1}_{m_k} \bmod m_k = a_k,\]
-because
+porque
 \[X_k {X_k}^{-1}_{m_k} \bmod m_k = 1.\]
-Since all other terms in the sum are divisible by $m_k$,
-they have no effect on the remainder,
-and $x \bmod m_k = a_k$.
+Dado que todos los otros términos en la suma son divisibles por $m_k$, no
+tienen un efecto sobre el resto (módulo), y $x \bmod m_k = a_k$.
 
-For example, a solution for
+Por ejemplo, una solución para
 \[
-\begin{array}{lcl}
-x & = & 3 \bmod 5 \\
-x & = & 4 \bmod 7 \\
-x & = & 2 \bmod 3 \\
-\end{array}
+    \begin{array}{lcl}
+        x & = & 3 \bmod 5 \\
+        x & = & 4 \bmod 7 \\
+        x & = & 2 \bmod 3 \\
+    \end{array}
 \]
-is
+es
 \[ 3 \cdot 21 \cdot 1 + 4 \cdot 15 \cdot 1 + 2 \cdot 35 \cdot 2 = 263.\]
 
-Once we have found a solution $x$,
-we can create an infinite number of other solutions,
-because all numbers of the form
-\[x+m_1 m_2 \cdots m_n\]
-are solutions.
+Una vez que encontramos una solución para $x$, podemos generar una cantidad
+infinita de soluciones, porque todos los números con la forma
+\[x+m_1 m_2 \cdots m_n\] son soluciones.
 
-\section{Other results}
+\section{Otros resultados}
 
-\subsubsection{Lagrange's theorem}
+\subsubsection{Teorema de Lagrange}
 
-\index{Lagrange's theorem}
+\index{teorema de Lagrange}
 
-\key{Lagrange's theorem}
-%\footnote{J.-L. Lagrange (1736--1813) was an Italian mathematician.}
-states that every positive integer
-can be represented as a sum of four squares, i.e.,
-$a^2+b^2+c^2+d^2$.
-For example, the number 123 can be represented
-as the sum $8^2+5^2+5^2+3^2$.
+El \key{teorema de Lagrange} dice que cada entero positivo puede
+representarse como una suma de cuatro cuadrados, o sea, $a^2+b^2+c^2+d^2$.
+Por ejemplo, el número 123 es representable como la suma $8^2+5^2+5^2+3^2$.
 
-\subsubsection{Zeckendorf's theorem}
+\subsubsection{Teorema de Zeckendorf}
 
-\index{Zeckendorf's theorem}
-\index{Fibonacci number}
+\index{teorema de Zeckendorf}
+\index{número de Fibonacci}
 
-\key{Zeckendorf's theorem}
-%\footnote{E. Zeckendorf published the theorem in 1972 \cite{zec72}; however, this was not a new result.}
-states that every
-positive integer has a unique representation
-as a sum of Fibonacci numbers such that
-no two numbers are equal or consecutive
-Fibonacci numbers.
-For example, the number 74 can be represented
-as the sum $55+13+5+1$.
+El \key{teorema de Zeckendorf} dice que cada entero positivo tiene una
+representación única como suma de números de Fibonacci tal que no haya
+un par de números iguales o consecutivos en la secuencia de Fibonacci.
+Por ejemplo, el número 74 se puede representar como la suma $55+13+5+1$.
 
-\subsubsection{Pythagorean triples}
+\subsubsection{Terna pitagórica}
 
-\index{Pythagorean triple}
-\index{Euclid's formula}
+\index{terna pitagórica}
+\index{fórmula de Euclides}
 
-A \key{Pythagorean triple} is a triple $(a,b,c)$
-that satisfies the Pythagorean theorem
-$a^2+b^2=c^2$, which means that there is a right triangle
-with side lengths $a$, $b$ and $c$.
-For example, $(3,4,5)$ is a Pythagorean triple.
+Una \key{terna pitagórica} es un trío de números $(a,b,c)$ que satisfacen
+el teorema de Pitágoras $a^2+b^2=c^2$, lo que significa que existe un triángulo
+rectángulo con lados $a$, $b$, y $c$. Por ejemplo, $(3,4,5)$ es una terna
+pitagórica.
 
-If $(a,b,c)$ is a Pythagorean triple,
-all triples of the form $(ka,kb,kc)$
-are also Pythagorean triples where $k>1$.
-A Pythagorean triple is \emph{primitive} if
-$a$, $b$ and $c$ are coprime,
-and all Pythagorean triples can be constructed
-from primitive triples using a multiplier $k$.
+Si $(a,b,c)$ es una terna pitagórica, todas las ternas con la forma $(ka,kb,kc)$
+también son ternas pitagóricas donde $k>1$. Una terna pitagórica es
+\emph{primitiva} si $a$, $b$, y $c$ son coprimos, y todas las ternas
+pitagóricas pueden construirse desde ternas primitivas utilizando un factor $k$.
 
-\key{Euclid's formula} can be used to produce
-all primitive Pythagorean triples.
-Each such triple is of the form
-\[(n^2-m^2,2nm,n^2+m^2),\]
-where $0<m<n$, $n$ and $m$ are coprime
-and at least one of $n$ and $m$ is even.
-For example, when $m=1$ and $n=2$, the formula
-produces the smallest Pythagorean triple
+La \key{fórmula de Euclides} también puede utilizarse para producir todas
+las ternas pitagóricas primitivas. Cada de estas tiene la forma
+\[(n^2-m^2,2nm,n^2+m^2),\] donde $0<m<n$, $n$ y $m$ son coprimos, y por lo
+menos una de $n$ y $m$ es par. Por ejemplo, cuando $m=1$ y $n=2$, la fórmula
+produce la mínima terna pitagórica
 \[(2^2-1^2,2\cdot2\cdot1,2^2+1^2)=(3,4,5).\]
 
-\subsubsection{Wilson's theorem}
+\subsubsection{Teorema de Wilson}
 
-\index{Wilson's theorem}
+\index{teorema de Wilson}
 
-\key{Wilson's theorem}
-%\footnote{J. Wilson (1741--1793) was an English mathematician.}
-states that a number $n$
-is prime exactly when
+El \key{teorema de Wilson} dice que un número $n$ es primo exactamente cuando
 \[(n-1)! \bmod n = n-1.\]
-For example, the number 11 is prime, because
+Por ejemplo, el número 11 es primo, porque
 \[10! \bmod 11 = 10,\]
-and the number 12 is not prime, because
+y el número 12 no es primo, porque
 \[11! \bmod 12 = 0 \neq 11.\]
 
-Hence, Wilson's theorem can be used to find out
-whether a number is prime. However, in practice, the theorem cannot be
-applied to large values of $n$, because it is difficult
-to calculate values of $(n-1)!$ when $n$ is large.
-
-
+Por lo tanto, el teorema de Wilson puede usarse para revisar si un número
+es primero. No obstante, en la práctica el teorema no es aplicable para
+grandes valores de $n$, porque es difícil calcular valores de $(n-1)!$
+cuando $n$ es grande.
