@@ -1,9 +1,8 @@
 \chapter{Consultas en rangos}
 
 \index{consultas en rangos}
-\index{consultas de suma}
-\index{consultas de mínimo}
-\index{consultas de máximo}
+\indexalt{preguntas en rangos}
+\indexalt{queries en rangos}
 
 En este capítulo discutiremos estructuras de datos
 que nos permiten procesar consultas en rangos (\textit{range queries})
@@ -81,6 +80,8 @@ la respuesta para cualquier consulta posible.
 \subsubsection{Consultas de suma}
 
 \index{arreglo de sumas de prefijos}
+\indexalt{suma prefija}
+\indexalt{suma acumulativa}
 
 Podemos fácilmente procesar consultas de suma en un arreglo estático
 construyendo un \key{arreglo de sumas de prefijos}.
@@ -441,8 +442,8 @@ concluimos que $\texttt{min}_q(1,6)=1$.
 
 \section{Árbol binario indexado}
 
-\index{árbol binario indexado}
-\index{árbol de Fenwick}
+\index{árbol!binario indexado}
+\indexaltsub{árbol}{de Fenwick}
 
 Un \key{árbol binario indexado} o \key{árbol de Fenwick}\footnote{La
     estructura del árbol binario indexado fue presentada por P. M. Fenwick en 1994 \cite{fen94}.}
@@ -727,7 +728,7 @@ a la siguiente posición toma $O(1)$.
 
 \section{Árbol de segmentos}
 
-\index{árbol de segmentos}
+\index{árbol!de segmentos}
 
 Un \key{árbol de segmentos}\footnote{La implementación de abajo hacia arriba en este capítulo corresponde
     a la que aparece en \cite{sta06}. Estructuras similares se utilizaron

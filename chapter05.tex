@@ -36,7 +36,7 @@ de un conjunto es utilizando recursión.
 La siguiente función \texttt{buscar}
 genera los subconjuntos del conjunto
 $\{0,\ldots,n-1\}$.
-Esta mantiene un vector \texttt{subconj}
+Esta mantiene un vector \texttt{subconjunto}
 que contendrá los elementos de cada subconjunto.
 La búsqueda comienza llamando
 a la función con $k = 0$.
@@ -47,9 +47,9 @@ void buscar(int k) {
         // procesar subconjunto
     } else {
         buscar(k + 1);
-        subconj.push_back(k);
+        subconjunto.push_back(k);
         buscar(k + 1);
-        subconj.pop_back();
+        subconjunto.pop_back();
     }
 }
 \end{lstlisting}
@@ -156,9 +156,9 @@ elementos en el subconjunto.
 
 \begin{lstlisting}
 for (int b = 0; b < (1 << n); b++) {
-    vector<int> subconj;
+    vector<int> subconjunto;
     for (int i = 0; i < n; i++) {
-        if (b & (1 << i)) subconj.push_back(i);
+        if (b & (1 << i)) subconjunto.push_back(i);
     }
 }
 \end{lstlisting}
@@ -182,7 +182,7 @@ Al igual que los subconjuntos, las permutaciones se pueden generar
 usando recursión.
 La siguiente función \texttt{buscar} recorre
 las permutaciones del conjunto $\{0,1,\ldots,n-1\}$.
-La función construye un vector \texttt{permutaciónm}
+La función construye un vector \texttt{permutación}
 que contiene la permutación,
 y la búsqueda comienza llamando a la función.
 

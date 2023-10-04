@@ -18,8 +18,10 @@ y estudiamos diferentes formas de representar grafos en algoritmos.
 
 \index{grafo}
 \index{nodo}
-\index{vértice}
+\indexalt{vértice}
 \index{arista}
+\indexalt{eje}
+\indexalt{arco}
 
 Un \key{grafo} consta de \key{nodos} (o \textit{vértices})
 y \key{aristas}. En este libro,
@@ -93,7 +95,7 @@ a lo sumo \emph{una} vez en el camino.
 
 \subsubsection{Conectividad}
 
-\index{grafo conexo}
+\index{grafo!conexo}
 
 Un grafo es \key{conexo} si hay un camino
 entre cualquier par de nodos.
@@ -186,7 +188,7 @@ Por ejemplo, el siguiente grafo es un árbol:
 
 \subsubsection{Dirección de las aristas}
 
-\index{grafo dirigido}
+\index{grafo!dirigido}
 
 Un grafo es \key{dirigido}
 si las aristas se pueden recorrer
@@ -215,8 +217,8 @@ pero no hay un camino desde el nodo $5$ hasta el nodo $3$.
 
 \subsubsection{Peso de las aristas}
 
-\index{grafo ponderado}
-\index{grafo con pesos}
+\index{grafo!ponderado}
+\indexaltsub{grafo}{con pesos}
 
 En un \key{grafo ponderado}, a cada arista se le asigna
 un \key{peso}.
@@ -285,8 +287,8 @@ porque cada arista
 aumenta el grado de exactamente dos nodos en uno.
 Por esta razón, la suma de los grados siempre es par.
 
-\index{grafo regular}
-\index{grafo completo}
+\index{grafo!regular}
+\index{grafo!completo}
 
 Un grafo es \key{regular} si el
 grado de cada nodo es una constante $d$.
@@ -327,7 +329,7 @@ y el grado de salida del nodo 2 es 1.
 \subsubsection{Coloración}
 
 \index{coloración}
-\index{grafo bipartito}
+\index{grafo!bipartito}
 
 En una \key{coloración} de un grafo,
 a cada nodo se le asigna un color de tal manera que
@@ -416,7 +418,7 @@ el siguiente ciclo de tres nodos usando dos colores:
 
 \subsubsection{Simplicidad}
 
-\index{grafo simple}
+\index{grafo!simple}
 
 Un grafo es \key{simple}
 si ninguna arista comienza y termina en el mismo nodo,
@@ -551,7 +553,7 @@ for (auto u : ady[s]) {
 
 \subsubsection{Matriz de adyacencia}
 
-\index{matriz de adyacencia}
+\index{matriz!de adyacencia}
 
 Una \key{matriz de adyacencia} es un arreglo bidimensional
 que indica las aristas contenidas por el grafo.

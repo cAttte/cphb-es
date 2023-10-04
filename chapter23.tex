@@ -43,7 +43,7 @@ las filas y columnas de $A$ son intercambiadas, o sea, $A^T[i,j]=A[j,i]$:
     \end{bmatrix}
 \]
 
-\index{matriz cuadrada}
+\index{matriz!cuadrada}
 Una matriz se denomina \key{matriz cuadrada} si tiene el mismo número de filas
 que de columnas. Por ejemplo, la siguiente matriz es cuadrada:
 \[
@@ -164,7 +164,7 @@ Por ejemplo,
 La multiplicación de matrices es asociativa, así que $A(BC)=(AB)C$, pero
 no es conmutativa, por lo que $AB = BA$ no necesariamente se cumple.
 
-\index{matriz identidad}
+\index{matriz!identidad}
 
 Una \key{matriz identidad} es una matriz cuadrada en donde cada elemento en la
 diagonal es 1 y todos los otros elementos son 0. Por ejemplo, la siguiente
@@ -337,7 +337,7 @@ y
     = 81.
 \]
 
-\index{matriz inversa}
+\index{matriz!inversa}
 
 La determinante de $A$ nos dice si existe una \key{matriz inversa} $A^{-1}$
 tal que $A \cdot A^{-1} = I$, donde $I$ es una matriz identidad. Resulta que
@@ -673,9 +673,7 @@ $2 \rightarrow 1 \rightarrow 4 \rightarrow 2 \rightarrow 5$.
 \subsubsection{Teorema de Kirchhoff}
 
 \index{teorema de Kirchhoff}
-\index{árbol de expansión}
-\index{árbol recubridor}
-\index{árbol generador}
+\index{árbol!de expansión!mínimo}
 
 El \key{teorema de Kirchhoff} provee una manera de calcular el número de
 árboles de expansión de un grafo como la determinante de una matriz especial.
@@ -727,7 +725,7 @@ posee tres árboles de expansión:
         %\path[draw,thick,-] (1c) -- (4c);
     \end{tikzpicture}
 \end{center}
-\index{matriz laplaciana}
+\index{matriz!laplaciana}
 Para calcular el número de árboles de expansión, construimos una
 \key{matriz laplaciana} $L$, donde $L[i,i]$ es el grado del nodo $i$
 y $L[i,j]=-1$ si hay una arista entre los nodos $i$ y $j$, y de lo
