@@ -70,56 +70,56 @@ Siempre podemos elegir la rama izquierda
 ($k$ \emph{sí} se incluye en el subconjunto).
 
 \begin{center}
-  \begin{tikzpicture}[scale=.45]
-    \begin{scope}
-      \small
-      \node at (0,0) {$\texttt{buscar}(0)$};
+    \begin{tikzpicture}[scale=.45]
+        \begin{scope}
+            \small
+            \node at (0,0) {$\texttt{buscar}(0)$};
 
-      \node at (-8,-4) {$\texttt{buscar}(1)$};
-      \node at (8,-4) {$\texttt{buscar}(1)$};
+            \node at (-8,-4) {$\texttt{buscar}(1)$};
+            \node at (8,-4) {$\texttt{buscar}(1)$};
 
-      \path[draw,thick,->] (0,0-0.5) -- (-8,-4+0.5);
-      \path[draw,thick,->] (0,0-0.5) -- (8,-4+0.5);
+            \path[draw,thick,->] (0,0-0.5) -- (-8,-4+0.5);
+            \path[draw,thick,->] (0,0-0.5) -- (8,-4+0.5);
 
-      \node at (-12,-8) {$\texttt{buscar}(2)$};
-      \node at (-4,-8) {$\texttt{buscar}(2)$};
-      \node at (4,-8) {$\texttt{buscar}(2)$};
-      \node at (12,-8) {$\texttt{buscar}(2)$};
+            \node at (-12,-8) {$\texttt{buscar}(2)$};
+            \node at (-4,-8) {$\texttt{buscar}(2)$};
+            \node at (4,-8) {$\texttt{buscar}(2)$};
+            \node at (12,-8) {$\texttt{buscar}(2)$};
 
-      \path[draw,thick,->] (-8,-4-0.5) -- (-12,-8+0.5);
-      \path[draw,thick,->] (-8,-4-0.5) -- (-4,-8+0.5);
-      \path[draw,thick,->] (8,-4-0.5) -- (4,-8+0.5);
-      \path[draw,thick,->] (8,-4-0.5) -- (12,-8+0.5);
+            \path[draw,thick,->] (-8,-4-0.5) -- (-12,-8+0.5);
+            \path[draw,thick,->] (-8,-4-0.5) -- (-4,-8+0.5);
+            \path[draw,thick,->] (8,-4-0.5) -- (4,-8+0.5);
+            \path[draw,thick,->] (8,-4-0.5) -- (12,-8+0.5);
 
-      \node at (-14,-12) {$\texttt{buscar}(3)$};
-      \node at (-10,-12) {$\texttt{buscar}(3)$};
-      \node at (-6,-12) {$\texttt{buscar}(3)$};
-      \node at (-2,-12) {$\texttt{buscar}(3)$};
-      \node at (2,-12) {$\texttt{buscar}(3)$};
-      \node at (6,-12) {$\texttt{buscar}(3)$};
-      \node at (10,-12) {$\texttt{buscar}(3)$};
-      \node at (14,-12) {$\texttt{buscar}(3)$};
+            \node at (-14,-12) {$\texttt{buscar}(3)$};
+            \node at (-10,-12) {$\texttt{buscar}(3)$};
+            \node at (-6,-12) {$\texttt{buscar}(3)$};
+            \node at (-2,-12) {$\texttt{buscar}(3)$};
+            \node at (2,-12) {$\texttt{buscar}(3)$};
+            \node at (6,-12) {$\texttt{buscar}(3)$};
+            \node at (10,-12) {$\texttt{buscar}(3)$};
+            \node at (14,-12) {$\texttt{buscar}(3)$};
 
-      \node at (-14,-13.5) {$\emptyset$};
-      \node at (-10,-13.5) {$\{2\}$};
-      \node at (-6,-13.5) {$\{1\}$};
-      \node at (-2,-13.5) {$\{1,2\}$};
-      \node at (2,-13.5) {$\{0\}$};
-      \node at (6,-13.5) {$\{0,2\}$};
-      \node at (10,-13.5) {$\{0,1\}$};
-      \node at (14,-13.5) {$\{0,1,2\}$};
+            \node at (-14,-13.5) {$\emptyset$};
+            \node at (-10,-13.5) {$\{2\}$};
+            \node at (-6,-13.5) {$\{1\}$};
+            \node at (-2,-13.5) {$\{1,2\}$};
+            \node at (2,-13.5) {$\{0\}$};
+            \node at (6,-13.5) {$\{0,2\}$};
+            \node at (10,-13.5) {$\{0,1\}$};
+            \node at (14,-13.5) {$\{0,1,2\}$};
 
 
-      \path[draw,thick,->] (-12,-8-0.5) -- (-14,-12+0.5);
-      \path[draw,thick,->] (-12,-8-0.5) -- (-10,-12+0.5);
-      \path[draw,thick,->] (-4,-8-0.5) -- (-6,-12+0.5);
-      \path[draw,thick,->] (-4,-8-0.5) -- (-2,-12+0.5);
-      \path[draw,thick,->] (4,-8-0.5) -- (2,-12+0.5);
-      \path[draw,thick,->] (4,-8-0.5) -- (6,-12+0.5);
-      \path[draw,thick,->] (12,-8-0.5) -- (10,-12+0.5);
-      \path[draw,thick,->] (12,-8-0.5) -- (14,-12+0.5);
-    \end{scope}
-  \end{tikzpicture}
+            \path[draw,thick,->] (-12,-8-0.5) -- (-14,-12+0.5);
+            \path[draw,thick,->] (-12,-8-0.5) -- (-10,-12+0.5);
+            \path[draw,thick,->] (-4,-8-0.5) -- (-6,-12+0.5);
+            \path[draw,thick,->] (-4,-8-0.5) -- (-2,-12+0.5);
+            \path[draw,thick,->] (4,-8-0.5) -- (2,-12+0.5);
+            \path[draw,thick,->] (4,-8-0.5) -- (6,-12+0.5);
+            \path[draw,thick,->] (12,-8-0.5) -- (10,-12+0.5);
+            \path[draw,thick,->] (12,-8-0.5) -- (14,-12+0.5);
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 \subsubsection{Método 2}
@@ -230,11 +230,11 @@ do {
 } while (next_permutation(permutación.begin(), permutación.end()));
 \end{lstlisting}
 
-\section{Backtracking}
+\section{\textit{Backtracking}}
 
 \index{backtracking}
 
-Un algoritmo que utiliza \key{backtracking}
+Un algoritmo que utiliza \key{\textit{backtracking}}
 comienza con una solución vacía
 y extiende la solución paso a paso.
 La búsqueda recursivamente
@@ -252,22 +252,22 @@ Por ejemplo, cuando $n=4$,
 hay dos soluciones posibles:
 
 \begin{center}
-  \begin{tikzpicture}[scale=.65]
-    \begin{scope}
-      \draw (0, 0) grid (4, 4);
-      \node at (1.5,3.5) {\symqueen};
-      \node at (3.5,2.5) {\symqueen};
-      \node at (0.5,1.5) {\symqueen};
-      \node at (2.5,0.5) {\symqueen};
+    \begin{tikzpicture}[scale=.65]
+        \begin{scope}
+            \draw (0, 0) grid (4, 4);
+            \node at (1.5,3.5) {\symqueen};
+            \node at (3.5,2.5) {\symqueen};
+            \node at (0.5,1.5) {\symqueen};
+            \node at (2.5,0.5) {\symqueen};
 
-      \draw (6, 0) grid (10, 4);
-      \node at (6+2.5,3.5) {\symqueen};
-      \node at (6+0.5,2.5) {\symqueen};
-      \node at (6+3.5,1.5) {\symqueen};
-      \node at (6+1.5,0.5) {\symqueen};
+            \draw (6, 0) grid (10, 4);
+            \node at (6+2.5,3.5) {\symqueen};
+            \node at (6+0.5,2.5) {\symqueen};
+            \node at (6+3.5,1.5) {\symqueen};
+            \node at (6+1.5,0.5) {\symqueen};
 
-    \end{scope}
-  \end{tikzpicture}
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 El problema se puede resolver mediante backtracking
@@ -282,51 +282,51 @@ algunas soluciones parciales generadas por
 el algoritmo de backtracking son las siguientes:
 
 \begin{center}
-  \begin{tikzpicture}[scale=.55]
-    \begin{scope}
-      \draw (0, 0) grid (4, 4);
+    \begin{tikzpicture}[scale=.55]
+        \begin{scope}
+            \draw (0, 0) grid (4, 4);
 
-      \draw (-9, -6) grid (-5, -2);
-      \draw (-3, -6) grid (1, -2);
-      \draw (3, -6) grid (7, -2);
-      \draw (9, -6) grid (13, -2);
+            \draw (-9, -6) grid (-5, -2);
+            \draw (-3, -6) grid (1, -2);
+            \draw (3, -6) grid (7, -2);
+            \draw (9, -6) grid (13, -2);
 
-      \node at (-9+0.5,-3+0.5) {\symqueen};
-      \node at (-3+1+0.5,-3+0.5) {\symqueen};
-      \node at (3+2+0.5,-3+0.5) {\symqueen};
-      \node at (9+3+0.5,-3+0.5) {\symqueen};
+            \node at (-9+0.5,-3+0.5) {\symqueen};
+            \node at (-3+1+0.5,-3+0.5) {\symqueen};
+            \node at (3+2+0.5,-3+0.5) {\symqueen};
+            \node at (9+3+0.5,-3+0.5) {\symqueen};
 
-      \draw (2,0) -- (-7,-2);
-      \draw (2,0) -- (-1,-2);
-      \draw (2,0) -- (5,-2);
-      \draw (2,0) -- (11,-2);
+            \draw (2,0) -- (-7,-2);
+            \draw (2,0) -- (-1,-2);
+            \draw (2,0) -- (5,-2);
+            \draw (2,0) -- (11,-2);
 
-      \draw (-11, -12) grid (-7, -8);
-      \draw (-6, -12) grid (-2, -8);
-      \draw (-1, -12) grid (3, -8);
-      \draw (4, -12) grid (8, -8);
-      \draw[white] (11, -12) grid (15, -8);
-      \node at (-11+1+0.5,-9+0.5) {\symqueen};
-      \node at (-6+1+0.5,-9+0.5) {\symqueen};
-      \node at (-1+1+0.5,-9+0.5) {\symqueen};
-      \node at (4+1+0.5,-9+0.5) {\symqueen};
-      \node at (-11+0+0.5,-10+0.5) {\symqueen};
-      \node at (-6+1+0.5,-10+0.5) {\symqueen};
-      \node at (-1+2+0.5,-10+0.5) {\symqueen};
-      \node at (4+3+0.5,-10+0.5) {\symqueen};
+            \draw (-11, -12) grid (-7, -8);
+            \draw (-6, -12) grid (-2, -8);
+            \draw (-1, -12) grid (3, -8);
+            \draw (4, -12) grid (8, -8);
+            \draw[white] (11, -12) grid (15, -8);
+            \node at (-11+1+0.5,-9+0.5) {\symqueen};
+            \node at (-6+1+0.5,-9+0.5) {\symqueen};
+            \node at (-1+1+0.5,-9+0.5) {\symqueen};
+            \node at (4+1+0.5,-9+0.5) {\symqueen};
+            \node at (-11+0+0.5,-10+0.5) {\symqueen};
+            \node at (-6+1+0.5,-10+0.5) {\symqueen};
+            \node at (-1+2+0.5,-10+0.5) {\symqueen};
+            \node at (4+3+0.5,-10+0.5) {\symqueen};
 
-      \draw (-1,-6) -- (-9,-8);
-      \draw (-1,-6) -- (-4,-8);
-      \draw (-1,-6) -- (1,-8);
-      \draw (-1,-6) -- (6,-8);
+            \draw (-1,-6) -- (-9,-8);
+            \draw (-1,-6) -- (-4,-8);
+            \draw (-1,-6) -- (1,-8);
+            \draw (-1,-6) -- (6,-8);
 
-      \node at (-9,-13) {ilegal};
-      \node at (-4,-13) {ilegal};
-      \node at (1,-13) {ilegal};
-      \node at (6,-13) {válida};
+            \node at (-9,-13) {ilegal};
+            \node at (-4,-13) {ilegal};
+            \node at (1,-13) {ilegal};
+            \node at (6,-13) {válida};
 
-    \end{scope}
-  \end{tikzpicture}
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 En el nivel más bajo, las tres primeras configuraciones
@@ -375,68 +375,68 @@ Por ejemplo, las columnas y diagonales del
 tablero de $4 \times 4$ están numeradas de la siguiente manera:
 
 \begin{center}
-  \begin{tikzpicture}[scale=.65]
-    \begin{scope}
-      \draw (0-6, 0) grid (4-6, 4);
-      \node at (-6+0.5,3.5) {$0$};
-      \node at (-6+1.5,3.5) {$1$};
-      \node at (-6+2.5,3.5) {$2$};
-      \node at (-6+3.5,3.5) {$3$};
-      \node at (-6+0.5,2.5) {$0$};
-      \node at (-6+1.5,2.5) {$1$};
-      \node at (-6+2.5,2.5) {$2$};
-      \node at (-6+3.5,2.5) {$3$};
-      \node at (-6+0.5,1.5) {$0$};
-      \node at (-6+1.5,1.5) {$1$};
-      \node at (-6+2.5,1.5) {$2$};
-      \node at (-6+3.5,1.5) {$3$};
-      \node at (-6+0.5,0.5) {$0$};
-      \node at (-6+1.5,0.5) {$1$};
-      \node at (-6+2.5,0.5) {$2$};
-      \node at (-6+3.5,0.5) {$3$};
+    \begin{tikzpicture}[scale=.65]
+        \begin{scope}
+            \draw (0-6, 0) grid (4-6, 4);
+            \node at (-6+0.5,3.5) {$0$};
+            \node at (-6+1.5,3.5) {$1$};
+            \node at (-6+2.5,3.5) {$2$};
+            \node at (-6+3.5,3.5) {$3$};
+            \node at (-6+0.5,2.5) {$0$};
+            \node at (-6+1.5,2.5) {$1$};
+            \node at (-6+2.5,2.5) {$2$};
+            \node at (-6+3.5,2.5) {$3$};
+            \node at (-6+0.5,1.5) {$0$};
+            \node at (-6+1.5,1.5) {$1$};
+            \node at (-6+2.5,1.5) {$2$};
+            \node at (-6+3.5,1.5) {$3$};
+            \node at (-6+0.5,0.5) {$0$};
+            \node at (-6+1.5,0.5) {$1$};
+            \node at (-6+2.5,0.5) {$2$};
+            \node at (-6+3.5,0.5) {$3$};
 
-      \draw (0, 0) grid (4, 4);
-      \node at (0.5,3.5) {$0$};
-      \node at (1.5,3.5) {$1$};
-      \node at (2.5,3.5) {$2$};
-      \node at (3.5,3.5) {$3$};
-      \node at (0.5,2.5) {$1$};
-      \node at (1.5,2.5) {$2$};
-      \node at (2.5,2.5) {$3$};
-      \node at (3.5,2.5) {$4$};
-      \node at (0.5,1.5) {$2$};
-      \node at (1.5,1.5) {$3$};
-      \node at (2.5,1.5) {$4$};
-      \node at (3.5,1.5) {$5$};
-      \node at (0.5,0.5) {$3$};
-      \node at (1.5,0.5) {$4$};
-      \node at (2.5,0.5) {$5$};
-      \node at (3.5,0.5) {$6$};
+            \draw (0, 0) grid (4, 4);
+            \node at (0.5,3.5) {$0$};
+            \node at (1.5,3.5) {$1$};
+            \node at (2.5,3.5) {$2$};
+            \node at (3.5,3.5) {$3$};
+            \node at (0.5,2.5) {$1$};
+            \node at (1.5,2.5) {$2$};
+            \node at (2.5,2.5) {$3$};
+            \node at (3.5,2.5) {$4$};
+            \node at (0.5,1.5) {$2$};
+            \node at (1.5,1.5) {$3$};
+            \node at (2.5,1.5) {$4$};
+            \node at (3.5,1.5) {$5$};
+            \node at (0.5,0.5) {$3$};
+            \node at (1.5,0.5) {$4$};
+            \node at (2.5,0.5) {$5$};
+            \node at (3.5,0.5) {$6$};
 
-      \draw (6, 0) grid (10, 4);
-      \node at (6.5,3.5) {$3$};
-      \node at (7.5,3.5) {$4$};
-      \node at (8.5,3.5) {$5$};
-      \node at (9.5,3.5) {$6$};
-      \node at (6.5,2.5) {$2$};
-      \node at (7.5,2.5) {$3$};
-      \node at (8.5,2.5) {$4$};
-      \node at (9.5,2.5) {$5$};
-      \node at (6.5,1.5) {$1$};
-      \node at (7.5,1.5) {$2$};
-      \node at (8.5,1.5) {$3$};
-      \node at (9.5,1.5) {$4$};
-      \node at (6.5,0.5) {$0$};
-      \node at (7.5,0.5) {$1$};
-      \node at (8.5,0.5) {$2$};
-      \node at (9.5,0.5) {$3$};
+            \draw (6, 0) grid (10, 4);
+            \node at (6.5,3.5) {$3$};
+            \node at (7.5,3.5) {$4$};
+            \node at (8.5,3.5) {$5$};
+            \node at (9.5,3.5) {$6$};
+            \node at (6.5,2.5) {$2$};
+            \node at (7.5,2.5) {$3$};
+            \node at (8.5,2.5) {$4$};
+            \node at (9.5,2.5) {$5$};
+            \node at (6.5,1.5) {$1$};
+            \node at (7.5,1.5) {$2$};
+            \node at (8.5,1.5) {$3$};
+            \node at (9.5,1.5) {$4$};
+            \node at (6.5,0.5) {$0$};
+            \node at (7.5,0.5) {$1$};
+            \node at (8.5,0.5) {$2$};
+            \node at (9.5,0.5) {$3$};
 
-      \node at (-4,-1) {\texttt{col}};
-      \node at (2,-1) {\texttt{diag1}};
-      \node at (8,-1) {\texttt{diag2}};
+            \node at (-4,-1) {\texttt{col}};
+            \node at (2,-1) {\texttt{diag1}};
+            \node at (8,-1) {\texttt{diag2}};
 
-    \end{scope}
-  \end{tikzpicture}
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 Sea $q(n)$ el número de formas de
@@ -448,8 +448,8 @@ exponencialmente.
 Por ejemplo, calcular $q(16)=14772512$
 usando el algoritmo anterior ya toma aproximadamente un minuto
 en una computadora moderna.\footnote{No se conoce ninguna forma eficiente de
-  calcular valores más grandes de $q(n)$. El récord actual es
-  $q(27)=234907967154122528$, calculado en 2016 \cite{q27}.}
+    calcular valores más grandes de $q(n)$. El récord actual es
+    $q(27)=234907967154122528$, calculado en 2016 \cite{q27}.}
 
 \newpage
 \section{Podar la búsqueda}
@@ -472,19 +472,19 @@ hay 111.712 de estos caminos.
 Uno de los caminos es el siguiente:
 
 \begin{center}
-  \begin{tikzpicture}[scale=.55]
-    \begin{scope}
-      \draw (0, 0) grid (7, 7);
-      \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-      (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-      (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-      (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-      (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
-      (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
-      (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
-      (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
-    \end{scope}
-  \end{tikzpicture}
+    \begin{tikzpicture}[scale=.55]
+        \begin{scope}
+            \draw (0, 0) grid (7, 7);
+            \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+            (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+            (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+            (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+            (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
+            (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
+            (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
+            (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 
 Nos enfocamos en el caso de $7 \times 7$,
@@ -505,8 +505,8 @@ todos los caminos posibles desde la esquina superior izquierda hasta
 la inferior derecha y los contamos.
 
 \begin{itemize}[itemsep=0em,topsep=0.5em]
-  \item tiempo de ejecución: 483 segundos
-  \item número de llamadas recursivas: 76 mil millones
+    \item tiempo de ejecución: 483 segundos
+    \item número de llamadas recursivas: 76 mil millones
 \end{itemize}
 
 \subsubsection{Optimización 1}
@@ -519,36 +519,36 @@ después del primer paso.
 Por ejemplo, los siguientes caminos son simétricos:
 
 \begin{center}
-  \begin{tabular}{ccc}
-    \begin{tikzpicture}[scale=.55]
-      \begin{scope}
-        \draw (0, 0) grid (7, 7);
-        \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-        (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-        (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-        (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-        (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
-        (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
-        (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
-        (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
-      \end{scope}
-    \end{tikzpicture}
-     & \hspace{20px}
-     &
-    \begin{tikzpicture}[scale=.55]
-      \begin{scope}[yscale=1,xscale=-1,rotate=-90]
-        \draw (0, 0) grid (7, 7);
-        \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-        (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-        (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-        (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-        (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
-        (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
-        (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
-        (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
-      \end{scope}
-    \end{tikzpicture}
-  \end{tabular}
+    \begin{tabular}{ccc}
+        \begin{tikzpicture}[scale=.55]
+            \begin{scope}
+                \draw (0, 0) grid (7, 7);
+                \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+                (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+                (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+                (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+                (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
+                (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
+                (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
+                (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
+            \end{scope}
+        \end{tikzpicture}
+         & \hspace{20px}
+         &
+        \begin{tikzpicture}[scale=.55]
+            \begin{scope}[yscale=1,xscale=-1,rotate=-90]
+                \draw (0, 0) grid (7, 7);
+                \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+                (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+                (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+                (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+                (5.5,0.5) -- (5.5,3.5) -- (3.5,3.5) --
+                (3.5,5.5) -- (1.5,5.5) -- (1.5,6.5) --
+                (4.5,6.5) -- (4.5,4.5) -- (5.5,4.5) --
+                (5.5,6.5) -- (6.5,6.5) -- (6.5,0.5);
+            \end{scope}
+        \end{tikzpicture}
+    \end{tabular}
 \end{center}
 
 Por lo tanto, podemos decidir que siempre primero
@@ -556,8 +556,8 @@ nos movemos hacia abajo (o hacia la derecha),
 y finalmente multiplicamos el número de soluciones por dos.
 
 \begin{itemize}[itemsep=0em,topsep=0.5em]
-  \item tiempo de ejecución: 244 segundos
-  \item número de llamadas recursivas: 38 mil millones
+    \item tiempo de ejecución: 244 segundos
+    \item número de llamadas recursivas: 38 mil millones
 \end{itemize}
 
 \subsubsection{Optimización 2}
@@ -569,23 +569,23 @@ no será posible completar la solución.
 Un ejemplo de esto es el siguiente camino:
 
 \begin{center}
-  \begin{tikzpicture}[scale=.55]
-    \begin{scope}
-      \draw (0, 0) grid (7, 7);
-      \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-      (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-      (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-      (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-      (6.5,0.5);
-    \end{scope}
-  \end{tikzpicture}
+    \begin{tikzpicture}[scale=.55]
+        \begin{scope}
+            \draw (0, 0) grid (7, 7);
+            \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+            (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+            (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+            (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+            (6.5,0.5);
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 Usando esta observación, podemos terminar la búsqueda
 inmediatamente si llegamos a la casilla inferior derecha demasiado pronto.
 
 \begin{itemize}[itemsep=0em,topsep=0.5em]
-  \item tiempo de ejecución: 119 segundos
-  \item número de llamadas recursivas: 20 mil millones
+    \item tiempo de ejecución: 119 segundos
+    \item número de llamadas recursivas: 20 mil millones
 \end{itemize}
 
 \subsubsection{Optimización 3}
@@ -598,24 +598,24 @@ Por ejemplo, en la siguiente situación,
 el camino puede girar hacia la izquierda o hacia la derecha:
 
 \begin{center}
-  \begin{tikzpicture}[scale=.55]
-    \begin{scope}
-      \draw (0, 0) grid (7, 7);
-      \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-      (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-      (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-      (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-      (5.5,0.5) -- (5.5,6.5);
-    \end{scope}
-  \end{tikzpicture}
+    \begin{tikzpicture}[scale=.55]
+        \begin{scope}
+            \draw (0, 0) grid (7, 7);
+            \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+            (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+            (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+            (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+            (5.5,0.5) -- (5.5,6.5);
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 En este caso, ya no podemos visitar todas las casillas,
 por lo que podemos terminar la búsqueda.
 Esta optimización es muy útil:
 
 \begin{itemize}[itemsep=0em,topsep=0.5em]
-  \item tiempo de ejecución: 1,8 segundos
-  \item número de llamadas recursivas: 221 millones
+    \item tiempo de ejecución: 1,8 segundos
+    \item número de llamadas recursivas: 221 millones
 \end{itemize}
 
 \subsubsection{Optimización 4}
@@ -629,16 +629,16 @@ que contienen casillas no visitadas en ambas partes.
 Por ejemplo, considera el siguiente camino:
 
 \begin{center}
-  \begin{tikzpicture}[scale=.55]
-    \begin{scope}
-      \draw (0, 0) grid (7, 7);
-      \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
-      (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
-      (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
-      (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
-      (5.5,0.5) -- (5.5,4.5) -- (3.5,4.5);
-    \end{scope}
-  \end{tikzpicture}
+    \begin{tikzpicture}[scale=.55]
+        \begin{scope}
+            \draw (0, 0) grid (7, 7);
+            \draw[thick,->] (0.5,6.5) -- (0.5,4.5) -- (2.5,4.5) --
+            (2.5,3.5) -- (0.5,3.5) -- (0.5,0.5) --
+            (3.5,0.5) -- (3.5,1.5) -- (1.5,1.5) --
+            (1.5,2.5) -- (4.5,2.5) -- (4.5,0.5) --
+            (5.5,0.5) -- (5.5,4.5) -- (3.5,4.5);
+        \end{scope}
+    \end{tikzpicture}
 \end{center}
 Está claro que ya no podemos visitar todas las casillas,
 por lo que podemos terminar la búsqueda.
@@ -646,8 +646,8 @@ Después de esta optimización, la búsqueda es
 muy eficiente:
 
 \begin{itemize}[itemsep=0em,topsep=0.5em]
-  \item tiempo de ejecución: 0,6 segundos
-  \item número de llamadas recursivas: 69 millones
+    \item tiempo de ejecución: 0,6 segundos
+    \item número de llamadas recursivas: 69 millones
 \end{itemize}
 
 ~\\
@@ -707,7 +707,7 @@ porque hay $2^n$ subconjuntos.
 Sin embargo, usando la técnica de encuentro en el medio,
 podemos lograr un algoritmo más eficiente de tiempo $O(2^{n/2})$.
 \footnote{Esta idea fue introducida en 1974 por E. Horowitz y
-  S. Sahni \cite{hor74}.}
+    S. Sahni \cite{hor74}.}
 Ten en cuenta que $O(2^n)$ y $O(2^{n/2})$ son diferentes
 complejidades porque $2^{n/2}$ es igual a $\sqrt{2^n}$.
 
