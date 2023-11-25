@@ -4,7 +4,7 @@
 
 En los problemas geométricos, suele ser complicado afrontar el problema
 tal que la solución se pueda implementar convenientemente y no existan
-demasiados casos espciales.
+demasiados casos especiales.
 
 Por ejemplo, considera el problema donde recibimos los vértices de un
 cuadrilátero (un polígono con cuatro vértices), y nuestra tarea es calcular
@@ -243,7 +243,7 @@ P b = { 1, 2 };
 C p = (conj(a) * b).Y; // 6
 \end{lstlisting}
 
-Este código funciona porque la función \texttt{conj} nega la coordenada $y$
+Este código funciona porque la función \texttt{conj} niega la coordenada $y$
 de un vector, y cuando los vectores $(x_1,-y_1)$ y $(x_2,y_2)$ se multiplican,
 la coordenada $y$ del resultado es $x_1 y_2 - x_2 y_1$.
 
@@ -530,11 +530,11 @@ es $6+7/2-1=17/2$.
 \section{Funciones de distancia}
 
 \index{función de distancia}
-\index{distancia euclideana}
+\index{distancia euclidiana}
 \index{distancia de Manhattan}
 
 Una \key{función de distancia} define la distancia entre dos puntos. La
-función de distancia usual es la de \key{distancia euclideana}, que define la
+función de distancia usual es la de \key{distancia euclidiana}, que define la
 distancia entre dos puntos $(x_1,y_1)$ y $(x_2,y_2)$ como
 \[\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}.\]
 Una alternativa es la \key{distancia de Manhattan}, que define la distancia
@@ -561,7 +561,7 @@ Por ejemplo, considera la siguiente imagen:
         \draw[dashed] (5+2,1) -- (5+2,2);
         \draw[dashed] (5+2,2) -- (5+5,2);
 
-        \node at (3.5,-0.5) {distancia euclideana};
+        \node at (3.5,-0.5) {distancia euclidiana};
         \node at (3.5,-1.25) {$\sqrt{(5-2)^2+(2-1)^2}=\sqrt{10}$};
         \node at (5+3.5,-0.5) {distancia de Manhattan};
         \node at (5+3.5,-1.25) {$|5-2|+|2-1|=4$};
@@ -569,14 +569,14 @@ Por ejemplo, considera la siguiente imagen:
 \end{center}
 
 La siguiente imagen muestra regiones dentro de una distancia de 1 desde el
-punto central, utilizando las distancias euclideana y de Manhattan:
+punto central, utilizando las distancias euclidiana y de Manhattan:
 \begin{center}
     \begin{tikzpicture}
 
         \draw[fill=gray!20] (0,0) circle [radius=1];
         \draw[fill] (0,0) circle [radius=0.05];
 
-        \node at (0,-1.5) {distancia euclideana};
+        \node at (0,-1.5) {distancia euclidiana};
 
         \draw[fill=gray!20] (5+0,1) -- (5-1,0) -- (5+0,-1) -- (5+1,0) -- (5+0,1);
         \draw[fill] (5,0) circle [radius=0.05];
@@ -587,7 +587,7 @@ punto central, utilizando las distancias euclideana y de Manhattan:
 \subsubsection{Rotar coordenadas}
 
 Algunos problemas son más fáciles de resolver si usamos distancias de
-Manhattan en vez de distancias euclideanas. Por ejemplo, considera un problema
+Manhattan en vez de distancias euclidianas. Por ejemplo, considera un problema
 donde recibimos $n$ puntos en el plano bidimensional y nuestra tarea es
 calcular la máxima distancia de Manhattan entre cualquier par de puntos.
 

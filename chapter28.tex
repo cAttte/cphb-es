@@ -3,7 +3,7 @@
 \index{{\'a}rbol!de segmentos}
 
 El árbol de segmentos es una estructura de datos versátil que puede
-utillizarse para resolver un gran número de problemas algorítmicos. Sin
+utilizarse para resolver un gran número de problemas algorítmicos. Sin
 embargo, hay muchos temas relacionados a los árboles de segmentos que todavía
 no hemos visto. Es hora de ver las variantes avanzadas del árbol de
 segmentos.
@@ -700,7 +700,7 @@ cada árbol previo como una combinación de nodos nuevos y subárboles de
     \end{tikzpicture}
 \end{center}
 
-Podemos reconstruir la estructura de cada árbol previo siguiende los
+Podemos reconstruir la estructura de cada árbol previo siguiendo los
 punteros, comenzando en la raíz correspondiente. Ya que cada operación
 solo añade $O(\log n)$ nodos al árbol, es posible almacenar la historia
 completa del árbol.
@@ -709,7 +709,7 @@ completa del árbol.
 
 En vez de valores individuales, los nodos en un árbol de segmentos también
 pueden contener \emph{estructuras de datos} que mantienen información sobre
-los rangos correspondientes. En un árbol de estos, las operaciones tadan
+los rangos correspondientes. En un árbol de estos, las operaciones tardan
 $O(f(n) \log n)$, donde $f(n)$ es el tiempo necesario para procesar un
 solo nodo durante una operación.
 
@@ -887,7 +887,7 @@ Por ejemplo, el siguiente árbol de segmentos corresponde al arreglo anterior:
 Podemos construir el árbol tal que cada nodo contiene una estructura de mapa
 (\texttt{map}). En este caso, el tiempo necesario para procesar cada nodo es
 de $O(\log n)$, así que la complejidad temporal total de una consulta es de
-$O(\log^2 n)$. El árbol utilliza $O(n \log n)$ de memoria, porque existen
+$O(\log^2 n)$. El árbol utiliza $O(n \log n)$ de memoria, porque existen
 $O(\log n)$ niveles y cada nivel contiene $O(n)$ elementos.
 
 \section{Bidimensionalidad}
