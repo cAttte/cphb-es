@@ -77,10 +77,9 @@ al pozo es de $7$.
 
 \index{corte mínimo}
 
-En el problema del \key{corte mínimo}, nuestra tarea es remover un
+En el problema del \key{corte mínimo}, nuestra tarea es quitar un
 conjunto de nodos del grafo tal que no haya caminos desde la fuente
-hacia el pozo luego de la remoción, y el peso total de las aristas
-removidas sea mínimo.
+hasta el pozo, y el peso total de las aristas quitadas sea mínimo.
 
 El tamaño mínimo de un corte en el grafo de ejemplo es 7. Es suficiente
 remover las aristas $2 \rightarrow 3$ y $4 \rightarrow 5$:
@@ -120,7 +119,7 @@ sean iguales en el ejemplo anterior. Resulta que el flujo máximo y el
 corte mínimo \emph{siempre} son iguales, y los conceptos son dos caras
 de una misma moneda.
 
-Ahora veremos el algoritmo de Ford--Fulkerson, que puede utilizarse
+Ahora veremos el algoritmo de Ford--Fulkerson, que podemos utilizar
 para encontrar el flujo máximo y corte mínimo de un grafo. El algoritmo
 también nos ayuda a entender \emph{por qué} son de igual magnitud.
 
@@ -214,7 +213,7 @@ Por ejemplo, supongamos que elegimos el siguiente camino:
 \end{center}
 
 Luego de elegir el camino, el flujo aumenta por $x$ unidades, donde $x$
-es el peso mínimo en el camino. Además, el peso de cada arista en el
+es la capacidad mínima en el camino. Además, el peso de cada arista en el
 camino disminuye por $x$ y el peso de cada arista inversa aumenta por $x$.
 
 En el camino de arriba, los pesos de las aristas son 5, 6, 8, y 2.
@@ -251,8 +250,8 @@ se ve así:
 
 La idea es que aumentar el flujo disminuye la cantidad de flujo que
 puede pasar por las aristas en el futuro. Por otro lado, es posible
-cancelar flujo más tarde utilizando las aristas inversas del grafo
-si resulta que sería beneficiario dirigir el flujo de otra manera.
+``cancelar'' flujo más tarde, utilizando las aristas inversas del grafo,
+si resulta más efectivo dirigir el flujo de otra manera.
 
 El algoritmo aumenta el flujo siempre y cuando haya un camino de la
 fuente al pozo mediante aristas de peso positivo. En el ejemplo,
@@ -440,7 +439,7 @@ aristas de peso positivo. En el grafo de ejemplo, $A$ contiene los nodos
 
 Ahora el corte mínimo consiste de las aristas del grafo original
 que comienzan en algún nodo en $A$, terminan en algún nodo fuera de $A$,
-y cuyas capacidades son enteramente utilizadas en el flujo máximo. En el
+y cuyas capacidades son completamente utilizadas en el flujo máximo. En el
 grafo de arriba, tales aristas son $2 \rightarrow 3$ y
 $4 \rightarrow 5$, que corresponden al corte mínimo $6+1=7$.
 
@@ -487,8 +486,8 @@ Por esto, el flujo debe ser un flujo máximo y el corte debe ser mínimo.
 
 \section{Caminos disjuntos}
 
-Muchos problemas de grafos pueden ser resueltos si los reducimos al
-problema de flujo máximo. Nuestro primer ejemplo de tal problema es el
+Muchos problemas de grafos son fáciles de resolver si los reducimos al
+problema de flujo máximo. Nuestro primer ejemplo de un tal problema es el
 siguiente: recibimos un grafo dirigido con una fuente y un pozo, y
 nuestra tarea es encontrar el máximo número de caminos disjuntos desde
 la fuente hasta el pozo.
@@ -557,9 +556,9 @@ y $1 \rightarrow 4 \rightarrow 5 \rightarrow 6$ como sigue:
 
 Resulta que el máximo número de caminos disjuntos en aristas es igual
 al máximo flujo del grafo, asumiendo que la capacidad de cada arista
-es 1. Una vez que el máximo flujo ha sido construido, los caminos
-disjuntos en aristas pueden encontrarse vorazmente siguiendo caminos de
-la fuente al pozo.
+es 1. Una vez que hayamos construido el flujo máximo, podemos encontrar
+los caminos disjuntos en aristas vorazmente siguiendo caminos de la
+fuente al pozo.
 
 \subsubsection{Caminos disjuntos en nodos}
 
@@ -597,7 +596,7 @@ grafo previo, el máximo número de caminos disjuntos en nodos es 1:
 
 Podemos reducir este problema al problema del máximo flujo. Ya que
 cada nodo puede aparecer en un camino como mucho, debemos limitar el
-flujo que pasa por los nodos. Un método estándar para hacer esto es
+flujo que pasa por los nodos. Un método común para hacer esto es
 dividir cada nodo en dos nodos tal que el primero tenga las aristas
 de entrada del nodo original, el segundo las aristas de salida del
 nodo original, y haya una nueva arista del primer nodo al segundo.
@@ -1049,12 +1048,12 @@ consiste de tres caminos. Por ejemplo, podemos elegir los siguientes:
 \end{center}
 
 Ten en cuenta que uno de los caminos solo contiene el nodo 2,
-así que no es posible que un camino no contenga ninguna arista.
+así que es posible que un camino no contenga ninguna arista.
 
 Podemos encontrar una cobertura de caminos disjunta en nodos
 construyendo un \emph{grafo de matchings} donde cada nodo del grafo
 original esté representado por dos nodos: uno izquierdo y uno derecho.
-Hay una arista de un nodo izquierdo a un nodo derecho si hay tal arista
+Hay una arista de un nodo izquierdo a un nodo derecho si existe esa arista
 en el grafo original. Adicionalmente, el grafo de matchings contiene
 una fuente y un pozo, y hay aristas de la fuente a todos los nodos
 izquierdos y de todos los nodos derechos al pozo.
@@ -1186,7 +1185,7 @@ Una cobertura de caminos general mínima puede encontrarse casi como
 una mínima cobertura de caminos disjunta en nodos. Es suficiente añadir
 algunos nodos nuevos al grafo de matchings tal que haya una arista
 $a \rightarrow b$ siempre y cuando haya un camino de $a \rightarrow b$
-en el grafo original (posiblemente de múltiples aristas).
+en el grafo original (posiblemente a través de múltiples aristas).
 
 El grafo de matchings para el grafo de arriba es el siguiente:
 \begin{center}
@@ -1306,6 +1305,6 @@ Por ejemplo, los nodos 3 y 7 forman una anticadena en el siguiente grafo:
 \end{center}
 
 Esta es una anticadena máxima, porque no es posible construir una
-anticadena que contuviera tres nodos. Hemos visto anteriormente que
+anticadena que contenga tres nodos. Hemos visto anteriormente que
 el tamaño de una cobertura de caminos general mínima de este grafo
 consiste de dos caminos.

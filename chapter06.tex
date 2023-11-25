@@ -24,7 +24,7 @@ también deben ser óptimas a nivel global.
 A menudo es difícil argumentar que
 un algoritmo voraz funciona.
 
-\section{Problema de monedas}
+\section{Problema de las monedas}
 
 Como primer ejemplo, consideramos un problema
 en el que se nos da un conjunto de monedas
@@ -55,7 +55,7 @@ Resulta que si las monedas son monedas de euro,
 el algoritmo voraz \emph{siempre} funciona, es decir,
 siempre produce una solución con el menor número
 posible de monedas.
-La corrección del algoritmo se puede
+La correctitud del algoritmo se puede
 mostrar de la siguiente manera:
 
 Primero, cada moneda 1, 5, 10, 50 y 100 aparece
@@ -68,11 +68,11 @@ $5+5$, podríamos reemplazarlas por la moneda $10$.
 
 De la misma manera, las monedas 2 y 20 aparecen
 como máximo dos veces en una solución óptima,
-porque podríamos reemplazar
+porque podríamos reemplazar las
 monedas $2+2+2$ por monedas $5+1$ y
 monedas $20+20+20$ por monedas $50+10$.
 Además, una solución óptima no puede contener
-monedas $2+2+1$ o $20+20+10$,
+las monedas $2+2+1$ o $20+20+10$,
 porque podríamos reemplazarlas por monedas de $5$ y $50$.
 
 Usando estas observaciones,
@@ -330,7 +330,7 @@ entonces el puntaje total es $-10$.
 
 Sorprendentemente, la solución óptima al problema
 no depende de los tiempos límite en absoluto,
-pero una estrategia voraz correcta es simplemente
+sino que una estrategia voraz correcta es simplemente
 realizar las tareas \emph{ordenadas por sus duraciones}
 en orden creciente.
 La razón de esto es que si alguna vez realizamos
@@ -485,7 +485,7 @@ Sin embargo, podemos comprimir mejor la cadena
 si utilizamos un \key{código de longitud variable}
 donde las palabras clave pueden tener longitudes diferentes.
 Entonces podemos dar palabras clave cortas para
-caracteres que aparecen a menudo
+caracteres que aparecen frecuentemente
 y palabras clave largas para caracteres
 que aparecen raramente.
 Resulta que un \key{código óptimo}

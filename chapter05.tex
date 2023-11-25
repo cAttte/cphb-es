@@ -439,7 +439,7 @@ tablero de $4 \times 4$ están numeradas de la siguiente manera:
     \end{tikzpicture}
 \end{center}
 
-Sea $q(n)$ el número de formas de
+Definamos $q(n)$ como el número de formas de
 colocar $n$ reinas en un tablero de ajedrez de $n \times n$.
 El algoritmo de backtracking anterior nos dice que, por ejemplo, $q(8)=92$.
 Cuando $n$ aumenta, la búsqueda se vuelve rápidamente lenta,
@@ -593,7 +593,7 @@ inmediatamente si llegamos a la casilla inferior derecha demasiado pronto.
 Si el camino toca una pared
 y puede girar hacia la izquierda o hacia la derecha,
 la cuadrícula se divide en dos partes
-que contienen casillas no visitadas.
+que contienen casillas sin visitar.
 Por ejemplo, en la siguiente situación,
 el camino puede girar hacia la izquierda o hacia la derecha:
 
@@ -655,14 +655,14 @@ Ahora es un buen momento para dejar de optimizar
 el algoritmo y ver lo que hemos logrado.
 El tiempo de ejecución del algoritmo original
 era de 483 segundos,
-y ahora después de las optimizaciones,
-el tiempo de ejecución es de solo 0.6 segundos.
-Por lo tanto, el algoritmo se volvió casi 1000 veces
+y luego de las optimizaciones,
+el tiempo de ejecución es de solo 0,6 segundos.
+Por lo tanto, el algoritmo se volvió casi 1.000 veces
 más rápido después de las optimizaciones.
 
 Este es un fenómeno común en backtracking,
 porque el árbol de búsqueda suele ser grande
-y incluso observaciones simples pueden podar efectivamente
+e incluso observaciones simples pueden podar efectivamente
 la búsqueda.
 Son especialmente útiles las optimizaciones que
 ocurren durante los primeros pasos del algoritmo,
@@ -705,9 +705,8 @@ verificar si la suma de alguno de los subconjuntos es $x$.
 El tiempo de ejecución de dicho algoritmo es $O(2^n)$,
 porque hay $2^n$ subconjuntos.
 Sin embargo, usando la técnica de encuentro en el medio,
-podemos lograr un algoritmo más eficiente de tiempo $O(2^{n/2})$.
-\footnote{Esta idea fue introducida en 1974 por E. Horowitz y
-    S. Sahni \cite{hor74}.}
+podemos lograr un algoritmo más eficiente de tiempo $O(2^{n/2})$.\footnote{Esta
+    idea fue introducida en 1974 por E. Horowitz y S. Sahni \cite{hor74}.}
 Ten en cuenta que $O(2^n)$ y $O(2^{n/2})$ son diferentes
 complejidades porque $2^{n/2}$ es igual a $\sqrt{2^n}$.
 
@@ -724,7 +723,7 @@ elemento de $S_B$ de modo que su suma sea $x$.
 Esto es posible exactamente cuando hay una forma de
 formar la suma $x$ usando los números de la lista original.
 
-Por ejemplo, suponga que la lista es $[2,4,5,9]$ y $x=15$.
+Por ejemplo, supongamos que la lista es $[2,4,5,9]$ y $x=15$.
 Primero, dividimos la lista en $A=[2,4]$ y $B=[5,9]$.
 Luego, creamos las listas
 $S_A=[0,2,4,6]$ y $S_B=[0,5,9,14]$.
@@ -736,7 +735,8 @@ Esto corresponde a la solución $[2,4,9]$.
 Podemos implementar el algoritmo de manera que
 su complejidad de tiempo sea $O(2^{n/2})$.
 Primero, generamos listas \emph{ordenadas} $S_A$ y $S_B$,
-lo cual se puede hacer en tiempo $O(2^{n/2})$ utilizando una técnica similar al merge.
+lo cual se puede hacer en tiempo $O(2^{n/2})$ utilizando
+una técnica similar al \textit{merge}.
 Después de esto, dado que las listas están ordenadas,
 podemos verificar en tiempo $O(2^{n/2})$ si
 la suma $x$ se puede crear a partir de $S_A$ y $S_B$.
